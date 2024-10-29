@@ -1,5 +1,7 @@
 package lk.ijse.gdse68.greenshadowbackend.entity;
 import jakarta.persistence.*;
+import lk.ijse.gdse68.greenshadowbackend.util.GenderEnum;
+import lk.ijse.gdse68.greenshadowbackend.util.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,7 +28,7 @@ public class Staff {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
-    private Gender gender;
+    private GenderEnum gender;
 
     @Column(name = "joined_date")
     private Date joinedDate;
@@ -57,15 +59,6 @@ public class Staff {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private Role role;
+    private RoleEnum role;
 
-    // Enum for Gender
-    public enum Gender {
-        MALE, FEMALE, OTHER
-    }
-
-    // Enum for Role
-    public enum Role {
-        MANAGER, ADMINISTRATIVE, SCIENTIST, OTHER
-    }
 }
