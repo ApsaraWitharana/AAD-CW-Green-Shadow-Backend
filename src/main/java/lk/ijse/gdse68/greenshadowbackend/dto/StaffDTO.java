@@ -19,8 +19,8 @@ import java.sql.Date;
 @NoArgsConstructor
 @Data
 public class StaffDTO {
-    @NotNull(message = "Employee ID is required.")
-    @Pattern(regexp = "^STF-\\d{3}$", message = "Employee ID must follow the format 'STF-000'.")
+    @NotNull(message = "Staff ID is required.")
+    @Pattern(regexp = "^STA-\\d{3}$", message = "Staff ID must follow the format 'STA-000'.")
     private String id;
 
     @NotNull(message = "First name is required.")
