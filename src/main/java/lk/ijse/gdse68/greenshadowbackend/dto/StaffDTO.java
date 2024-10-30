@@ -18,7 +18,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class StaffDTO {
+public class StaffDTO implements SuperDTO{
     @NotNull(message = "Staff ID is required.")
     @Pattern(regexp = "^STA-\\d{3}$", message = "Staff ID must follow the format 'STA-000'.")
     private String id;
