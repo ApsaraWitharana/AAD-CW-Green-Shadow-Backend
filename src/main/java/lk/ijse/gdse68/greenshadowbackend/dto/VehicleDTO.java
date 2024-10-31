@@ -2,6 +2,7 @@ package lk.ijse.gdse68.greenshadowbackend.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lk.ijse.gdse68.greenshadowbackend.customerObj.VehicleResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class VehicleDTO implements SuperDTO{
+public class VehicleDTO implements VehicleResponse,SuperDTO{
     @NotBlank(message = "Vehicle code is required.")
     @Pattern(regexp = "^VEH-\\d{3}$", message = "Vehicle code must follow the format 'VEH-001'.")
     private String vehicleCode;
@@ -31,7 +32,8 @@ public class VehicleDTO implements SuperDTO{
     @NotBlank(message = "Status is required.")
     private String status; // Must be either "Available" or "Out of Service"
 
-    private Set<String> allocatedStaffIds; // Use IDs for staff assignment
+    @NotBlank(message = "Staff ID is required.")
+    private String staffId; // Use IDs for staff assignment
 
     private String remarks;
 }

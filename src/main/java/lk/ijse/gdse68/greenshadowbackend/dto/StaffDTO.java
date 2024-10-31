@@ -68,8 +68,6 @@ public class StaffDTO implements StaffResponse,SuperDTO{
 
     @NotNull(message = "Role is required.")
     private RoleEnum role;
-
-
     private List<Vehicle> vehicles;
 
 }

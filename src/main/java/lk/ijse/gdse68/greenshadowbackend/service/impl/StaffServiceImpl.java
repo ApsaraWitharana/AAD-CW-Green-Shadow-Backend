@@ -1,4 +1,4 @@
-package lk.ijse.gdse68.greenshadowbackend.service;
+package lk.ijse.gdse68.greenshadowbackend.service.impl;
 
 import lk.ijse.gdse68.greenshadowbackend.customerObj.StaffErrorResponse;
 import lk.ijse.gdse68.greenshadowbackend.customerObj.StaffResponse;
@@ -7,6 +7,7 @@ import lk.ijse.gdse68.greenshadowbackend.dto.StaffDTO;
 import lk.ijse.gdse68.greenshadowbackend.entity.Staff;
 import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
 import lk.ijse.gdse68.greenshadowbackend.exception.StaffNoteFoundException;
+import lk.ijse.gdse68.greenshadowbackend.service.StaffService;
 import lk.ijse.gdse68.greenshadowbackend.util.Mapping;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
