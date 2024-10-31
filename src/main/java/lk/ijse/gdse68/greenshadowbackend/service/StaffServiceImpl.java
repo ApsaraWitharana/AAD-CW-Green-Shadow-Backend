@@ -76,7 +76,7 @@ public class StaffServiceImpl implements StaffService {
        if (staffDAO.existsById(id)){
            Staff staff = staffDAO.getReferenceById(id);
            StaffDTO staffDTO = mapping.convertToDTO(staff);
-           staffDTO.setFirstName(staffDTO.getFirstName().split("")[0]);
+           staffDTO.setFirstName(staffDTO.getFirstName());
            return  staffDTO;
        }else {
            return new StaffErrorResponse(0,"Staff Member not found!!");
