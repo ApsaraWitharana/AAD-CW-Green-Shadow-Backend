@@ -58,6 +58,13 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public void deleteStaff(String id) {
 
+        Optional<Staff>findId = staffDAO.findById(id);
+        if (!findId.isPresent()){
+            throw new StaffNoteFoundException("Staff not found!");
+        }else {
+            // If the customer is found, proceed with the deletion
+            staffDAO.deleteById(id);
+        }
     }
 
     @Override

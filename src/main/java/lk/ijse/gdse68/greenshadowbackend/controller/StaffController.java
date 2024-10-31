@@ -7,6 +7,7 @@ import lk.ijse.gdse68.greenshadowbackend.service.StaffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,7 @@ public class StaffController {
         }
     }
     //TODO: Update staff
-    @PatchMapping("/{id}")
+    @PatchMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateStaff(@PathVariable("id") String id , @RequestBody StaffDTO staffDTO){
         try {
             staffService.updateStaff(id,staffDTO);
@@ -46,6 +47,18 @@ public class StaffController {
         }catch (StaffNoteFoundException e){
             return new ResponseEntity<>("Staff not found!",HttpStatus.NO_CONTENT);
 
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    //TODO:Delete staff member
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<String> deleteStaffMember(@PathVariable("id") String id){
+        try {
+            staffService.deleteStaff(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Deletion successful
+        }catch (StaffNoteFoundException e){
+            return new ResponseEntity<>("Staff not found!",HttpStatus.NO_CONTENT);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
