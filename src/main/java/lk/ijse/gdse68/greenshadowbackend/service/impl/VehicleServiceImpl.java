@@ -7,6 +7,7 @@ import lk.ijse.gdse68.greenshadowbackend.dto.VehicleDTO;
 import lk.ijse.gdse68.greenshadowbackend.entity.Staff;
 import lk.ijse.gdse68.greenshadowbackend.entity.Vehicle;
 import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
+import lk.ijse.gdse68.greenshadowbackend.exception.VehicleNotFound;
 import lk.ijse.gdse68.greenshadowbackend.service.VehicleService;
 
 
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+
 @Transactional
 @RequiredArgsConstructor
 @Service
@@ -47,6 +50,24 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public void updateVehicle(String vehicleCode, VehicleDTO vehicleDTO) {
 
+        Optional<Vehicle> tmpVehicleEntity = vehicleDAO.findById(vehicleCode);
+        if (!tmpVehicleEntity.isPresent()){
+            throw new VehicleNotFound("Vehicle with code " + vehicleCode + " not found for update.");
+        }else {
+            Vehicle vehicle = tmpVehicleEntity.get();
+            vehicle.setLicensePlateNumber(vehicleDTO.getLicensePlateNumber());
+            vehicle.setVehicleCategory(vehicleDTO.getVehicleCategory());
+            vehicle.setFuelType(vehicleDTO.getFuelType());
+            vehicle.setStatus(vehicleDTO.getStatus());
+
+            // Retrieve and set the Staff entity based on staffId in vehicleDTO
+            Staff staff = staffDAO.findById(vehicleDTO.getStaffId())
+                    .orElseThrow(() -> new DataPersistFailedException("Staff not found with ID: " + vehicleDTO.getStaffId()));
+            vehicle.setUsedBy(staff);
+            vehicle.setRemarks(vehicleDTO.getRemarks());
+            // Save updated vehicle entity
+            vehicleDAO.save(vehicle);
+        }
     }
 
     @Override
