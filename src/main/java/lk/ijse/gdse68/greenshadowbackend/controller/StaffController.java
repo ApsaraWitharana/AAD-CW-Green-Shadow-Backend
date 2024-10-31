@@ -1,5 +1,7 @@
 package lk.ijse.gdse68.greenshadowbackend.controller;
 
+import lk.ijse.gdse68.greenshadowbackend.customerObj.StaffErrorResponse;
+import lk.ijse.gdse68.greenshadowbackend.customerObj.StaffResponse;
 import lk.ijse.gdse68.greenshadowbackend.dto.StaffDTO;
 import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
 import lk.ijse.gdse68.greenshadowbackend.exception.StaffNoteFoundException;
@@ -62,5 +64,17 @@ public class StaffController {
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    //TODO: GetSelectStaffMemberId
+    @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<StaffResponse> getSelectStaffMember(@PathVariable ("id") String id){
+            StaffResponse staffResponse = staffService.getSelectedStaff(id);
+            if (staffResponse instanceof StaffDTO){
+                return new ResponseEntity<>(staffResponse,HttpStatus.OK);
+            }else if (staffResponse instanceof StaffErrorResponse){
+                return new ResponseEntity<>(staffResponse,HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

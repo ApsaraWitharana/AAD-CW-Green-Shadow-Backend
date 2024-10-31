@@ -1,5 +1,6 @@
 package lk.ijse.gdse68.greenshadowbackend.service;
 
+import lk.ijse.gdse68.greenshadowbackend.customerObj.StaffErrorResponse;
 import lk.ijse.gdse68.greenshadowbackend.customerObj.StaffResponse;
 import lk.ijse.gdse68.greenshadowbackend.dao.StaffDAO;
 import lk.ijse.gdse68.greenshadowbackend.dto.StaffDTO;
@@ -7,13 +8,16 @@ import lk.ijse.gdse68.greenshadowbackend.entity.Staff;
 import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
 import lk.ijse.gdse68.greenshadowbackend.exception.StaffNoteFoundException;
 import lk.ijse.gdse68.greenshadowbackend.util.Mapping;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class StaffServiceImpl implements StaffService {
     @Autowired
     private Mapping mapping;
@@ -69,7 +73,14 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public StaffResponse getSelectedStaff(String id) {
-        return null;
+       if (staffDAO.existsById(id)){
+           Staff staff = staffDAO.getReferenceById(id);
+           StaffDTO staffDTO = mapping.convertToDTO(staff);
+           staffDTO.setFirstName(staffDTO.getFirstName().split("")[0]);
+           return  staffDTO;
+       }else {
+           return new StaffErrorResponse(0,"Staff Member not found!!");
+       }
     }
 
     @Override

@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lk.ijse.gdse68.greenshadowbackend.customerObj.StaffResponse;
 import lk.ijse.gdse68.greenshadowbackend.util.GenderEnum;
 import lk.ijse.gdse68.greenshadowbackend.util.RoleEnum;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class StaffDTO implements SuperDTO{
+public class StaffDTO implements StaffResponse,SuperDTO{
     @NotNull(message = "Staff ID is required.")
     @Pattern(regexp = "^STA-\\d{3}$", message = "Staff ID must follow the format 'STA-000'.")
     private String id;
