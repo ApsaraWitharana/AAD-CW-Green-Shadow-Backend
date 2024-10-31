@@ -2,16 +2,14 @@ package lk.ijse.gdse68.greenshadowbackend.controller;
 
 import lk.ijse.gdse68.greenshadowbackend.dto.StaffDTO;
 import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
+import lk.ijse.gdse68.greenshadowbackend.exception.StaffNoteFoundException;
 import lk.ijse.gdse68.greenshadowbackend.service.StaffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author : sachini
@@ -39,5 +37,17 @@ public class StaffController {
             return new ResponseEntity<>("Internal server error occurred while saving the staff.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    //TODO: Update staff
+    @PatchMapping("/{id}")
+    public ResponseEntity<String> updateStaff(@PathVariable("id") String id , @RequestBody StaffDTO staffDTO){
+        try {
+            staffService.updateStaff(id,staffDTO);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (StaffNoteFoundException e){
+            return new ResponseEntity<>("Staff not found!",HttpStatus.NO_CONTENT);
 
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
