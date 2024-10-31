@@ -34,6 +34,7 @@ public class VehicleController {
             return new ResponseEntity<>("Internal server error occurred while saving the vehicle.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    //TODO: Update
     @PatchMapping(value = "/{vehicleCode}",produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity<String> updateVehicle(@PathVariable ("vehicleCode") String vehicleCode,@RequestBody VehicleDTO vehicleDTO){
         try {
@@ -42,6 +43,19 @@ public class VehicleController {
 
         }catch (VehicleNotFound e){
             return new ResponseEntity<>("Vehicle not found!!",HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //TODO:Delete
+    @DeleteMapping(value = "/{vehicleCode}")
+    public ResponseEntity<String> deleteVehicle(@PathVariable ("vehicleCode") String vehicleCode){
+        try {
+            vehicleService.deleteVehicle(vehicleCode);
+            return new ResponseEntity<>("Vehicle Delete Successfully!!",HttpStatus.OK);
+        }catch (VehicleNotFound e){
+            return new ResponseEntity<>("Vehicle not found!!",HttpStatus.NO_CONTENT);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -73,6 +73,12 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public void deleteVehicle(String vehicleCode) {
 
+        Optional<Vehicle> findId = vehicleDAO.findById(vehicleCode);
+        if (!findId.isPresent()){
+            throw new VehicleNotFound("Vehicle delete not found!!");
+        }else {
+            vehicleDAO.deleteById(vehicleCode);
+        }
     }
 
     @Override
