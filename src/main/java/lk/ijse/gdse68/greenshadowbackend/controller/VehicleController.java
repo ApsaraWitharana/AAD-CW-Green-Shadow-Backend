@@ -1,5 +1,7 @@
 package lk.ijse.gdse68.greenshadowbackend.controller;
 
+import lk.ijse.gdse68.greenshadowbackend.customerObj.VehicleErrorResponse;
+import lk.ijse.gdse68.greenshadowbackend.customerObj.VehicleResponse;
 import lk.ijse.gdse68.greenshadowbackend.dto.VehicleDTO;
 import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
 import lk.ijse.gdse68.greenshadowbackend.exception.VehicleNotFound;
@@ -59,5 +61,17 @@ public class VehicleController {
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    //TODO: GetSelect id
+    @GetMapping(value = "/{vehicleCode}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public  ResponseEntity<VehicleResponse> getSelectedVehicleId(@PathVariable ("vehicleCode") String vehicleCode){
+        VehicleResponse vehicleResponse = vehicleService.getSelectedVehicleId(vehicleCode);
+        if (vehicleResponse instanceof VehicleDTO){
+            return new ResponseEntity<>(vehicleResponse,HttpStatus.OK); //return NOT_FOUND (204)
+        }else if (vehicleResponse instanceof VehicleErrorResponse){
+            return new ResponseEntity<>(vehicleResponse,HttpStatus.NOT_FOUND); //return NOT_FOUND (404)
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); //return INTERNAL_SERVER_ERROR (500)
     }
 }

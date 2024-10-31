@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class VehicleErrorResponse {
+public class VehicleErrorResponse implements VehicleResponse {
     private int errorCode;
     private String errorMassage;
 }

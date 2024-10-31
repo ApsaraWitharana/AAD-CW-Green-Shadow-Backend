@@ -1,5 +1,6 @@
 package lk.ijse.gdse68.greenshadowbackend.service.impl;
 
+import lk.ijse.gdse68.greenshadowbackend.customerObj.VehicleErrorResponse;
 import lk.ijse.gdse68.greenshadowbackend.customerObj.VehicleResponse;
 import lk.ijse.gdse68.greenshadowbackend.dao.StaffDAO;
 import lk.ijse.gdse68.greenshadowbackend.dao.VehicleDAO;
@@ -82,8 +83,23 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public VehicleResponse getSelectedVehicle(String vehicleCode) {
-        return null;
+    public VehicleResponse getSelectedVehicleId(String vehicleCode) {
+       if (vehicleDAO.existsById(vehicleCode)){
+           Vehicle vehicle = vehicleDAO.getReferenceById(vehicleCode);
+           //System.out.println("Vehicle:"+vehicle);
+           VehicleDTO vehicleDTO = mapping.convertToDTO(vehicle);
+           // Set the license plate number
+           vehicleDTO.setLicensePlateNumber(vehicleDTO.getLicensePlateNumber());
+           // Set the staff ID if a Staff entity is assigned to 'usedBy'
+           if (vehicle.getUsedBy() != null) {
+               vehicleDTO.setStaffId(vehicle.getUsedBy().getId()); // Retrieve the staff ID from the Staff entity
+           } else {
+               vehicleDTO.setStaffId(null); // Or handle this based on your requirements if staff is not assigned
+           }
+           return vehicleDTO;
+       }else {
+           return new VehicleErrorResponse(0,"Vehicle not found!!");
+       }
     }
 
     @Override
