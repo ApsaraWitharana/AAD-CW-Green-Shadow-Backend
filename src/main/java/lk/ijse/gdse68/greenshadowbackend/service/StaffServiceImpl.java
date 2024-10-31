@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -85,6 +86,26 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public List<StaffDTO> getAllStaff() {
-        return null;
+       List<Staff> staffs = staffDAO.findAll();
+       List<StaffDTO> staffDTOS = new ArrayList<>();
+       for (Staff staff : staffs){
+           StaffDTO staffDTO = new StaffDTO();
+           staffDTO.setId(staff.getId());
+           staffDTO.setFirstName(staff.getFirstName());
+           staffDTO.setLastName(staff.getLastName());
+           staffDTO.setDesignation(staff.getDesignation());
+           staffDTO.setGender(staff.getGender());
+           staffDTO.setJoinedDate(staff.getJoinedDate());
+           staffDTO.setDob(staff.getDob());
+           staffDTO.setAddressLine1(staff.getAddressLine1());
+           staffDTO.setAddressLine2(staff.getAddressLine2());
+           staffDTO.setAddressLine3(staff.getAddressLine3());
+           staffDTO.setAddressLine4(staff.getAddressLine4());
+           staffDTO.setContactNo(staff.getContactNo());
+           staffDTO.setEmail(staff.getEmail());
+           staffDTO.setRole(staff.getRole());
+           staffDTOS.add(staffDTO);
+       }
+       return staffDTOS;
     }
 }

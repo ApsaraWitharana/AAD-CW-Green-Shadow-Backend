@@ -1,10 +1,12 @@
 package lk.ijse.gdse68.greenshadowbackend.dto;
 
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lk.ijse.gdse68.greenshadowbackend.customerObj.StaffResponse;
+import lk.ijse.gdse68.greenshadowbackend.entity.Vehicle;
 import lk.ijse.gdse68.greenshadowbackend.util.GenderEnum;
 import lk.ijse.gdse68.greenshadowbackend.util.RoleEnum;
 import lombok.AllArgsConstructor;
@@ -12,6 +14,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.util.List;
+
 /**
  * @author : sachini
  * @date : 2024-10-29
@@ -64,4 +68,8 @@ public class StaffDTO implements StaffResponse,SuperDTO{
 
     @NotNull(message = "Role is required.")
     private RoleEnum role;
+
+
+    private List<Vehicle> vehicles;
+
 }

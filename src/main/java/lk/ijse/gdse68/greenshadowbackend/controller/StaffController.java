@@ -14,6 +14,8 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author : sachini
  * @date : 2024-10-30
@@ -76,5 +78,15 @@ public class StaffController {
                 return new ResponseEntity<>(staffResponse,HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    //TODO:GetAllStaff
+     @GetMapping
+    public ResponseEntity<List<StaffDTO>> getAllStaff(){
+        List<StaffDTO> staffDTOS = staffService.getAllStaff();
+        if (!staffDTOS.isEmpty()){
+            return new ResponseEntity<>(staffDTOS,HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 }

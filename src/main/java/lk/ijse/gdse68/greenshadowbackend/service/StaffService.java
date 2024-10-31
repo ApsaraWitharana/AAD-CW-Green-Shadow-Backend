@@ -5,6 +5,10 @@ import lk.ijse.gdse68.greenshadowbackend.dto.StaffDTO;
 
 import java.util.List;
 
+/**
+ * @author : sachini
+ * @date : 2024-10-30
+ **/
 public interface StaffService {
     void saveStaff(StaffDTO staffDTO);
     void updateStaff(String id,StaffDTO staffDTO);

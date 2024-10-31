@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.sql.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -60,5 +61,9 @@ public class Staff {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private RoleEnum role;
+
+    @OneToMany(mappedBy = "usedBy")
+    private List<Vehicle> vehicles;
+
 
 }
