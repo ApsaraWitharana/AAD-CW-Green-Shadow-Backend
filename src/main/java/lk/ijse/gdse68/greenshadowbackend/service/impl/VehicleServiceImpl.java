@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -104,6 +105,25 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public List<VehicleDTO> getAllVehicle() {
-        return null;
+        List<Vehicle> vehicles = vehicleDAO.findAll();
+        List<VehicleDTO> vehicleDTOS = new ArrayList<>();
+        for (Vehicle vehicle : vehicles){
+            VehicleDTO vehicleDTO = new VehicleDTO();
+            vehicleDTO.setVehicleCode(vehicle.getVehicleCode());
+            vehicleDTO.setLicensePlateNumber(vehicle.getLicensePlateNumber());
+            vehicleDTO.setVehicleCategory(vehicle.getVehicleCategory());
+            vehicleDTO.setFuelType(vehicle.getFuelType());
+            vehicleDTO.setStatus(vehicle.getStatus());
+            // Set staff ID if Staff entity is assigned to 'usedBy'
+            if (vehicle.getUsedBy() != null) {
+                vehicleDTO.setStaffId(vehicle.getUsedBy().getId()); // Set the ID of the Staff entity
+            } else {
+                vehicleDTO.setStaffId(null); // Or handle this based on your requirements if no staff is assigned
+            }
+
+            vehicleDTO.setRemarks(vehicle.getRemarks());
+            vehicleDTOS.add(vehicleDTO);
+        }
+        return vehicleDTOS;
     }
 }

@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/vehicle")
 @RequiredArgsConstructor
@@ -73,5 +75,16 @@ public class VehicleController {
             return new ResponseEntity<>(vehicleResponse,HttpStatus.NOT_FOUND); //return NOT_FOUND (404)
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); //return INTERNAL_SERVER_ERROR (500)
+    }
+
+    //TODO: GetAllVehicle
+    @GetMapping
+    public ResponseEntity<List<VehicleDTO>> getAllVehicle(){
+        List<VehicleDTO> vehicleDTOS = vehicleService.getAllVehicle();
+        if (!vehicleDTOS.isEmpty()){
+            return new ResponseEntity<>(vehicleDTOS,HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 }
