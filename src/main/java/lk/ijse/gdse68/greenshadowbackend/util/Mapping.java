@@ -1,8 +1,10 @@
 package lk.ijse.gdse68.greenshadowbackend.util;
 
+import lk.ijse.gdse68.greenshadowbackend.dto.CropDTO;
 import lk.ijse.gdse68.greenshadowbackend.dto.FieldDTO;
 import lk.ijse.gdse68.greenshadowbackend.dto.StaffDTO;
 import lk.ijse.gdse68.greenshadowbackend.dto.VehicleDTO;
+import lk.ijse.gdse68.greenshadowbackend.entity.Crop;
 import lk.ijse.gdse68.greenshadowbackend.entity.Field;
 import lk.ijse.gdse68.greenshadowbackend.entity.Staff;
 import lk.ijse.gdse68.greenshadowbackend.entity.Vehicle;
@@ -34,5 +36,12 @@ public class Mapping {
     }
     public Field convertToEntity(FieldDTO fieldDTO){
         return modelMapper.map(fieldDTO,Field.class);
+    }
+
+    public CropDTO convertToCropDTO(Crop crop){
+        return modelMapper.map(crop, CropDTO.class);
+    }
+    public Crop convertToCropEntity(CropDTO cropDTO){
+        return modelMapper.map(cropDTO, Crop.class);
     }
 }
