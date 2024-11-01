@@ -5,10 +5,13 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lk.ijse.gdse68.greenshadowbackend.customerObj.FieldResponse;
+import lk.ijse.gdse68.greenshadowbackend.util.AppUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.geo.Point;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,5 +35,14 @@ public class FieldDTO implements FieldResponse, SuperDTO {
 
     private String fieldImage2;
 
+    private List<CropDTO> crops;  // List of crops associated with the field
+
+     @Override
+    // Method to set images using MultipartFile
+    public void setFieldImages(MultipartFile image1, MultipartFile image2) {
+        String[] base64Images = AppUtil.toBase64Images(image1, image2);
+        this.fieldImage1 = base64Images[0];
+        this.fieldImage2 = base64Images[1];
+    }
 
 }

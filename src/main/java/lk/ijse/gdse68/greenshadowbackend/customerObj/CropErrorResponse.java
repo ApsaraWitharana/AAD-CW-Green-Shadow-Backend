@@ -3,7 +3,6 @@ package lk.ijse.gdse68.greenshadowbackend.customerObj;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author : sachini
@@ -12,12 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class FieldErrorResponse implements FieldResponse {
+public class CropErrorResponse  implements CropResponse{
     private int errorCode;
     private String errorMassage;
-
-    @Override
-    public void setFieldImages(MultipartFile image1, MultipartFile image2) {
-
-    }
 }

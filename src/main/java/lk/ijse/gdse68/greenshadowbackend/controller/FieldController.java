@@ -37,7 +37,7 @@ public class FieldController {
             @RequestPart("fieldImage2") MultipartFile fieldImage2){
         try {
             // Get Base64 strings for both images
-            String[] base64Images = AppUtil.toBase64ProfilePic(fieldImage1, fieldImage2);
+            String[] base64Images = AppUtil.toBase64Images(fieldImage1, fieldImage2);
 
             // Create and populate FieldDTO
             FieldDTO fieldDTO = new FieldDTO();
@@ -45,9 +45,7 @@ public class FieldController {
             fieldDTO.setFieldName(fieldName);
             fieldDTO.setFieldLocation(fieldLocation);
             fieldDTO.setExtentSize(Double.parseDouble(extentSize));
-            fieldDTO.setFieldImage1(base64Images[0]); // Set Base64 for first image
-            fieldDTO.setFieldImage2(base64Images[1]); // Set Base64 for second image
-
+            fieldDTO.setFieldImages(fieldImage1, fieldImage2); // Pass MultipartFile images for field
             // Save the field data
             fieldService.saveField(fieldDTO);
             return new ResponseEntity<>("Field Details Saved Successfully!", HttpStatus.CREATED);
@@ -68,15 +66,14 @@ public class FieldController {
             @RequestPart("updateFieldImage2") MultipartFile updateFieldImage2,
             @RequestPart("fieldCode") String fieldCode) {
         try {
-            String[] base64Images = AppUtil.toBase64ProfilePic(updateFieldImage1,updateFieldImage2);
+            String[] base64Images = AppUtil.toBase64Images(updateFieldImage1,updateFieldImage2);
 
             FieldDTO buildfieldDTO = new FieldDTO();
             buildfieldDTO.setFieldCode(fieldCode);
             buildfieldDTO.setFieldName(updateFieldName);
             buildfieldDTO.setFieldLocation(updateFieldLocation);
             buildfieldDTO.setExtentSize(Double.valueOf(updateExtentSize));
-            buildfieldDTO.setFieldImage1(base64Images[0]);
-            buildfieldDTO.setFieldImage2(base64Images[1]);
+            buildfieldDTO.setFieldImages(updateFieldImage1, updateFieldImage2); // Pass MultipartFile images for field
             fieldService.updateField(buildfieldDTO);
             return new ResponseEntity<>("Field Update Successfully!!",HttpStatus.OK);
         } catch (FieldNoteFoundException | ClassNotFoundException e) {

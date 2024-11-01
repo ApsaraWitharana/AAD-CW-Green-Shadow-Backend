@@ -1,14 +1,13 @@
 package lk.ijse.gdse68.greenshadowbackend.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type; // Ensure you have this import
 import org.springframework.data.geo.Point;
+
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -35,5 +34,9 @@ public class Field {
 
     @Column(name = "field_image2", columnDefinition = "LONGTEXT")
     private String fieldImage2;
+
+    // One-to-Many relationship with Crop
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Crop> crops;
 
 }
