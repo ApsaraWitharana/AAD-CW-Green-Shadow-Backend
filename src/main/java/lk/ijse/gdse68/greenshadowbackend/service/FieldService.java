@@ -14,7 +14,7 @@ import java.util.List;
 public interface FieldService {
 
     void saveField(FieldDTO fieldDTO);
-    void updateField(String id,FieldDTO fieldDTO);
+    void updateField(FieldDTO fieldDTO) throws ClassNotFoundException;
     void deleteField(String fieldCode);
     FieldResponse getSelectedField(String fieldCode);
 
