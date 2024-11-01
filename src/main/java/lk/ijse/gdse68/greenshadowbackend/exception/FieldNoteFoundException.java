@@ -1,5 +1,8 @@
 package lk.ijse.gdse68.greenshadowbackend.exception;
-
+/**
+ * @author : sachini
+ * @date : 2024-11-01
+ **/
 public class FieldNoteFoundException extends RuntimeException{
     public FieldNoteFoundException() {
         super();

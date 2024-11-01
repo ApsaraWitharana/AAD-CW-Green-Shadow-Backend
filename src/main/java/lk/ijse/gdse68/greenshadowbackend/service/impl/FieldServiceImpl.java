@@ -1,5 +1,6 @@
 package lk.ijse.gdse68.greenshadowbackend.service.impl;
 
+import lk.ijse.gdse68.greenshadowbackend.customerObj.FieldErrorResponse;
 import lk.ijse.gdse68.greenshadowbackend.customerObj.FieldResponse;
 import lk.ijse.gdse68.greenshadowbackend.dao.FieldDAO;
 import lk.ijse.gdse68.greenshadowbackend.dto.FieldDTO;
@@ -9,14 +10,21 @@ import lk.ijse.gdse68.greenshadowbackend.exception.FieldNoteFoundException;
 import lk.ijse.gdse68.greenshadowbackend.service.FieldService;
 import lk.ijse.gdse68.greenshadowbackend.util.Mapping;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Optional;
-
+/**
+ * @author : sachini
+ * @date : 2024-11-01
+ **/
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class FieldServiceImpl implements FieldService {
     @Autowired
     private Mapping mapping;
@@ -62,7 +70,14 @@ public class FieldServiceImpl implements FieldService {
 
     @Override
     public FieldResponse getSelectedField(String fieldCode) {
-        return null;
+         if (fieldDAO.existsById(fieldCode)){
+             Field field = fieldDAO.getReferenceById(fieldCode);
+             FieldDTO fieldDTO = mapping.convertToDTO(field);
+             fieldDTO.setFieldName(fieldDTO.getFieldName());
+             return fieldDTO;
+         }else {
+             return new FieldErrorResponse(0,"Field not found!!");
+         }
     }
 
     @Override

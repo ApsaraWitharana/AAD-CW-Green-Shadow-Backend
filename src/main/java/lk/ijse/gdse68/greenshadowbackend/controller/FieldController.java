@@ -1,5 +1,7 @@
 package lk.ijse.gdse68.greenshadowbackend.controller;
 
+import lk.ijse.gdse68.greenshadowbackend.customerObj.FieldErrorResponse;
+import lk.ijse.gdse68.greenshadowbackend.customerObj.FieldResponse;
 import lk.ijse.gdse68.greenshadowbackend.dto.FieldDTO;
 import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
 import lk.ijse.gdse68.greenshadowbackend.exception.FieldNoteFoundException;
@@ -8,6 +10,7 @@ import lk.ijse.gdse68.greenshadowbackend.util.AppUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -80,6 +83,8 @@ public class FieldController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    //TODO:Delete
     @DeleteMapping(value = "/{fieldCode}")
     public ResponseEntity<String> deleteField(@PathVariable ("fieldCode") String fieldCode){
         try {
@@ -90,6 +95,19 @@ public class FieldController {
         }catch (Exception e){
             return new ResponseEntity<>("Field not found!",HttpStatus.NOT_FOUND);
         }
+    }
+
+    //TODO: Select id
+    @GetMapping(value = "/{fieldCode}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<FieldResponse> getSelectedField(@PathVariable ("fieldCode") String fieldCode){
+        FieldResponse fieldResponse = fieldService.getSelectedField(fieldCode);
+        if (fieldResponse instanceof FieldDTO){
+            return new ResponseEntity<>(fieldResponse,HttpStatus.OK);
+        }else if (fieldResponse instanceof FieldErrorResponse){
+            return new ResponseEntity<>(fieldResponse,HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
     }
 
 }
