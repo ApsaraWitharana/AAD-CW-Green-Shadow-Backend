@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 /**
@@ -82,6 +83,18 @@ public class FieldServiceImpl implements FieldService {
 
     @Override
     public List<FieldDTO> getAllField() {
-        return null;
+        List<Field> fields = fieldDAO.findAll();
+        List<FieldDTO> fieldDTOS = new ArrayList<>();
+        for (Field field : fields){
+            FieldDTO fieldDTO = new FieldDTO();
+            fieldDTO.setFieldCode(field.getFieldCode());
+            fieldDTO.setFieldName(field.getFieldName());
+            fieldDTO.setFieldLocation(field.getFieldLocation());
+            fieldDTO.setExtentSize(field.getExtentSize());
+            fieldDTO.setFieldImage1(field.getFieldImage1());
+            fieldDTO.setFieldImage2(field.getFieldImage2());
+            fieldDTOS.add(fieldDTO);
+        }
+        return fieldDTOS;
     }
 }

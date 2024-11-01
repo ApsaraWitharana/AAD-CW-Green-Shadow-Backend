@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/field")
 @RequiredArgsConstructor
@@ -108,6 +110,16 @@ public class FieldController {
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
+    }
+    //TODO:GetAll
+    @GetMapping
+    public ResponseEntity<List<FieldDTO>> getAllField(){
+        List<FieldDTO> fieldDTOS = fieldService.getAllField();
+        if (!fieldDTOS.isEmpty()){
+            return new ResponseEntity<>(fieldDTOS,HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 
 }
