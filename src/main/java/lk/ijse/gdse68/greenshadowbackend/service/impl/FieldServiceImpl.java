@@ -5,12 +5,14 @@ import lk.ijse.gdse68.greenshadowbackend.dao.FieldDAO;
 import lk.ijse.gdse68.greenshadowbackend.dto.FieldDTO;
 import lk.ijse.gdse68.greenshadowbackend.entity.Field;
 import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
+import lk.ijse.gdse68.greenshadowbackend.exception.FieldNoteFoundException;
 import lk.ijse.gdse68.greenshadowbackend.service.FieldService;
 import lk.ijse.gdse68.greenshadowbackend.util.Mapping;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +52,12 @@ public class FieldServiceImpl implements FieldService {
 
     @Override
     public void deleteField(String fieldCode) {
-
+        Optional<Field> selectFieldCode = fieldDAO.findById(fieldCode);
+        if (selectFieldCode.isPresent()){
+            fieldDAO.deleteById(fieldCode);
+        }else {
+            throw new FieldNoteFoundException("Field not found!!");
+        }
     }
 
     @Override

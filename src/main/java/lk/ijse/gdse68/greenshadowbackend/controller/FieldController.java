@@ -80,6 +80,17 @@ public class FieldController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @DeleteMapping(value = "/{fieldCode}")
+    public ResponseEntity<String> deleteField(@PathVariable ("fieldCode") String fieldCode){
+        try {
+            fieldService.deleteField(fieldCode);
+            return new ResponseEntity<>("Field Details Delete Successfully!!",HttpStatus.OK);
+        }catch (FieldNoteFoundException e){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (Exception e){
+            return new ResponseEntity<>("Field not found!",HttpStatus.NOT_FOUND);
+        }
+    }
 
 }
 
