@@ -7,6 +7,9 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type; // Ensure you have this import
+import org.springframework.data.geo.Point;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,11 +24,11 @@ public class Field {
     @Column(name = "field_name", nullable = false, length = 100)
     private String fieldName;
 
-    @Column(name = "field_location", nullable = true, columnDefinition = "POINT")
+    @Column(name = "field_location", nullable = true)
     private String fieldLocation;
 
     @Column(name = "extent_size", nullable = false)
-    private double extentSize;
+    private Double extentSize;
 
     @Column(name = "field_image1", columnDefinition = "LONGTEXT")
     private String fieldImage1;       // Image URL or base64 encoding
