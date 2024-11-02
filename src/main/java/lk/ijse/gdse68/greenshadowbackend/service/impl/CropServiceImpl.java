@@ -2,8 +2,11 @@ package lk.ijse.gdse68.greenshadowbackend.service.impl;
 
 import lk.ijse.gdse68.greenshadowbackend.customerObj.CropResponse;
 import lk.ijse.gdse68.greenshadowbackend.dao.CropDAO;
+import lk.ijse.gdse68.greenshadowbackend.dao.FieldDAO;
 import lk.ijse.gdse68.greenshadowbackend.dto.CropDTO;
 import lk.ijse.gdse68.greenshadowbackend.entity.Crop;
+import lk.ijse.gdse68.greenshadowbackend.entity.Field;
+import lk.ijse.gdse68.greenshadowbackend.entity.Staff;
 import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
 import lk.ijse.gdse68.greenshadowbackend.service.CropService;
 import lk.ijse.gdse68.greenshadowbackend.util.Mapping;
@@ -13,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+
 /**
  * @author : sachini
  * @date : 2024-11-01
@@ -25,6 +30,8 @@ public class CropServiceImpl implements CropService {
     private Mapping mapping;
     @Autowired
     private CropDAO cropDAO;
+    @Autowired
+    private FieldDAO fieldDAO;
     @Override
     public void saveCrop(CropDTO cropDTO) {
         cropDTO.setCropCode(cropDTO.getCropCode());
@@ -35,8 +42,23 @@ public class CropServiceImpl implements CropService {
     }
 
     @Override
-    public void updateCrop(String cropCode, CropDTO cropDTO) {
-
+    public void updateCrop(String cropCode, CropDTO cropDTO) throws ClassNotFoundException {
+        Optional<Crop> tmpCropEntity = cropDAO.findById(cropCode);
+        if (!tmpCropEntity.isPresent()){
+            throw new ClassNotFoundException("Crop update not found!");
+        }else {
+            Crop crop = tmpCropEntity.get();
+            crop.setCropCommonName(cropDTO.getCropCommonName());
+            crop.setCropScientificName(cropDTO.getCropScientificName());
+            crop.setCropImage(cropDTO.getCropImage());
+            crop.setCategory(cropDTO.getCategory());
+            crop.setCropSeason(cropDTO.getCropSeason());
+            // Retrieve and set the field entity based on fieldCode in cropDTO
+            Field field = fieldDAO.findById(cropDTO.getFieldCode())
+                    .orElseThrow(() -> new DataPersistFailedException("field not found with ID: " + cropDTO.getFieldCode()));
+            field.setFieldCode(field.getFieldCode());
+            fieldDAO.save(field);
+        }
     }
 
     @Override

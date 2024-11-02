@@ -20,6 +20,8 @@ public class CropController {
     @Autowired
     private final CropService cropService;
 
+    //TODO: CRUD Implement
+    //TODO:SAVE
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> saveCrop(
             @RequestPart("cropCode") String cropCode,
@@ -44,6 +46,36 @@ public class CropController {
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (DataPersistFailedException e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //TODO:Update
+    @PatchMapping(value = "/{cropCode}")
+    public ResponseEntity<String> updateField(
+            @RequestPart("updateCropCommonName") String updateCropCommonName,
+            @RequestPart("updateCropScientificName") String updateCropScientificName,
+            @RequestPart("updateCropImage") MultipartFile updateCropImage,
+            @RequestPart("updateCategory") String updateCategory,
+            @RequestPart("updateCropSeason") String updateCropSeason,
+            @RequestPart("updateFieldCode") String updateFieldCode,
+            @RequestPart("cropCode") String cropCode){
+        try {
+            String[] base64Images = AppUtil.toBase64Images(updateCropImage);
+            CropDTO cropDTO = new CropDTO();
+            cropDTO.setCropCode(cropCode);
+            cropDTO.setCropCommonName(updateCropCommonName);
+            cropDTO.setCropScientificName(updateCropScientificName);
+            cropDTO.setCropImage(updateCropImage);
+            cropDTO.setCategory(updateCategory);
+            cropDTO.setCropSeason(updateCropSeason);
+            cropDTO.setFieldCode(updateFieldCode);
+            cropService.updateCrop(cropCode,cropDTO);
+            return new ResponseEntity<>("Crop Details Update Successfully!!",HttpStatus.OK);
+
+        } catch ( ClassNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

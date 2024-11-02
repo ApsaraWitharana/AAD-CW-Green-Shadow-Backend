@@ -9,9 +9,11 @@ import java.util.List;
 
 public interface CropService {
     void saveCrop(CropDTO cropDTO);
-    void updateCrop(String cropCode,CropDTO cropDTO) ;
+    void updateCrop(String cropCode,CropDTO cropDTO) throws ClassNotFoundException;
     void deleteCrop(String cropCode);
     CropResponse getSelectedCrop(String cropCode);
 
     List<CropDTO> getAllCrop();
+
+
 }
