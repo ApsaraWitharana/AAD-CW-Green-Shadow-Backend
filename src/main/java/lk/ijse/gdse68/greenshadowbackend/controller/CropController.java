@@ -1,6 +1,7 @@
 package lk.ijse.gdse68.greenshadowbackend.controller;
 
 import lk.ijse.gdse68.greenshadowbackend.dto.CropDTO;
+import lk.ijse.gdse68.greenshadowbackend.exception.CropNotFoundException;
 import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
 import lk.ijse.gdse68.greenshadowbackend.service.CropService;
 import lk.ijse.gdse68.greenshadowbackend.util.AppUtil;
@@ -78,6 +79,19 @@ public class CropController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //TODO:Delete
+    @DeleteMapping("/{cropCode}")
+    public ResponseEntity<String> deleteCrop(@PathVariable ("cropCode") String cropCode){
+        try {
+            cropService.deleteCrop(cropCode);
+            return new ResponseEntity<>("Crop Details Delete Successfully!!",HttpStatus.OK);
+        }catch (CropNotFoundException e){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (Exception e){
+            return new ResponseEntity<>("Crop not found!!",HttpStatus.NOT_FOUND);
         }
     }
 }

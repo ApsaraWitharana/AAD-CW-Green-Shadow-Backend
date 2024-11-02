@@ -7,6 +7,7 @@ import lk.ijse.gdse68.greenshadowbackend.dto.CropDTO;
 import lk.ijse.gdse68.greenshadowbackend.entity.Crop;
 import lk.ijse.gdse68.greenshadowbackend.entity.Field;
 import lk.ijse.gdse68.greenshadowbackend.entity.Staff;
+import lk.ijse.gdse68.greenshadowbackend.exception.CropNotFoundException;
 import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
 import lk.ijse.gdse68.greenshadowbackend.service.CropService;
 import lk.ijse.gdse68.greenshadowbackend.util.Mapping;
@@ -63,7 +64,12 @@ public class CropServiceImpl implements CropService {
 
     @Override
     public void deleteCrop(String cropCode) {
-
+        Optional<Crop> findId = cropDAO.findById(cropCode);
+        if (!findId.isPresent()){
+            throw new CropNotFoundException("Crop Details Delete not found!!");
+        }else {
+            cropDAO.deleteById(cropCode);
+        }
     }
 
     @Override
