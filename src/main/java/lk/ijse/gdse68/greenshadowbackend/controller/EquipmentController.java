@@ -2,10 +2,12 @@ package lk.ijse.gdse68.greenshadowbackend.controller;
 
 import lk.ijse.gdse68.greenshadowbackend.dto.EquipmentDTO;
 import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
+import lk.ijse.gdse68.greenshadowbackend.exception.EquipmentNotFoundException;
 import lk.ijse.gdse68.greenshadowbackend.service.EquipmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +33,18 @@ public class EquipmentController {
             return new ResponseEntity<>("Equipment data could not be saved, data persistence failed.", HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>("Internal server error occurred while saving the Equipment.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PatchMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> updateEquipment(@PathVariable ("id") String id,@RequestBody EquipmentDTO equipmentDTO){
+        try {
+            equipmentService.updateEquipment(id,equipmentDTO);
+            return new ResponseEntity<>("Equipment Update Successfully!!",HttpStatus.OK);
+
+        }catch (EquipmentNotFoundException e){
+            return new ResponseEntity<>("Equipment not found!!",HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
