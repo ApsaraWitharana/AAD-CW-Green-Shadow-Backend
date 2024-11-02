@@ -47,4 +47,15 @@ public class EquipmentController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @DeleteMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> deleteEquipments(@PathVariable ("id") String id){
+        try {
+            equipmentService.deleteEquipment(id);
+            return new ResponseEntity<>("Equipments Delete Successfully!!",HttpStatus.OK);
+        }catch (EquipmentNotFoundException e){
+            return new ResponseEntity<>("Equipments not found!!",HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
