@@ -38,5 +38,8 @@ public class Field {
     // One-to-Many relationship with Crop
     @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Crop> crops;
+    // One-to-Many relationship with Equipment
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Equipment> equipmentList;
 
 }

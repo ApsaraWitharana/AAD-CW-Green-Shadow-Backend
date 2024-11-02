@@ -36,7 +36,7 @@ public class FieldDTO implements FieldResponse, SuperDTO {
     private String fieldImage2;
 
     private List<CropDTO> crops;  // List of crops associated with the field
-
+    private List<EquipmentDTO> equipmentList;
      @Override
     // Method to set images using MultipartFile
     public void setFieldImages(MultipartFile image1, MultipartFile image2) {

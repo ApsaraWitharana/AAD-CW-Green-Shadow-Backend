@@ -65,5 +65,7 @@ public class Staff {
     @OneToMany(mappedBy = "usedBy")
     private List<Vehicle> vehicles;
 
+    @OneToOne(mappedBy = "staff", fetch = FetchType.LAZY)
+    private Equipment equipment;
 
 }
