@@ -3,6 +3,7 @@ package lk.ijse.gdse68.greenshadowbackend.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lk.ijse.gdse68.greenshadowbackend.customerObj.EquipmentResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class EquipmentDTO {
+public class EquipmentDTO implements EquipmentResponse,SuperDTO {
     @NotBlank(message = "Equipment id is required")
     @Pattern(regexp = "^EPT-\\d{3}$", message = "Crop code must match the format 'CRP-001'")
     private String id; // ID in formatted style "EPT-001"
@@ -28,6 +29,6 @@ public class EquipmentDTO {
     private String status;
 
     private String fieldCode; // Reference to Field's code
-    private StaffDTO staff;
+    private String staffId;
 }
 

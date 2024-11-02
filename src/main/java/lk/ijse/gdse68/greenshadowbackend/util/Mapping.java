@@ -1,13 +1,7 @@
 package lk.ijse.gdse68.greenshadowbackend.util;
 
-import lk.ijse.gdse68.greenshadowbackend.dto.CropDTO;
-import lk.ijse.gdse68.greenshadowbackend.dto.FieldDTO;
-import lk.ijse.gdse68.greenshadowbackend.dto.StaffDTO;
-import lk.ijse.gdse68.greenshadowbackend.dto.VehicleDTO;
-import lk.ijse.gdse68.greenshadowbackend.entity.Crop;
-import lk.ijse.gdse68.greenshadowbackend.entity.Field;
-import lk.ijse.gdse68.greenshadowbackend.entity.Staff;
-import lk.ijse.gdse68.greenshadowbackend.entity.Vehicle;
+import lk.ijse.gdse68.greenshadowbackend.dto.*;
+import lk.ijse.gdse68.greenshadowbackend.entity.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -43,5 +37,12 @@ public class Mapping {
     }
     public Crop convertToCropEntity(CropDTO cropDTO){
         return modelMapper.map(cropDTO, Crop.class);
+    }
+
+    public EquipmentDTO convertToEquipmentDTO(Equipment equipment){
+        return modelMapper.map(equipment, EquipmentDTO.class);
+    }
+    public Equipment convertToEquipmentEntity(EquipmentDTO equipmentDTO){
+        return modelMapper.map(equipmentDTO,Equipment.class);
     }
 }
