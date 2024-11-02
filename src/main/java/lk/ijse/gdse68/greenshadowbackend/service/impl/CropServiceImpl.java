@@ -1,5 +1,6 @@
 package lk.ijse.gdse68.greenshadowbackend.service.impl;
 
+import lk.ijse.gdse68.greenshadowbackend.customerObj.CropErrorResponse;
 import lk.ijse.gdse68.greenshadowbackend.customerObj.CropResponse;
 import lk.ijse.gdse68.greenshadowbackend.dao.CropDAO;
 import lk.ijse.gdse68.greenshadowbackend.dao.FieldDAO;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,11 +76,34 @@ public class CropServiceImpl implements CropService {
 
     @Override
     public CropResponse getSelectedCrop(String cropCode) {
-        return null;
+        if (cropDAO.existsById(cropCode)){
+            Crop crop = cropDAO.getReferenceById(cropCode);
+            CropDTO cropDTO = mapping.convertToCropDTO(crop);
+            cropDTO.setCropCommonName(cropDTO.getCropCommonName());
+            return cropDTO;
+        }else {
+            return new CropErrorResponse(0,"Crop not found!!");
+        }
     }
+
+
 
     @Override
     public List<CropDTO> getAllCrop() {
-        return null;
+        List<Crop> crops = cropDAO.findAll();
+        List<CropDTO> cropDTOS = new ArrayList<>();
+        for (Crop crop : crops){
+            CropDTO cropDTO = new CropDTO();
+            cropDTO.setCropCode(crop.getCropCode());
+            cropDTO.setCropCommonName(crop.getCropCommonName());
+            cropDTO.setCropScientificName(crop.getCropScientificName());
+            cropDTO.setCropImage(crop.getCropImage());
+            cropDTO.setCategory(crop.getCategory());
+            cropDTO.setCropSeason(crop.getCropSeason());
+            cropDTO.setFieldCode(cropDTO.getFieldCode());
+            cropDTOS.add(cropDTO);
+
+        }
+        return cropDTOS;
     }
 }

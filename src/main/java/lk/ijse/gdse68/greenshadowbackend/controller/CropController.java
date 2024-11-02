@@ -1,5 +1,7 @@
 package lk.ijse.gdse68.greenshadowbackend.controller;
 
+import lk.ijse.gdse68.greenshadowbackend.customerObj.CropErrorResponse;
+import lk.ijse.gdse68.greenshadowbackend.customerObj.CropResponse;
 import lk.ijse.gdse68.greenshadowbackend.dto.CropDTO;
 import lk.ijse.gdse68.greenshadowbackend.exception.CropNotFoundException;
 import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
@@ -12,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -53,7 +57,7 @@ public class CropController {
     }
 
     //TODO:Update
-    @PatchMapping(value = "/{cropCode}")
+    @PatchMapping(value = "/{cropCode}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateField(
             @RequestPart("updateCropCommonName") String updateCropCommonName,
             @RequestPart("updateCropScientificName") String updateCropScientificName,
@@ -83,7 +87,7 @@ public class CropController {
     }
 
     //TODO:Delete
-    @DeleteMapping("/{cropCode}")
+    @DeleteMapping(value = "/{cropCode}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteCrop(@PathVariable ("cropCode") String cropCode){
         try {
             cropService.deleteCrop(cropCode);
@@ -92,6 +96,29 @@ public class CropController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (Exception e){
             return new ResponseEntity<>("Crop not found!!",HttpStatus.NOT_FOUND);
+        }
+    }
+
+    //TODO:Select id
+    @GetMapping(value = "/{cropCode}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CropResponse> getSelectedCrop(@PathVariable ("cropCode") String cropCode){
+        CropResponse cropResponse = cropService.getSelectedCrop(cropCode);
+        if (cropResponse instanceof CropDTO){
+            return new ResponseEntity<>(cropResponse,HttpStatus.OK);
+        }else if (cropResponse instanceof CropErrorResponse){
+            return new ResponseEntity<>(cropResponse,HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    //TODO:GetAll
+    @GetMapping
+    public ResponseEntity<List<CropDTO>> getAllCrop(){
+        List<CropDTO> cropDTOS = cropService.getAllCrop();
+        if (!cropDTOS.isEmpty()){
+            return new ResponseEntity<>(cropDTOS,HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 }

@@ -7,6 +7,7 @@ import lk.ijse.gdse68.greenshadowbackend.customerObj.CropResponse;
 import lk.ijse.gdse68.greenshadowbackend.util.AppUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,6 +27,8 @@ public class CropDTO implements CropResponse,SuperDTO {
     @Size(max = 100, message = "Crop scientific name must not exceed 100 characters")
     private String cropScientificName;
 
+    @Getter
+    @NotBlank(message = "CropImage is required")
     private String cropImage;  // Optional image URL or base64 encoding
 
     @NotBlank(message = "Category is required")
@@ -38,7 +41,12 @@ public class CropDTO implements CropResponse,SuperDTO {
     @NotBlank(message = "fieldCode is required")
     private String fieldCode;  // Reference to the Field this crop belongs to
 
+    public void setCropImage(String cropImage) { //set this as a save name to setter method and converting image method as a error runtime set to setter method fix it
+        this.cropImage = cropImage;
+    }
+
     // Method to set image using MultipartFile
+    @Override
     public void setCropImage(MultipartFile image) {
         String[] base64Images = AppUtil.toBase64Images(image);
         this.cropImage = base64Images[0];
