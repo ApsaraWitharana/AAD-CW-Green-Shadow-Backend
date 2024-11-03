@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -100,6 +101,27 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     @Override
     public List<EquipmentDTO> getAllEquipment() {
-        return null;
+       List<Equipment> equipments = equipmentDAO.findAll();
+       List<EquipmentDTO> equipmentDTOS = new ArrayList<>();
+       for (Equipment equipment : equipments){
+           EquipmentDTO equipmentDTO =new EquipmentDTO();
+           equipmentDTO.setId(equipment.getId());
+           equipmentDTO.setName(equipment.getName());
+           equipmentDTO.setType(equipment.getType());
+           equipmentDTO.setStatus(equipment.getStatus());
+           // Set staff ID if Staff entity is assigned to 'usedBy'
+           if (equipment.getField() != null) {
+               equipmentDTO.setFieldCode(equipment.getField().getFieldCode()); // Set the ID of the Staff entity
+           } else {
+               equipmentDTO.setFieldCode(null); // Or handle this based on your requirements if no staff is assigned
+           }
+           if (equipment.getStaff() !=null){
+               equipmentDTO.setStaffId(equipment.getStaff().getId());
+           }else {
+               equipmentDTO.setStaffId(null);
+           }
+           equipmentDTOS.add(equipmentDTO);
+       }
+       return equipmentDTOS;
     }
 }

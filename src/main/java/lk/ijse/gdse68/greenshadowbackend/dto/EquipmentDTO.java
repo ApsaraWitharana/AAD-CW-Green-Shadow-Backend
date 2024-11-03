@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lk.ijse.gdse68.greenshadowbackend.customerObj.EquipmentResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
@@ -28,7 +29,11 @@ public class EquipmentDTO implements EquipmentResponse,SuperDTO {
     @Size(max = 20, message = "Status must be less than 20 characters")
     private String status;
 
+    @Getter
     private String fieldCode; // Reference to Field's code
+    @Getter
     private String staffId;
+
+
 }
 

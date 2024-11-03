@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author : sachini
  * @date : 2024-11-02
@@ -69,5 +71,14 @@ public class EquipmentController {
             return new ResponseEntity<>(equipmentResponse,HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @GetMapping
+    public ResponseEntity<List<EquipmentDTO>> getAllEquipment(){
+        List<EquipmentDTO> equipmentDTOS = equipmentService.getAllEquipment();
+        if (!equipmentDTOS.isEmpty()){
+            return new ResponseEntity<>(equipmentDTOS,HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 }
