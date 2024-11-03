@@ -1,6 +1,8 @@
 package lk.ijse.gdse68.greenshadowbackend.service.impl;
 
+import lk.ijse.gdse68.greenshadowbackend.customerObj.EquipmentErrorResponse;
 import lk.ijse.gdse68.greenshadowbackend.customerObj.EquipmentResponse;
+import lk.ijse.gdse68.greenshadowbackend.customerObj.StaffErrorResponse;
 import lk.ijse.gdse68.greenshadowbackend.dao.EquipmentDAO;
 import lk.ijse.gdse68.greenshadowbackend.dao.FieldDAO;
 import lk.ijse.gdse68.greenshadowbackend.dao.StaffDAO;
@@ -86,7 +88,14 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     @Override
     public EquipmentResponse getSelectedEquipment(String id) {
-        return null;
+        if (equipmentDAO.existsById(id)){
+            Equipment equipment = equipmentDAO.getReferenceById(id);
+            EquipmentDTO equipmentDTO = mapping.convertToEquipmentDTO(equipment);
+            equipmentDTO.setName(equipmentDTO.getName());
+            return equipmentDTO;
+        }else {
+            return new EquipmentErrorResponse(0,"Equipments not found!!");
+        }
     }
 
     @Override

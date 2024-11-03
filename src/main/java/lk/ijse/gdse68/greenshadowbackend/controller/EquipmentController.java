@@ -1,5 +1,7 @@
 package lk.ijse.gdse68.greenshadowbackend.controller;
 
+import lk.ijse.gdse68.greenshadowbackend.customerObj.EquipmentErrorResponse;
+import lk.ijse.gdse68.greenshadowbackend.customerObj.EquipmentResponse;
 import lk.ijse.gdse68.greenshadowbackend.dto.EquipmentDTO;
 import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
 import lk.ijse.gdse68.greenshadowbackend.exception.EquipmentNotFoundException;
@@ -57,5 +59,15 @@ public class EquipmentController {
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<EquipmentResponse> getSelectEquipment(@PathVariable ("id") String id){
+        EquipmentResponse equipmentResponse = equipmentService.getSelectedEquipment(id);
+        if (equipmentResponse instanceof EquipmentDTO){
+            return new ResponseEntity<>(equipmentResponse,HttpStatus.OK);
+        }else if (equipmentResponse instanceof EquipmentErrorResponse){
+            return new ResponseEntity<>(equipmentResponse,HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
