@@ -1,6 +1,8 @@
 package lk.ijse.gdse68.greenshadowbackend.controller;
 
 
+import lk.ijse.gdse68.greenshadowbackend.customerObj.LogErrorResponse;
+import lk.ijse.gdse68.greenshadowbackend.customerObj.LogResponse;
 import lk.ijse.gdse68.greenshadowbackend.dto.LogDTO;
 import lk.ijse.gdse68.greenshadowbackend.exception.LogNotFoundException;
 import lk.ijse.gdse68.greenshadowbackend.service.LogService;
@@ -9,11 +11,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping("api/v1/log")
@@ -87,6 +92,18 @@ public class LogController {
             return new ResponseEntity<>("Log is not found!!",HttpStatus.NOT_FOUND);
         }
      }
+
+     //TODO:Get select id
+    @GetMapping(value = "/{logCode}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<LogResponse> getAllLog(@PathVariable ("logCode") String logCode){
+        LogResponse logResponse = logService.getSelectedLog(logCode);
+        if (logResponse instanceof LogDTO){
+            return new ResponseEntity<>(logResponse,HttpStatus.OK);
+        }else if (logResponse instanceof LogErrorResponse){
+            return new ResponseEntity<>(logResponse,HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 }
 

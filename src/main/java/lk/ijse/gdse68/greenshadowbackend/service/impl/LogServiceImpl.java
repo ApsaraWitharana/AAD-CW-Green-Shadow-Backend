@@ -1,5 +1,6 @@
 package lk.ijse.gdse68.greenshadowbackend.service.impl;
 
+import lk.ijse.gdse68.greenshadowbackend.customerObj.LogErrorResponse;
 import lk.ijse.gdse68.greenshadowbackend.customerObj.LogResponse;
 import lk.ijse.gdse68.greenshadowbackend.dao.CropDAO;
 import lk.ijse.gdse68.greenshadowbackend.dao.LogDAO;
@@ -77,7 +78,14 @@ public class LogServiceImpl implements LogService {
 
     @Override
     public LogResponse getSelectedLog(String logCode) {
-        return null;
+        if (logDAO.existsById(logCode)) {
+            Log log = logDAO.getReferenceById(logCode);
+            LogDTO logDTO = mapping.convertToLogDTO(log);
+            logDTO.setLogDate(logDTO.getLogDate());
+            return logDTO;
+        }else {
+            return new LogErrorResponse(0,"Log details not found!!");
+        }
     }
 
     @Override
