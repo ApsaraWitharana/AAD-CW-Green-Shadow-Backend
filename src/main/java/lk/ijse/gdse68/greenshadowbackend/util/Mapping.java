@@ -45,4 +45,12 @@ public class Mapping {
     public Equipment convertToEquipmentEntity(EquipmentDTO equipmentDTO){
         return modelMapper.map(equipmentDTO,Equipment.class);
     }
+
+    public LogDTO convertToLogDTO(Log log){
+        return  modelMapper.map(log, LogDTO.class);
+    }
+
+    public Log convertToLogEntity(LogDTO logDTO){
+        return modelMapper.map(logDTO, Log.class);
+    }
 }

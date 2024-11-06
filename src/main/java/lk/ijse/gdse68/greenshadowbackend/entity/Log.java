@@ -6,7 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
-import java.util.List;
+/**
+ * @author : sachini
+ * @date : 2024-11-06
+ **/
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -14,20 +17,16 @@ import java.util.List;
 @Table(name = "logs")
 public class Log {
     @Id
-    @Column(name = "log_code", nullable = false, unique = true)
+    @Column(name = "log_code", nullable = false)
     private String logCode;
-
     @Column(name = "log_date")
     private Date logDate;
-
     @Column(name = "log_details")
     private String logDetails;
-
     @Column(name = "observed_image", columnDefinition = "LONGTEXT")
     private String observedImage;
-
     // Define the many-to-one relationship with Crop
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "crop_code")
     private Crop crop;
 
