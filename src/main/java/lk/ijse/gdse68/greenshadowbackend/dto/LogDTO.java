@@ -9,6 +9,7 @@ import lk.ijse.gdse68.greenshadowbackend.customerObj.LogResponse;
 import lk.ijse.gdse68.greenshadowbackend.util.AppUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,9 +34,15 @@ public class LogDTO implements LogResponse,SuperDTO {
     private String logDetails;
 
     private String observedImage;
+    @Getter
     @NotBlank(message = "Crop code is required.")
     private String cropCode;
-@Override
+
+    public void setCropCode(String cropCode) {
+        this.cropCode = cropCode;
+    }
+
+    @Override
     public void setLogImage(MultipartFile image) {
         String[] base64Images = AppUtil.toBase64Images(image);
         this.observedImage = base64Images[0];
