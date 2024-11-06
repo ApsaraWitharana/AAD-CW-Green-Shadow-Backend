@@ -74,5 +74,19 @@ public class LogController {
         }
 
         }
+
+        //TODO:Delete
+    @DeleteMapping(value = "/{logCode}")
+     public ResponseEntity<String> deleteLog(@PathVariable ("logCode") String logCode){
+        try {
+            logService.deleteLog(logCode);
+            return new ResponseEntity<>("Log Details Delete Successfully!!",HttpStatus.OK);
+        }catch (LogNotFoundException e){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (Exception e){
+            return new ResponseEntity<>("Log is not found!!",HttpStatus.NOT_FOUND);
+        }
+     }
+
 }
 

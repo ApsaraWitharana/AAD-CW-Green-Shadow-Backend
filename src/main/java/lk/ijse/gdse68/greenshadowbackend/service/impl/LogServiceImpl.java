@@ -67,6 +67,12 @@ public class LogServiceImpl implements LogService {
     @Override
     public void deleteLog(String logCode) {
 
+        Optional<Log> selectLogCode = logDAO.findById(logCode);
+        if (selectLogCode.isPresent()){
+            logDAO.deleteById(logCode);
+        }else {
+            throw new LogNotFoundException("Log details not found!!");
+        }
     }
 
     @Override
