@@ -105,5 +105,16 @@ public class LogController {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    //TODO:Get all
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<LogDTO>> getAllLogs(){
+        List<LogDTO> logDTOS = logService.getAllLog();
+        if (!logDTOS.isEmpty()){
+            return new ResponseEntity<>(logDTOS,HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
 }
 

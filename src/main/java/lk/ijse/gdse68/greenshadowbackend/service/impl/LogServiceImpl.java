@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,6 +91,21 @@ public class LogServiceImpl implements LogService {
 
     @Override
     public List<LogDTO> getAllLog() {
-        return null;
+       List<Log> logs = logDAO.findAll();
+       List<LogDTO> logDTOS = new ArrayList<>();
+       for (Log log : logs){
+           LogDTO logDTO = new LogDTO();
+           logDTO.setLogCode(log.getLogCode());
+           logDTO.setLogDate(log.getLogDate());
+           logDTO.setLogDetails(log.getLogDetails());
+           logDTO.setObservedImage(log.getObservedImage());
+           if (log.getCrop() != null) {
+               logDTO.setCropCode(log.getCrop().getCropCode());
+           } else {
+               logDTO.setCropCode(null);
+           }
+           logDTOS.add(logDTO);
+       }
+       return logDTOS;
     }
 }
