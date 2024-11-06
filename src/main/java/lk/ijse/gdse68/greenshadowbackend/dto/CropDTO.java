@@ -4,12 +4,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lk.ijse.gdse68.greenshadowbackend.customerObj.CropResponse;
+import lk.ijse.gdse68.greenshadowbackend.entity.Log;
+
 import lk.ijse.gdse68.greenshadowbackend.util.AppUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,8 +43,9 @@ public class CropDTO implements CropResponse,SuperDTO {
     @Size(max = 50, message = "Crop season must not exceed 50 characters")
     private String cropSeason;
     @NotBlank(message = "fieldCode is required")
-    private String fieldCode;  // Reference to the Field this crop belongs to
+    private String fieldCode;
 
+    private List<Log> logs;
     public void setCropImage(String cropImage) { //set this as a save name to setter method and converting image method as a error runtime set to setter method fix it
         this.cropImage = cropImage;
     }
