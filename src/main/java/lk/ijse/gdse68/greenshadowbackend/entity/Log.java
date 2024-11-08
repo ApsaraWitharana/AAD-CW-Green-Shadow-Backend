@@ -31,8 +31,10 @@ public class Log {
     @ManyToOne
     @JoinColumn(name = "crop_code")
     private Crop crop;
-    @ManyToMany
-    private List<Field> fields;
+
+    @OneToMany(mappedBy = "log",cascade = CascadeType.ALL)
+    private List<FieldLogDetails> fieldLogDetails;
+
     @OneToMany(mappedBy = "log",cascade = CascadeType.ALL)
     private List<StaffLogDetails> staffLogDetails;
 

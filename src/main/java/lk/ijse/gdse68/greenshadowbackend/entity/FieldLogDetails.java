@@ -15,8 +15,12 @@ public class FieldLogDetails {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
-    private String field_code;
-    private String log_code;
+    @ManyToOne
+    @JoinColumn(name = "field_code",referencedColumnName = "field_code",nullable = false)
+    private Field field;
+    @ManyToOne
+    @JoinColumn(name = "log_code",referencedColumnName = "log_code",nullable = false)
+    private Log log;
     private String description;
     private int work_field_count;
     private Date date;

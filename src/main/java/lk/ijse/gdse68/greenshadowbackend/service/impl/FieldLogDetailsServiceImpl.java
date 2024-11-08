@@ -15,6 +15,7 @@ import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
 import lk.ijse.gdse68.greenshadowbackend.service.FieldLogDetailsService;
 import lk.ijse.gdse68.greenshadowbackend.util.Mapping;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,50 +25,97 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class FieldLogDetailsServiceImpl implements FieldLogDetailsService {
+    @Autowired
     private final CropDAO cropDAO;
+    @Autowired
     private final FieldDAO fieldDAO;
+    @Autowired
     private final LogDAO logDAO;
+    @Autowired
     private final FieldLogDetailsDAO fieldLogDetailsDAO;
-    private final Mapping mapping;
 
-    @Override
-    public void saveFieldLogDetails(LogDTO logDTO) {
-        Crop crop = cropDAO.findById(logDTO.getCropCode())
-                .orElseThrow(() -> new RuntimeException("Crop not found"));
 
-        // Create and save Log
-        Log log = new Log();
-        log.setLogCode(logDTO.getLogCode());
-        log.setCrop(crop);
-        log.setLogDetails(logDTO.getLogDetails());
-        log.setLogDate(logDTO.getLogDate());
-        log.setObservedImage(logDTO.getObservedImage());
+//    @Override
+//    public void saveFieldLogDetails(LogDTO logDTO) {
+//        // Retrieve Crop entity based on cropCode
+//        Crop crop = cropDAO.findById(logDTO.getCropCode())
+//                .orElseThrow(() -> new RuntimeException("Crop not found for code: " + logDTO.getCropCode()));
+//
+//        // Create and save Log
+//        Log log = new Log();
+//        log.setLogCode(logDTO.getLogCode());
+//        log.setCrop(crop);
+//        log.setLogDetails(logDTO.getLogDetails());
+//        log.setLogDate(logDTO.getLogDate());
+//        log.setObservedImage(logDTO.getObservedImage());
+//
+//        Log savedLog = logDAO.save(log);
+//        if (savedLog == null) {
+//            throw new DataPersistFailedException("Failed to save log details!");
+//        }
+//        List<FieldLogDetails> fieldLogDetailsList = logDTO.getFieldLogDetailsDTOS().stream()
+//                .map(fieldLogDetailsDTO -> {
+//                    Field field = fieldDAO.findById(fieldLogDetailsDTO.getField().getFieldCode())
+//                            .orElseThrow(() -> new RuntimeException("Field not found for ID:" + fieldLogDetailsDTO.getField().getFieldCode()));
+//                    //Create new FieldLogDetails
+//                    FieldLogDetails fieldLogDetails = new FieldLogDetails();
+//                    fieldLogDetails.setField(field);
+//                    fieldLogDetails.setLog(savedLog); // Use to savedLog here
+//                    fieldLogDetails.setDescription(fieldLogDetails.getDescription());
+//                    fieldLogDetails.setWork_field_count(fieldLogDetailsDTO.getWork_fields_count());
+//                    fieldLogDetails.setDate(fieldLogDetailsDTO.getDate());
+//
+//                    return fieldLogDetails;
+//                }).collect(Collectors.toList());
+//        // Save to each FieldLogDetails to entity in the database
+//        fieldLogDetailsList.forEach(fieldLogDetailsDAO::save);
+//        //Associate FieldLogDetails with Log and save the log entity again
+//        savedLog.setFieldLogDetails(fieldLogDetailsList);
+//        logDAO.save(savedLog);
+//        }
+@Override
+public void saveFieldLogDetails(LogDTO logDTO) {
+    // Retrieve Crop entity based on cropCode
+    Crop crop = cropDAO.findById(logDTO.getCropCode())
+            .orElseThrow(() -> new RuntimeException("Crop not found for code: " + logDTO.getCropCode()));
 
-        // Find and set associated fields
-        List<Field> fields = logDTO.getFields().stream()
-                .map(fieldDTO -> fieldDAO.findById(fieldDTO.getFieldCode())
-                        .orElseThrow(() -> new RuntimeException("Field not found for code: " + fieldDTO.getFieldCode())))
-                .collect(Collectors.toList());
-        log.setFields(fields);
+    // Create and save Log
+    Log log = new Log();
+    log.setLogCode(logDTO.getLogCode());
+    log.setCrop(crop);
+    log.setLogDetails(logDTO.getLogDetails());
+    log.setLogDate(logDTO.getLogDate());
+    log.setObservedImage(logDTO.getObservedImage());
 
-        Log savedLog = logDAO.save(log);
-        if (savedLog == null) {
-            throw new DataPersistFailedException("Failed to save log details!");
-        }
-
-        // Create and save FieldLogDetails
-        for (FieldLogDetailsDTO fieldLogDetailsDTO : logDTO.getFieldLogDetailsDTOS()) {
-            Field field = fieldDAO.findById(fieldLogDetailsDTO.getField_code())
-                    .orElseThrow(() -> new RuntimeException("Field code not found: " + fieldLogDetailsDTO.getField_code()));
-
-            FieldLogDetails fieldLogDetails = new FieldLogDetails();
-            fieldLogDetails.setField_code(fieldLogDetailsDTO.getField_code());
-            fieldLogDetails.setLog_code(fieldLogDetailsDTO.getLog_code());
-            fieldLogDetails.setWork_field_count(fieldLogDetailsDTO.getWork_fields_count());
-            fieldLogDetails.setDescription(fieldLogDetailsDTO.getDescription());
-            fieldLogDetails.setDate(fieldLogDetailsDTO.getDate());
-
-            fieldLogDetailsDAO.save(fieldLogDetails);
-        }
+    Log savedLog = logDAO.save(log);
+    if (savedLog == null) {
+        throw new DataPersistFailedException("Failed to save log details!");
     }
+
+    // Map each FieldLogDetailsDTO to FieldLogDetails entity
+    List<FieldLogDetails> fieldLogDetailsList = logDTO.getFieldLogDetailsDTOS().stream()
+            .map(fieldLogDetailsDTO -> {
+                Field field = fieldDAO.findById(fieldLogDetailsDTO.getField().getFieldCode())
+                        .orElseThrow(() -> new RuntimeException("Field not found for ID: " + fieldLogDetailsDTO.getField().getFieldCode()));
+
+                // Create new FieldLogDetails and set its properties from DTO
+                FieldLogDetails fieldLogDetails = new FieldLogDetails();
+                fieldLogDetails.setField(field);
+                fieldLogDetails.setLog(savedLog); // Use savedLog here
+                fieldLogDetails.setDescription(fieldLogDetailsDTO.getDescription());
+                fieldLogDetails.setWork_field_count(fieldLogDetailsDTO.getWork_fields_count());
+                fieldLogDetails.setDate(fieldLogDetailsDTO.getDate());
+
+                return fieldLogDetails;
+            }).collect(Collectors.toList());
+
+    // Save each FieldLogDetails to the database
+    fieldLogDetailsList.forEach(fieldLogDetailsDAO::save);
+
+    // Associate FieldLogDetails with Log and save the Log entity again
+    savedLog.setFieldLogDetails(fieldLogDetailsList);
+    logDAO.save(savedLog);
 }
+
+}
+

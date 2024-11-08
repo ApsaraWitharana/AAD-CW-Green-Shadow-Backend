@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "field")
 public class Field {
     @Id
-    @Column(name = "field_code", nullable = false)
+    @Column(name = "field_code",nullable = false)
     private String fieldCode;
 
     @Column(name = "field_name", nullable = false, length = 100)
@@ -38,9 +38,6 @@ public class Field {
     // One-to-Many relationship with Equipment
     @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Equipment> equipmentList;
-    @ManyToMany
-    private List<Log> logs;
-
     public Field(String fieldCode, String fieldName) {
         this.fieldCode = fieldCode;
         this.fieldName = fieldName;

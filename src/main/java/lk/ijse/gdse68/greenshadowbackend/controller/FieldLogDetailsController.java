@@ -18,11 +18,11 @@ public class FieldLogDetailsController {
     }
 
     // Endpoint to create field log details
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<String> createFieldLogDetails(@RequestBody LogDTO logDTO) {
         try {
             fieldLogDetailsService.saveFieldLogDetails(logDTO);
-            return ResponseEntity.ok("Field log details saved successfully!");
+            return ResponseEntity.ok("Field log details saved successfully!!");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to save field log details: " + e.getMessage());
         }
