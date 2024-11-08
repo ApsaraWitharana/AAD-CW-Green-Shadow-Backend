@@ -68,4 +68,5 @@ public class Staff {
     @OneToOne(mappedBy = "staff", fetch = FetchType.LAZY)
     private Equipment equipment;
 
+
 }

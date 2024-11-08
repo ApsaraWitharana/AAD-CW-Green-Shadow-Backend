@@ -34,45 +34,6 @@ public class FieldLogDetailsServiceImpl implements FieldLogDetailsService {
     @Autowired
     private final FieldLogDetailsDAO fieldLogDetailsDAO;
 
-
-//    @Override
-//    public void saveFieldLogDetails(LogDTO logDTO) {
-//        // Retrieve Crop entity based on cropCode
-//        Crop crop = cropDAO.findById(logDTO.getCropCode())
-//                .orElseThrow(() -> new RuntimeException("Crop not found for code: " + logDTO.getCropCode()));
-//
-//        // Create and save Log
-//        Log log = new Log();
-//        log.setLogCode(logDTO.getLogCode());
-//        log.setCrop(crop);
-//        log.setLogDetails(logDTO.getLogDetails());
-//        log.setLogDate(logDTO.getLogDate());
-//        log.setObservedImage(logDTO.getObservedImage());
-//
-//        Log savedLog = logDAO.save(log);
-//        if (savedLog == null) {
-//            throw new DataPersistFailedException("Failed to save log details!");
-//        }
-//        List<FieldLogDetails> fieldLogDetailsList = logDTO.getFieldLogDetailsDTOS().stream()
-//                .map(fieldLogDetailsDTO -> {
-//                    Field field = fieldDAO.findById(fieldLogDetailsDTO.getField().getFieldCode())
-//                            .orElseThrow(() -> new RuntimeException("Field not found for ID:" + fieldLogDetailsDTO.getField().getFieldCode()));
-//                    //Create new FieldLogDetails
-//                    FieldLogDetails fieldLogDetails = new FieldLogDetails();
-//                    fieldLogDetails.setField(field);
-//                    fieldLogDetails.setLog(savedLog); // Use to savedLog here
-//                    fieldLogDetails.setDescription(fieldLogDetails.getDescription());
-//                    fieldLogDetails.setWork_field_count(fieldLogDetailsDTO.getWork_fields_count());
-//                    fieldLogDetails.setDate(fieldLogDetailsDTO.getDate());
-//
-//                    return fieldLogDetails;
-//                }).collect(Collectors.toList());
-//        // Save to each FieldLogDetails to entity in the database
-//        fieldLogDetailsList.forEach(fieldLogDetailsDAO::save);
-//        //Associate FieldLogDetails with Log and save the log entity again
-//        savedLog.setFieldLogDetails(fieldLogDetailsList);
-//        logDAO.save(savedLog);
-//        }
 @Override
 public void saveFieldLogDetails(LogDTO logDTO) {
     // Retrieve Crop entity based on cropCode

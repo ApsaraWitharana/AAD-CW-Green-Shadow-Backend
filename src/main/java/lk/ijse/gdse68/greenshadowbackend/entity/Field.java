@@ -38,6 +38,9 @@ public class Field {
     // One-to-Many relationship with Equipment
     @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Equipment> equipmentList;
+    // one-to-Many relationship with Staff
+    @OneToMany(mappedBy = "field",cascade = CascadeType.ALL)
+    private List<StaffFieldDetails> staffLogDetails;
     public Field(String fieldCode, String fieldName) {
         this.fieldCode = fieldCode;
         this.fieldName = fieldName;
