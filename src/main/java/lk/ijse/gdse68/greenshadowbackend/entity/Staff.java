@@ -68,4 +68,7 @@ public class Staff {
     @OneToOne(mappedBy = "staff", fetch = FetchType.LAZY)
     private Equipment equipment;
 
+    //Many-to many relationship with staff
+//    @ManyToMany
+//    private List<Field> fields;
 }

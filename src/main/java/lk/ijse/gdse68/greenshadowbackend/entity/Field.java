@@ -8,8 +8,6 @@ import org.hibernate.annotations.Type; // Ensure you have this import
 import org.springframework.data.geo.Point;
 
 import java.util.List;
-
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -17,7 +15,7 @@ import java.util.List;
 @Table(name = "field")
 public class Field {
     @Id
-    @Column(name = "field_code", nullable = false, length = 50)
+    @Column(name = "field_code", nullable = false)
     private String fieldCode;
 
     @Column(name = "field_name", nullable = false, length = 100)
@@ -34,12 +32,17 @@ public class Field {
 
     @Column(name = "field_image2", columnDefinition = "LONGTEXT")
     private String fieldImage2;
-
     // One-to-Many relationship with Crop
     @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Crop> crops;
     // One-to-Many relationship with Equipment
     @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Equipment> equipmentList;
+    @ManyToMany
+    private List<Log> logs;
 
+    public Field(String fieldCode, String fieldName) {
+        this.fieldCode = fieldCode;
+        this.fieldName = fieldName;
+    }
 }

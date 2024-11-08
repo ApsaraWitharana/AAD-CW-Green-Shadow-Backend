@@ -7,13 +7,13 @@ import jakarta.validation.constraints.Size;
 
 import lk.ijse.gdse68.greenshadowbackend.customerObj.LogResponse;
 import lk.ijse.gdse68.greenshadowbackend.util.AppUtil;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author : sachini
  * @date : 2024-11-06
@@ -21,6 +21,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@ToString
 public class LogDTO implements LogResponse,SuperDTO {
     @NotNull(message = "Log code is mandatory")
     @Pattern(regexp = "^LOG-\\d{3}$", message = "Log code must be in the format 'LOG-001'")
@@ -38,6 +39,13 @@ public class LogDTO implements LogResponse,SuperDTO {
     @NotBlank(message = "Crop code is required.")
     private String cropCode;
 
+    @Getter
+    private List<FieldLogDetailsDTO> fieldLogDetailsDTOS;
+    private List<FieldDTO> fields;  // List of crops associated with the field
+
+    public void setFieldLogDetailsDTOS(List<FieldLogDetailsDTO> fieldLogDetailsDTOS) {
+        this.fieldLogDetailsDTOS = fieldLogDetailsDTOS;
+    }
     public void setCropCode(String cropCode) {
         this.cropCode = cropCode;
     }

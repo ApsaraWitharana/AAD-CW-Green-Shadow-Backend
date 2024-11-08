@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.util.List;
+
 /**
  * @author : sachini
  * @date : 2024-11-06
@@ -29,6 +31,8 @@ public class Log {
     @ManyToOne
     @JoinColumn(name = "crop_code")
     private Crop crop;
+    @ManyToMany
+    private List<Field> fields;
 
 
 
