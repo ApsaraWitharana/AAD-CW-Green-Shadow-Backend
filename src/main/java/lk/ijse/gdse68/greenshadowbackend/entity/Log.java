@@ -33,7 +33,8 @@ public class Log {
     private Crop crop;
     @ManyToMany
     private List<Field> fields;
-
+    @OneToMany(mappedBy = "log",cascade = CascadeType.ALL)
+    private List<StaffLogDetails> staffLogDetails;
 
 
 }

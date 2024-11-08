@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import lk.ijse.gdse68.greenshadowbackend.customerObj.LogResponse;
+import lk.ijse.gdse68.greenshadowbackend.entity.Staff;
 import lk.ijse.gdse68.greenshadowbackend.util.AppUtil;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,6 +44,8 @@ public class LogDTO implements LogResponse,SuperDTO {
     private List<FieldLogDetailsDTO> fieldLogDetailsDTOS;
     private List<FieldDTO> fields;  // List of crops associated with the field
 
+    private List<StaffLogDetailsDTO> staffLogDetailsDTOS;
+    private List<StaffDTO> staff;
     public void setFieldLogDetailsDTOS(List<FieldLogDetailsDTO> fieldLogDetailsDTOS) {
         this.fieldLogDetailsDTOS = fieldLogDetailsDTOS;
     }
