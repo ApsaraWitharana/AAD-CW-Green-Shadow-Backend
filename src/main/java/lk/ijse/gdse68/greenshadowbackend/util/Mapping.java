@@ -53,4 +53,11 @@ public class Mapping {
     public Log convertToLogEntity(LogDTO logDTO){
         return modelMapper.map(logDTO, Log.class);
     }
+
+    public StaffLogDetails convertToStaffLogDetailsEntity(StaffLogDetailsDTO staffLogDetailsDTO){
+        return modelMapper.map(staffLogDetailsDTO,StaffLogDetails.class);
+    }
+    public StaffLogDetailsDTO convertToStaffLogDetailsDTO(StaffLogDetails staffLogDetails){
+        return modelMapper.map(staffLogDetails,StaffLogDetailsDTO.class);
+    }
 }

@@ -1,6 +1,8 @@
 package lk.ijse.gdse68.greenshadowbackend.service.impl;
 
 import jakarta.transaction.Transactional;
+import lk.ijse.gdse68.greenshadowbackend.customerObj.StaffLogDetailsErrorResponse;
+import lk.ijse.gdse68.greenshadowbackend.customerObj.StaffLogDetailsResponse;
 import lk.ijse.gdse68.greenshadowbackend.dao.CropDAO;
 import lk.ijse.gdse68.greenshadowbackend.dao.LogDAO;
 import lk.ijse.gdse68.greenshadowbackend.dao.StaffDAO;
@@ -14,10 +16,12 @@ import lk.ijse.gdse68.greenshadowbackend.entity.Staff;
 import lk.ijse.gdse68.greenshadowbackend.entity.StaffLogDetails;
 import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
 import lk.ijse.gdse68.greenshadowbackend.service.StaffLogDetailsService;
+import lk.ijse.gdse68.greenshadowbackend.util.Mapping;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +37,8 @@ public class StaffLogDetailsServiceImpl implements StaffLogDetailsService {
     private final CropDAO cropDAO;
     @Autowired
     private StaffLogDetailsDAO staffLogDetailsDAO;
+    @Autowired
+    private Mapping mapping;
 
     @Override
     public void saveStaffLogDetails(LogDTO logDTO) {
@@ -79,4 +85,54 @@ public class StaffLogDetailsServiceImpl implements StaffLogDetailsService {
         savedLog.setStaffLogDetails(staffLogDetailsList);
         logDAO.save(savedLog);
     }
+
+    @Override
+    public StaffLogDetailsResponse getStaffLogDetailsById(String id) {
+       if (staffLogDetailsDAO.existsById(id)){
+           StaffLogDetails staffLogDetails = staffLogDetailsDAO.getReferenceById(id);
+           StaffLogDetailsDTO staffLogDetailsDTO = mapping.convertToStaffLogDetailsDTO(staffLogDetails);
+           staffLogDetailsDTO.setDescription(staffLogDetails.getDescription());
+           return staffLogDetailsDTO;
+       }else {
+           return new StaffLogDetailsErrorResponse(0,"Staff Log Details Not Found!");
+       }
+    }
+
+
+    @Override
+    public List<StaffLogDetailsDTO> getAllStaffLogDetails() {
+        // Fetching all StaffLogDetails entities from the database
+        List<StaffLogDetails> staffLogDetailsList = staffLogDetailsDAO.findAll();
+        List<StaffLogDetailsDTO> staffLogDetailsDTOS = new ArrayList<>();
+
+        for (StaffLogDetails staffLogDetails : staffLogDetailsList) {
+            StaffLogDetailsDTO staffLogDetailsDTO = new StaffLogDetailsDTO();
+            StaffDTO staffDTO = new StaffDTO();
+            staffDTO.getId();
+
+            // Check if StaffLogDetails has a valid staff object
+            if (staffLogDetails.getStaff() != null) {
+                staffDTO.setId(staffLogDetails.getStaff().getId());  // Assuming getStaff() returns a Staff object
+            } else {
+                staffDTO.setId(null);  // Set it to null or some default value if staff is null
+            }
+
+            // Set the log details in DTO
+            staffLogDetails.setId(staffLogDetails.getId());
+            staffLogDetailsDTO.setLog(staffLogDetails.getLog());
+            staffLogDetailsDTO.setDescription(staffLogDetails.getDescription());
+            staffLogDetailsDTO.setWorkStaffCount(staffLogDetails.getWork_staff_count());
+            staffLogDetailsDTO.setDate(staffLogDetails.getDate());
+
+
+            // Avoid recursive data in the DTO if `staff` has any complex relationships
+            // Add the DTO to the list
+            staffLogDetailsDTOS.add(staffLogDetailsDTO);
+        }
+
+        return staffLogDetailsDTOS;
+    }
+
+
+
 }
