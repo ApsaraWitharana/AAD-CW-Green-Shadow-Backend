@@ -12,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -55,4 +58,24 @@ public class StaffFieldDetailsServiceImpl implements StaffFieldDetailsService {
         }
     }
 
+    @Override
+    public List<StaffFieldDetailsDTO> getAllStaffFieldDetails() {
+        // Retrieve all StaffFieldDetails entities
+        List<StaffFieldDetails> staffFieldDetailsList = staffFieldDetailsDAO.findAll();
+
+        // Convert them to StaffFieldDetailsDTO objects
+        List<StaffFieldDetailsDTO> staffFieldDetailsDTOS = new ArrayList<>();
+        for (StaffFieldDetails staffFieldDetails : staffFieldDetailsList) {
+            StaffFieldDetailsDTO staffFieldDetailsDTO = new StaffFieldDetailsDTO();
+            staffFieldDetailsDTO.setStaff(staffFieldDetails.getStaff());
+            staffFieldDetailsDTO.setField(staffFieldDetails.getField());
+            staffFieldDetailsDTO.setDescription(staffFieldDetails.getDescription());
+            staffFieldDetailsDTO.setWorkStaffCount(staffFieldDetails.getWork_staff_count());
+            staffFieldDetailsDTO.setDate(staffFieldDetails.getDate());
+
+            staffFieldDetailsDTOS.add(staffFieldDetailsDTO);
+        }
+
+        return staffFieldDetailsDTOS;
+    }
 }
