@@ -18,8 +18,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.yaml.snakeyaml.nodes.NodeId.mapping;
 
 @Service
 @Transactional
@@ -77,6 +80,30 @@ public void saveFieldLogDetails(LogDTO logDTO) {
     savedLog.setFieldLogDetails(fieldLogDetailsList);
     logDAO.save(savedLog);
 }
+
+    @Override
+    public List<FieldLogDetailsDTO> getAllFieldLogDetails() {
+        // Fetch all FieldLogDetails entities from the database
+        List<FieldLogDetails> fieldLogDetailsList = fieldLogDetailsDAO.findAll();
+
+        // Convert them to FieldLogDetailsDTO objects manually
+        List<FieldLogDetailsDTO> fieldLogDetailsDTOS = new ArrayList<>();
+        for (FieldLogDetails fieldLogDetails : fieldLogDetailsList) {
+            // Create a new FieldLogDetailsDTO and set the properties
+            FieldLogDetailsDTO fieldLogDetailsDTO = new FieldLogDetailsDTO();
+            fieldLogDetailsDTO.setField(fieldLogDetails.getField());
+            fieldLogDetailsDTO.setLog(fieldLogDetails.getLog());
+            fieldLogDetailsDTO.setDescription(fieldLogDetails.getDescription());
+            fieldLogDetailsDTO.setWorkFieldsCount(fieldLogDetails.getWork_field_count());
+            fieldLogDetailsDTO.setDate(fieldLogDetails.getDate());
+
+            // Add to the list
+            fieldLogDetailsDTOS.add(fieldLogDetailsDTO);
+        }
+
+        return fieldLogDetailsDTOS;
+    }
+
 
 }
 

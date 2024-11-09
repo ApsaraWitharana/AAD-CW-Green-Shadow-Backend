@@ -44,10 +44,6 @@ public class StaffLogDetailsController {
     @GetMapping("/all")
     public ResponseEntity<List<StaffLogDetailsDTO>> getStaffLogDetailsById() {
         List<StaffLogDetailsDTO> staffLogDetailsDTOS = staffLogDetailsService.getAllStaffLogDetails();
-        if (!staffLogDetailsDTOS.isEmpty()){
-            return new ResponseEntity<>(staffLogDetailsDTOS,HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+        return ResponseEntity.ok(staffLogDetailsDTOS);
     }
 }

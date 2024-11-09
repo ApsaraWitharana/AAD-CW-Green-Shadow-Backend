@@ -101,38 +101,25 @@ public class StaffLogDetailsServiceImpl implements StaffLogDetailsService {
 
     @Override
     public List<StaffLogDetailsDTO> getAllStaffLogDetails() {
-        // Fetching all StaffLogDetails entities from the database
+        // Fetch all StaffLogDetails entities from the database
         List<StaffLogDetails> staffLogDetailsList = staffLogDetailsDAO.findAll();
-        List<StaffLogDetailsDTO> staffLogDetailsDTOS = new ArrayList<>();
 
-        for (StaffLogDetails staffLogDetails : staffLogDetailsList) {
+        if (staffLogDetailsList.isEmpty()) {
+            // If no records exist, return an empty list
+            return new ArrayList<>();
+        }
+
+        // Map the StaffLogDetails entities to DTOs
+        return staffLogDetailsList.stream().map(staffLogDetails -> {
             StaffLogDetailsDTO staffLogDetailsDTO = new StaffLogDetailsDTO();
-            StaffDTO staffDTO = new StaffDTO();
-            staffDTO.getId();
-
-            // Check if StaffLogDetails has a valid staff object
-            if (staffLogDetails.getStaff() != null) {
-                staffDTO.setId(staffLogDetails.getStaff().getId());  // Assuming getStaff() returns a Staff object
-            } else {
-                staffDTO.setId(null);  // Set it to null or some default value if staff is null
-            }
-
-            // Set the log details in DTO
-            staffLogDetails.setId(staffLogDetails.getId());
+            staffLogDetailsDTO.setStaff(staffLogDetails.getStaff());
             staffLogDetailsDTO.setLog(staffLogDetails.getLog());
             staffLogDetailsDTO.setDescription(staffLogDetails.getDescription());
             staffLogDetailsDTO.setWorkStaffCount(staffLogDetails.getWork_staff_count());
             staffLogDetailsDTO.setDate(staffLogDetails.getDate());
-
-
-            // Avoid recursive data in the DTO if `staff` has any complex relationships
-            // Add the DTO to the list
-            staffLogDetailsDTOS.add(staffLogDetailsDTO);
-        }
-
-        return staffLogDetailsDTOS;
+            return staffLogDetailsDTO;
+        }).collect(Collectors.toList());
     }
-
 
 
 }
