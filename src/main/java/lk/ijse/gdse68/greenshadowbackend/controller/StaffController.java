@@ -29,17 +29,18 @@ public class StaffController {
     @Autowired
     private final StaffService staffService;
 
+
     //TODO:Staff crud implement
     //TODO: Save
     @PostMapping
     public ResponseEntity<String> saveStaff(@RequestBody StaffDTO staffDTO) {
         try {
             staffService.saveStaff(staffDTO);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>("Staff member created successfully", HttpStatus.CREATED);
         } catch (DataPersistFailedException e) {
-            return new ResponseEntity<>("Staff data could not be saved, data persistence failed.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Staff data could not be saved: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            return new ResponseEntity<>("Internal server error occurred while saving the staff.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Internal server error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     //TODO: Update staff

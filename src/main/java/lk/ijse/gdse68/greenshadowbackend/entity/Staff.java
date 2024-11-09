@@ -23,7 +23,7 @@ public class Staff {
 
     @Column(name = "last_name")
     private String lastName;
-
+    private String password;
     @Column(name = "designation")
     private String designation;
 

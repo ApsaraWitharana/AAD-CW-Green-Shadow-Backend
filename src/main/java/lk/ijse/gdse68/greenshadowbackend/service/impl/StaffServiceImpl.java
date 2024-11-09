@@ -11,6 +11,7 @@ import lk.ijse.gdse68.greenshadowbackend.service.StaffService;
 import lk.ijse.gdse68.greenshadowbackend.util.Mapping;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,9 @@ public class StaffServiceImpl implements StaffService {
     private Mapping mapping;
     @Autowired
     private StaffDAO staffDAO;
+
+
+
     @Override
     public void saveStaff(StaffDTO staffDTO) {
         staffDTO.setId(staffDTO.getId());
@@ -46,6 +50,7 @@ public class StaffServiceImpl implements StaffService {
             Staff staff = tmpStaffEntity.get();
             staff.setFirstName(staffDTO.getFirstName());
             staff.setLastName(staffDTO.getLastName());
+            staff.setPassword(staffDTO.getPassword());
             staff.setDesignation(staffDTO.getDesignation());
             staff.setGender(staffDTO.getGender());
             staff.setJoinedDate(staffDTO.getJoinedDate());
@@ -94,6 +99,7 @@ public class StaffServiceImpl implements StaffService {
            staffDTO.setId(staff.getId());
            staffDTO.setFirstName(staff.getFirstName());
            staffDTO.setLastName(staff.getLastName());
+           staffDTO.setPassword(staff.getPassword());
            staffDTO.setDesignation(staff.getDesignation());
            staffDTO.setGender(staff.getGender());
            staffDTO.setJoinedDate(staff.getJoinedDate());

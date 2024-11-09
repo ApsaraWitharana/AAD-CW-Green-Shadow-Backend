@@ -38,7 +38,8 @@ public class StaffDTO implements StaffResponse,SuperDTO{
 
     @NotNull(message = "Designation is required.")
     private String designation;
-
+    @NotNull(message = "password is required.")
+    private String password;
     @NotNull(message = "Gender selection is required.")
     private GenderEnum gender;
 
