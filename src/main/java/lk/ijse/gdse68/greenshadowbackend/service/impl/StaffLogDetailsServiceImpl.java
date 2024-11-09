@@ -66,7 +66,7 @@ public class StaffLogDetailsServiceImpl implements StaffLogDetailsService {
                     staffLogDetails.setStaff(staff);
                     staffLogDetails.setLog(savedLog);  // Use savedLog here
                     staffLogDetails.setDescription(staffLogDetailsDTO.getDescription());
-                    staffLogDetails.setWork_staff_count(staffLogDetailsDTO.getWork_staff_count());
+                    staffLogDetails.setWork_staff_count(staffLogDetailsDTO.getWorkStaffCount());
                     staffLogDetails.setDate(staffLogDetailsDTO.getDate());
 
                     return staffLogDetails;

@@ -15,11 +15,10 @@ import java.sql.Date;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "staff_field_details")
 public class StaffFieldDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long sf_id;
     @ManyToOne
     @JoinColumn(name = "staff_id",referencedColumnName = "staff_id",nullable = false)
     private Staff staff;

@@ -64,7 +64,7 @@ public void saveFieldLogDetails(LogDTO logDTO) {
                 fieldLogDetails.setField(field);
                 fieldLogDetails.setLog(savedLog); // Use savedLog here
                 fieldLogDetails.setDescription(fieldLogDetailsDTO.getDescription());
-                fieldLogDetails.setWork_field_count(fieldLogDetailsDTO.getWork_fields_count());
+                fieldLogDetails.setWork_field_count(fieldLogDetailsDTO.getWorkFieldsCount());
                 fieldLogDetails.setDate(fieldLogDetailsDTO.getDate());
 
                 return fieldLogDetails;

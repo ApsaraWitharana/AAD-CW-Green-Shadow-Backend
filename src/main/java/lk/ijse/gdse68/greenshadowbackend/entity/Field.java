@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type; // Ensure you have this import
-import org.springframework.data.geo.Point;
 
 import java.util.List;
 @AllArgsConstructor
@@ -38,6 +36,7 @@ public class Field {
     // One-to-Many relationship with Equipment
     @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Equipment> equipmentList;
+
     // one-to-Many relationship with Staff
     @OneToMany(mappedBy = "field",cascade = CascadeType.ALL)
     private List<StaffFieldDetails> staffLogDetails;
