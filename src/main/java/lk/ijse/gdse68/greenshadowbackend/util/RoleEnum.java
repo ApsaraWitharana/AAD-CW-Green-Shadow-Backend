@@ -1,6 +1,11 @@
 package lk.ijse.gdse68.greenshadowbackend.util;
 
-public enum RoleEnum {
-    MANAGER, ADMINISTRATIVE, SCIENTIST, OTHER
+import com.fasterxml.jackson.annotation.JsonCreator;
 
+public enum RoleEnum {
+    MANAGER, ADMINISTRATIVE, SCIENTIST, OTHER;
+    @JsonCreator
+    public static RoleEnum fromString(String role) {
+        return RoleEnum.valueOf(role.toUpperCase());
+    }
 }

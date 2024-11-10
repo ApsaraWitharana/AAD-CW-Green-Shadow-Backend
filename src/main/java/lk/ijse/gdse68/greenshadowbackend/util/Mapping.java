@@ -60,4 +60,6 @@ public class Mapping {
     public StaffLogDetailsDTO convertToStaffLogDetailsDTO(StaffLogDetails staffLogDetails){
         return modelMapper.map(staffLogDetails,StaffLogDetailsDTO.class);
     }
+
+
 }

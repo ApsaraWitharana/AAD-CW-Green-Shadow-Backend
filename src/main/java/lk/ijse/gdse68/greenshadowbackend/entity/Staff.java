@@ -23,7 +23,6 @@ public class Staff {
 
     @Column(name = "last_name")
     private String lastName;
-    private String password;
     @Column(name = "designation")
     private String designation;
 
@@ -61,6 +60,7 @@ public class Staff {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private RoleEnum role;
+
 
     @OneToMany(mappedBy = "usedBy")
     private List<Vehicle> vehicles;
