@@ -20,15 +20,15 @@ import java.util.List;
  * @author : sachini
  * @date : 2024-10-30
  **/
+@CrossOrigin(origins = "http://localhost:63342")
 @RestController
 @RequestMapping("api/v1/staff")
-@RequiredArgsConstructor
 
+@RequiredArgsConstructor
 public class StaffController {
 
     @Autowired
     private final StaffService staffService;
-
 
     //TODO:Staff crud implement
     //TODO: Save

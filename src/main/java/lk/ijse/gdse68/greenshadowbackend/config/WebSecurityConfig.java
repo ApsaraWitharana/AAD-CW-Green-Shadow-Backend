@@ -17,7 +17,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin(origins = "http://localhost:63342")
 @EnableWebSecurity
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
@@ -26,7 +28,6 @@ public class WebSecurityConfig {
     private UserServiceImpl userService;
     @Autowired
     private JwtFilter jwtFilter;
-
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();

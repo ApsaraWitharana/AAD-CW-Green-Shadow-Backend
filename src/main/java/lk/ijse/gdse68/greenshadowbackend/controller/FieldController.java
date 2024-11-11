@@ -1,5 +1,6 @@
 package lk.ijse.gdse68.greenshadowbackend.controller;
 
+import jakarta.persistence.Access;
 import lk.ijse.gdse68.greenshadowbackend.customerObj.FieldErrorResponse;
 import lk.ijse.gdse68.greenshadowbackend.customerObj.FieldResponse;
 import lk.ijse.gdse68.greenshadowbackend.dto.FieldDTO;
@@ -8,6 +9,7 @@ import lk.ijse.gdse68.greenshadowbackend.exception.FieldNoteFoundException;
 import lk.ijse.gdse68.greenshadowbackend.service.FieldService;
 import lk.ijse.gdse68.greenshadowbackend.util.AppUtil;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.boot.jaxb.Origin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,8 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.naming.ldap.Control;
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:63342") // Or use "*" to allow all origins
 @RestController
 @RequestMapping("api/v1/field")
 @RequiredArgsConstructor
@@ -24,9 +27,13 @@ public class FieldController {
     @Autowired
     private final FieldService fieldService;
 
+    //Handle Preflight (OPTIONS) Requests: CORS preflight requests are automatically handled by Spring Boot if CORS is properly configured.
+//    @RequestMapping(method = RequestMethod.OPTIONS)
+//    public ResponseEntity<Void> handleOptions() {
+//        return ResponseEntity.ok().build();
+//    }
     //TODO: Field CRUD Implement
     //TODO: Save Filed
-
     @PostMapping
     public ResponseEntity<String> saveField(
             @RequestPart("fieldCode") String fieldCode,
@@ -48,12 +55,13 @@ public class FieldController {
             fieldDTO.setFieldImages(fieldImage1, fieldImage2); // Pass MultipartFile images for field
             // Save the field data
             fieldService.saveField(fieldDTO);
-            return new ResponseEntity<>("Field Details Saved Successfully!", HttpStatus.CREATED);
+            return ResponseEntity.ok("Field saved successfully!");
         } catch (DataPersistFailedException e) {
             return new ResponseEntity<>("Field data could not be saved, data persistence failed.", HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>("Internal server error occurred while saving the field.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
     }
 
    //TODO:Update
@@ -109,6 +117,7 @@ public class FieldController {
 
     }
     //TODO:GetAll
+
     @GetMapping
     public ResponseEntity<List<FieldDTO>> getAllField(){
         List<FieldDTO> fieldDTOS = fieldService.getAllField();
