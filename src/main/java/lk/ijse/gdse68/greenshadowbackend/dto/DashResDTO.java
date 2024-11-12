@@ -10,10 +10,8 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class ResponseDTO {
-    private int code;
+public class DashResDTO {
+    private HttpStatus code;
     private String message;
     private Object data;
-
-
 }

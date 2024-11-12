@@ -103,7 +103,12 @@ public class FieldController {
             return new ResponseEntity<>("Field not found!",HttpStatus.NOT_FOUND);
         }
     }
-
+//TODO:Select Name
+@GetMapping("/search")
+public ResponseEntity<FieldResponse> searchField(@RequestParam("name") String name) {
+    FieldResponse response = fieldService.searchFieldByName(name);
+    return ResponseEntity.ok(response);  // Return the response
+}
     //TODO: Select id
     @GetMapping(value = "/{fieldCode}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<FieldResponse> getSelectedField(@PathVariable ("fieldCode") String fieldCode){
