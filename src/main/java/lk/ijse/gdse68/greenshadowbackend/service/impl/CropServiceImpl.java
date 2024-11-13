@@ -59,7 +59,7 @@ public class CropServiceImpl implements CropService {
             // Retrieve and set the field entity based on fieldCode in cropDTO
             Field field = fieldDAO.findById(cropDTO.getFieldCode())
                     .orElseThrow(() -> new DataPersistFailedException("field not found with ID: " + cropDTO.getFieldCode()));
-            field.setFieldCode(field.getFieldCode());
+            crop.setField(field);
             fieldDAO.save(field);
         }
     }
@@ -80,6 +80,11 @@ public class CropServiceImpl implements CropService {
             Crop crop = cropDAO.getReferenceById(cropCode);
             CropDTO cropDTO = mapping.convertToCropDTO(crop);
             cropDTO.setCropCommonName(cropDTO.getCropCommonName());
+            if (crop.getField() != null){
+                cropDTO.setFieldCode(crop.getField().getFieldCode());
+            }else {
+                cropDTO.setFieldCode(null);
+            }
             return cropDTO;
         }else {
             return new CropErrorResponse(0,"Crop not found!!");
@@ -100,7 +105,11 @@ public class CropServiceImpl implements CropService {
             cropDTO.setCropImage(crop.getCropImage());
             cropDTO.setCategory(crop.getCategory());
             cropDTO.setCropSeason(crop.getCropSeason());
-            cropDTO.setFieldCode(cropDTO.getFieldCode());
+            if (crop.getField() != null){
+                cropDTO.setFieldCode(crop.getField().getFieldCode());
+            }else {
+                cropDTO.setFieldCode(null);
+            }
             cropDTOS.add(cropDTO);
 
         }

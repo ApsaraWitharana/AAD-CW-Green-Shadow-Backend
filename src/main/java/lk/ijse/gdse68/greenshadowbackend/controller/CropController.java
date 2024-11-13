@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:63342")
 @RestController
 @RequestMapping("api/v1/crop") //rest full ekk -end point ek
 @RequiredArgsConstructor
@@ -55,7 +55,7 @@ public class CropController {
     }
 
     //TODO:Update
-    @PatchMapping(value = "/{cropCode}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{cropCode}")
     public ResponseEntity<String> updateField(
             @RequestPart("updateCropCommonName") String updateCropCommonName,
             @RequestPart("updateCropScientificName") String updateCropScientificName,

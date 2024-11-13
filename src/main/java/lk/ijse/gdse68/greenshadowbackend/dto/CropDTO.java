@@ -13,6 +13,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 @AllArgsConstructor
@@ -56,4 +58,11 @@ public class CropDTO implements CropResponse,SuperDTO {
         String[] base64Images = AppUtil.toBase64Images(image);
         this.cropImage = base64Images[0];
     }
+    //converting an image to Base64
+    @Override
+    public String encodeImageToBase64(MultipartFile image) throws IOException {
+        byte[] imageBytes = image.getBytes();
+        return Base64.getEncoder().encodeToString(imageBytes);
+    }
+
 }

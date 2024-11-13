@@ -3,6 +3,7 @@ package lk.ijse.gdse68.greenshadowbackend.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -32,7 +33,12 @@ public class Crop {
     @Column(name = "crop_season", nullable = false, length = 50)
     private String cropSeason;
 
+    public void setField(Field field) {
+        this.field = field;
+    }
+
     // Foreign Key to Field
+    @Getter
     @ManyToOne
     @JoinColumn(name = "field_code", nullable = false)
     private Field field;

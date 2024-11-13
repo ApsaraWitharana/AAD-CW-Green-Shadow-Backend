@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 /**
  * @author : sachini
  * @date : 2024-11-01
@@ -19,5 +21,10 @@ public class CropErrorResponse  implements CropResponse{
     @Override
     public void setCropImage(MultipartFile image) {
 
+    }
+
+    @Override
+    public String encodeImageToBase64(MultipartFile image) throws IOException {
+        return null;
     }
 }
