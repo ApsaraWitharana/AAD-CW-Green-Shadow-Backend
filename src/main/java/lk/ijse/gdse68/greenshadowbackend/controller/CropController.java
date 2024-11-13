@@ -85,7 +85,7 @@ public class CropController {
     }
 
     //TODO:Delete
-    @DeleteMapping(value = "/{cropCode}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{cropCode}")
     public ResponseEntity<String> deleteCrop(@PathVariable ("cropCode") String cropCode){
         try {
             cropService.deleteCrop(cropCode);
