@@ -1,6 +1,7 @@
 package lk.ijse.gdse68.greenshadowbackend.service.impl;
 
 import lk.ijse.gdse68.greenshadowbackend.dao.UserRepository;
+import lk.ijse.gdse68.greenshadowbackend.dto.AuthDTO;
 import lk.ijse.gdse68.greenshadowbackend.dto.StaffDTO;
 import lk.ijse.gdse68.greenshadowbackend.dto.UserDTO;
 import lk.ijse.gdse68.greenshadowbackend.entity.User;
@@ -36,7 +37,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         } else {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-            userDTO.setRole(String.valueOf(RoleEnum.MANAGER));
+            AuthDTO authDTO = new AuthDTO();
+            authDTO.setRole(String.valueOf(RoleEnum.valueOf(userDTO.getRole())));
+//            userDTO.setRole(String.valueOf(RoleEnum.MANAGER));
             userRepository.save(modelMapper.map(userDTO,User.class));
             return VarList.Created;
         }

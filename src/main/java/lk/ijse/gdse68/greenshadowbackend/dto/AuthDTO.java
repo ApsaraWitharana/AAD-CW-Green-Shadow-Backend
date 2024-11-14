@@ -14,4 +14,6 @@ public class AuthDTO {
     private String email;
     private String token;
     private String refreshToken;
+    private String role; // Add this field
+
 }
