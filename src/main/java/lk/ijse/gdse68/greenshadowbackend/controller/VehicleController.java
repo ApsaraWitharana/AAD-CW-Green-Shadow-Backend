@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:63342")
 @RestController
 @RequestMapping("api/v1/vehicle")
 @RequiredArgsConstructor
@@ -39,7 +39,7 @@ public class VehicleController {
         }
     }
     //TODO: Update
-    @PatchMapping(value = "/{vehicleCode}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{vehicleCode}")
     public  ResponseEntity<String> updateVehicle(@PathVariable ("vehicleCode") String vehicleCode,@RequestBody VehicleDTO vehicleDTO){
         try {
             vehicleService.updateVehicle(vehicleCode,vehicleDTO);
@@ -66,7 +66,7 @@ public class VehicleController {
     }
 
     //TODO: GetSelect id
-    @GetMapping(value = "/{vehicleCode}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{vehicleCode}")
     public  ResponseEntity<VehicleResponse> getSelectedVehicleId(@PathVariable ("vehicleCode") String vehicleCode){
         VehicleResponse vehicleResponse = vehicleService.getSelectedVehicleId(vehicleCode);
         if (vehicleResponse instanceof VehicleDTO){

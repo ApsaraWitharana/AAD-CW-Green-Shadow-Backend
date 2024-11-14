@@ -1,6 +1,7 @@
 package lk.ijse.gdse68.greenshadowbackend.service;
 
 import lk.ijse.gdse68.greenshadowbackend.customerObj.StaffResponse;
+import lk.ijse.gdse68.greenshadowbackend.dto.CropDTO;
 import lk.ijse.gdse68.greenshadowbackend.dto.StaffDTO;
 
 import java.util.List;
@@ -16,4 +17,5 @@ public interface StaffService {
     StaffResponse getSelectedStaff(String id);
 
     List<StaffDTO> getAllStaff();
+
 }

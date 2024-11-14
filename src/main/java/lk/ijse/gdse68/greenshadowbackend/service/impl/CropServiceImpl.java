@@ -91,8 +91,6 @@ public class CropServiceImpl implements CropService {
         }
     }
 
-
-
     @Override
     public List<CropDTO> getAllCrop() {
         List<Crop> crops = cropDAO.findAll();

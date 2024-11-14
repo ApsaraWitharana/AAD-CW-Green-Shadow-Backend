@@ -19,6 +19,7 @@ import java.util.List;
  * @author : sachini
  * @date : 2024-11-02
  **/
+@CrossOrigin(origins = "http://localhost:63342")
 @RestController
 @RequestMapping("api/v1/equipment")
 @RequiredArgsConstructor
@@ -39,7 +40,7 @@ public class EquipmentController {
             return new ResponseEntity<>("Internal server error occurred while saving the Equipment.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PatchMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{id}")
     public ResponseEntity<String> updateEquipment(@PathVariable ("id") String id,@RequestBody EquipmentDTO equipmentDTO){
         try {
             equipmentService.updateEquipment(id,equipmentDTO);
@@ -51,7 +52,7 @@ public class EquipmentController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @DeleteMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteEquipments(@PathVariable ("id") String id){
         try {
             equipmentService.deleteEquipment(id);
@@ -62,7 +63,7 @@ public class EquipmentController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}")
     public ResponseEntity<EquipmentResponse> getSelectEquipment(@PathVariable ("id") String id){
         EquipmentResponse equipmentResponse = equipmentService.getSelectedEquipment(id);
         if (equipmentResponse instanceof EquipmentDTO){

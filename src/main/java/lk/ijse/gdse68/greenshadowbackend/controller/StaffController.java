@@ -23,7 +23,6 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:63342")
 @RestController
 @RequestMapping("api/v1/staff")
-
 @RequiredArgsConstructor
 public class StaffController {
 
@@ -70,7 +69,7 @@ public class StaffController {
     }
 
     //TODO: GetSelectStaffMemberId
-    @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}")
     public ResponseEntity<StaffResponse> getSelectStaffMember(@PathVariable ("id") String id){
             StaffResponse staffResponse = staffService.getSelectedStaff(id);
             if (staffResponse instanceof StaffDTO){

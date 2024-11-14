@@ -1,8 +1,10 @@
 package lk.ijse.gdse68.greenshadowbackend.controller;
 
+import lk.ijse.gdse68.greenshadowbackend.dto.CropDTO;
 import lk.ijse.gdse68.greenshadowbackend.dto.DashResDTO;
 import lk.ijse.gdse68.greenshadowbackend.dto.ResponseDTO;
 import lk.ijse.gdse68.greenshadowbackend.dto.StaffDTO;
+import lk.ijse.gdse68.greenshadowbackend.service.CropService;
 import lk.ijse.gdse68.greenshadowbackend.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,8 @@ public class DashboardController {
     @Autowired
     private StaffService service;
     @Autowired
+    private CropService cropService;
+    @Autowired
     private DashResDTO responseDTO;
 
     @GetMapping
@@ -28,20 +32,36 @@ public class DashboardController {
         return "Green Shadow!";
     }
     @GetMapping("/getStaff")
-      public ResponseEntity<DashResDTO> gerAllStaff(){
+      public ResponseEntity<DashResDTO> gerAllStaff() {
         try {
             List<StaffDTO> staffDTOList = service.getAllStaff();
             responseDTO.setCode(HttpStatus.OK);
             responseDTO.setMessage("Success");
             responseDTO.setData(staffDTOList);
-            return new ResponseEntity<>(responseDTO,HttpStatus.OK);
+            return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             responseDTO.setCode(HttpStatus.INTERNAL_SERVER_ERROR);
             responseDTO.setMessage(e.getMessage());
             responseDTO.setData(e);
-            return new ResponseEntity<>(responseDTO,HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+        @GetMapping("/getCrop")
+        public ResponseEntity<DashResDTO> gerAllCrop(){
+            try {
+                List<CropDTO> cropDTOList = cropService.getAllCrop();
+                responseDTO.setCode(HttpStatus.OK);
+                responseDTO.setMessage("Success");
+                responseDTO.setData(cropDTOList);
+                return new ResponseEntity<>(responseDTO,HttpStatus.OK);
+
+            }catch (Exception e){
+                responseDTO.setCode(HttpStatus.INTERNAL_SERVER_ERROR);
+                responseDTO.setMessage(e.getMessage());
+                responseDTO.setData(e);
+                return new ResponseEntity<>(responseDTO,HttpStatus.INTERNAL_SERVER_ERROR);
+            }
 }
 
 }
