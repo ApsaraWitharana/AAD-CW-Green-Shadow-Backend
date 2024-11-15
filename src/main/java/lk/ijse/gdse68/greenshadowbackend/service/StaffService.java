@@ -17,5 +17,5 @@ public interface StaffService {
     StaffResponse getSelectedStaff(String id);
 
     List<StaffDTO> getAllStaff();
-
+    List<StaffResponse> getStaffByFirstName(String firstName);
 }

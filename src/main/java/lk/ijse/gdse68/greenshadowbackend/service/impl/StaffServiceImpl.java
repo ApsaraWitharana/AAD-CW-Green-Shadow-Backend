@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -115,4 +117,13 @@ public class StaffServiceImpl implements StaffService {
        return staffDTOS;
     }
 
-}
+    @Override
+    public List<StaffResponse> getStaffByFirstName(String firstName) {
+        List<Staff> staffList = staffDAO.findByFirstNameContainingIgnoreCase(firstName);
+        return staffList.stream()
+                .map(staff -> mapping.convertToDTO(staff))
+                .collect(Collectors.toList());
+       }
+    }
+
+

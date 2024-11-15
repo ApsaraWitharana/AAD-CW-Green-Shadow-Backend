@@ -14,6 +14,7 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,51 +43,65 @@ public class StaffController {
             return new ResponseEntity<>("Internal server error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    //TODO: Update staff
-    @PatchMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateStaff(@PathVariable("id") String id , @RequestBody StaffDTO staffDTO){
-        try {
-            staffService.updateStaff(id,staffDTO);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch (StaffNoteFoundException e){
-            return new ResponseEntity<>("Staff not found!",HttpStatus.NO_CONTENT);
 
-        }catch (Exception e){
+    //TODO: Update staff
+    @PatchMapping(value = "/{id}")
+    public ResponseEntity<String> updateStaff(@PathVariable("id") String id, @RequestBody StaffDTO staffDTO) {
+        try {
+            staffService.updateStaff(id, staffDTO);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (StaffNoteFoundException e) {
+            return new ResponseEntity<>("Staff not found!", HttpStatus.NO_CONTENT);
+
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     //TODO:Delete staff member
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteStaffMember(@PathVariable("id") String id){
+    public ResponseEntity<String> deleteStaffMember(@PathVariable("id") String id) {
         try {
             staffService.deleteStaff(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Deletion successful
-        }catch (StaffNoteFoundException e){
-            return new ResponseEntity<>("Staff not found!",HttpStatus.NO_CONTENT);
-        }catch (Exception e){
+        } catch (StaffNoteFoundException e) {
+            return new ResponseEntity<>("Staff not found!", HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     //TODO: GetSelectStaffMemberId
     @GetMapping(value = "/{id}")
-    public ResponseEntity<StaffResponse> getSelectStaffMember(@PathVariable ("id") String id){
-            StaffResponse staffResponse = staffService.getSelectedStaff(id);
-            if (staffResponse instanceof StaffDTO){
-                return new ResponseEntity<>(staffResponse,HttpStatus.OK);
-            }else if (staffResponse instanceof StaffErrorResponse){
-                return new ResponseEntity<>(staffResponse,HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<StaffResponse> getSelectStaffMember(@PathVariable("id") String id) {
+        StaffResponse staffResponse = staffService.getSelectedStaff(id);
+        if (staffResponse instanceof StaffDTO) {
+            return new ResponseEntity<>(staffResponse, HttpStatus.OK);
+        } else if (staffResponse instanceof StaffErrorResponse) {
+            return new ResponseEntity<>(staffResponse, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
     //TODO:GetAllStaff
-     @GetMapping
-    public ResponseEntity<List<StaffDTO>> getAllStaff(){
+    @GetMapping
+    public ResponseEntity<List<StaffDTO>> getAllStaff() {
         List<StaffDTO> staffDTOS = staffService.getAllStaff();
-        if (!staffDTOS.isEmpty()){
-            return new ResponseEntity<>(staffDTOS,HttpStatus.OK);
-        }else {
+        if (!staffDTOS.isEmpty()) {
+            return new ResponseEntity<>(staffDTOS, HttpStatus.OK);
+        } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+    }
+
+    //TODO:Search name
+    @GetMapping("/search")
+    public ResponseEntity<List<StaffResponse>> searchStaffByFirstName(@RequestParam String firstName) {
+        List<StaffResponse> staffResponses = staffService.getStaffByFirstName(firstName);
+        if (staffResponses.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ArrayList<>());
+        }
+        return ResponseEntity.ok(staffResponses);
     }
 }
