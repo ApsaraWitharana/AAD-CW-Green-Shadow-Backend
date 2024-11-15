@@ -113,4 +113,12 @@ public class FieldServiceImpl implements FieldService {
         }
         return fieldDTOS;
     }
+
+    @Override
+    public List<FieldResponse> getFieldByFieldName(String fieldName) {
+        List<Field> fieldList = fieldDAO.findByFieldNameContainingIgnoreCase(fieldName);
+        return fieldList.stream()
+                .map(field -> mapping.convertToDTO(field))
+                .collect(Collectors.toList());
+    }
 }

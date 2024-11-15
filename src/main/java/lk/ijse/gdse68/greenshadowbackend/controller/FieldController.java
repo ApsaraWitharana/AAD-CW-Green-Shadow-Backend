@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.naming.ldap.Control;
+import java.util.ArrayList;
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:63342") // Or use "*" to allow all origins
 @RestController
@@ -103,12 +104,7 @@ public class FieldController {
             return new ResponseEntity<>("Field not found!",HttpStatus.NOT_FOUND);
         }
     }
-//TODO:Select Name
-@GetMapping("/search")
-public ResponseEntity<FieldResponse> searchField(@RequestParam("name") String name) {
-    FieldResponse response = fieldService.searchFieldByName(name);
-    return ResponseEntity.ok(response);  // Return the response
-}
+
     //TODO: Select id
     @GetMapping(value = "/{fieldCode}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<FieldResponse> getSelectedField(@PathVariable ("fieldCode") String fieldCode){
@@ -122,7 +118,6 @@ public ResponseEntity<FieldResponse> searchField(@RequestParam("name") String na
 
     }
     //TODO:GetAll
-
     @GetMapping
     public ResponseEntity<List<FieldDTO>> getAllField(){
         List<FieldDTO> fieldDTOS = fieldService.getAllField();
@@ -131,6 +126,17 @@ public ResponseEntity<FieldResponse> searchField(@RequestParam("name") String na
         }else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+    }
+
+    //TODO:Search
+    @GetMapping("/search")
+    public ResponseEntity<List<FieldResponse>> searchFieldByFieldName(@RequestParam String fieldName){
+        List<FieldResponse> fieldResponses = fieldService.getFieldByFieldName(fieldName);
+        if (fieldResponses.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ArrayList<>());
+        }
+        return ResponseEntity.ok(fieldResponses);
     }
 
 }

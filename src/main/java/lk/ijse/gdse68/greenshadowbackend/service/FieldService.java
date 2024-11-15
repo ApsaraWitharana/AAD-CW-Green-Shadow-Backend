@@ -21,4 +21,6 @@ public interface FieldService {
     FieldResponse searchFieldByName(String fieldName);
 
     List<FieldDTO> getAllField();
+
+    List<FieldResponse> getFieldByFieldName(String fieldName);
 }
