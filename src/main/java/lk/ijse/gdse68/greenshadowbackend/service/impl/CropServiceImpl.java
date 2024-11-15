@@ -7,7 +7,6 @@ import lk.ijse.gdse68.greenshadowbackend.dao.FieldDAO;
 import lk.ijse.gdse68.greenshadowbackend.dto.CropDTO;
 import lk.ijse.gdse68.greenshadowbackend.entity.Crop;
 import lk.ijse.gdse68.greenshadowbackend.entity.Field;
-import lk.ijse.gdse68.greenshadowbackend.entity.Staff;
 import lk.ijse.gdse68.greenshadowbackend.exception.CropNotFoundException;
 import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
 import lk.ijse.gdse68.greenshadowbackend.service.CropService;
@@ -20,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author : sachini
@@ -112,5 +112,13 @@ public class CropServiceImpl implements CropService {
 
         }
         return cropDTOS;
+    }
+
+    @Override
+    public List<CropResponse> getCropByCropCommonName(String cropCommonName ) {
+        List<Crop> cropList = cropDAO.findByCropCommonNameContainingIgnoreCase(cropCommonName);
+        return cropList.stream()
+                .map(crop -> mapping.convertToCropDTO(crop))
+                .collect(Collectors.toList());
     }
 }

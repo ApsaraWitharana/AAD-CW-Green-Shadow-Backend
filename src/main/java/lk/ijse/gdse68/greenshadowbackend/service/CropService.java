@@ -16,4 +16,5 @@ public interface CropService {
     List<CropDTO> getAllCrop();
 
 
+    List<CropResponse> getCropByCropCommonName(String CropCommonName);
 }

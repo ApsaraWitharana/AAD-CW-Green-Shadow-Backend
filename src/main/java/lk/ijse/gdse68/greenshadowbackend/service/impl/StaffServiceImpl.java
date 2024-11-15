@@ -31,15 +31,14 @@ public class StaffServiceImpl implements StaffService {
     private StaffDAO staffDAO;
 
 
-
     @Override
     public void saveStaff(StaffDTO staffDTO) {
         staffDTO.setId(staffDTO.getId());
-        var Staff =mapping.convertToEntity(staffDTO);
+        var Staff = mapping.convertToEntity(staffDTO);
         var saveStaff = staffDAO.save(Staff);
         System.out.println(staffDTO);
 
-        if (saveStaff == null){
+        if (saveStaff == null) {
             throw new DataPersistFailedException("Staff Member Save Note Found!");
         }
     }
@@ -47,9 +46,9 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public void updateStaff(String id, StaffDTO staffDTO) {
         Optional<Staff> tmpStaffEntity = staffDAO.findById(id);
-        if (!tmpStaffEntity.isPresent()){
+        if (!tmpStaffEntity.isPresent()) {
             throw new StaffNoteFoundException("Staff update not found!");
-        }else {
+        } else {
             Staff staff = tmpStaffEntity.get();
             staff.setFirstName(staffDTO.getFirstName());
             staff.setLastName(staffDTO.getLastName());
@@ -71,10 +70,10 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public void deleteStaff(String id) {
 
-        Optional<Staff>findId = staffDAO.findById(id);
-        if (!findId.isPresent()){
+        Optional<Staff> findId = staffDAO.findById(id);
+        if (!findId.isPresent()) {
             throw new StaffNoteFoundException("Staff not found!");
-        }else {
+        } else {
             // If the customer is found, proceed with the deletion
             staffDAO.deleteById(id);
         }
@@ -82,39 +81,39 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public StaffResponse getSelectedStaff(String id) {
-       if (staffDAO.existsById(id)){
-           Staff staff = staffDAO.getReferenceById(id);
-           StaffDTO staffDTO = mapping.convertToDTO(staff);
-           staffDTO.setFirstName(staffDTO.getFirstName());
-           return  staffDTO;
-       }else {
-           return new StaffErrorResponse(0,"Staff Member not found!!");
-       }
+        if (staffDAO.existsById(id)) {
+            Staff staff = staffDAO.getReferenceById(id);
+            StaffDTO staffDTO = mapping.convertToDTO(staff);
+            staffDTO.setFirstName(staffDTO.getFirstName());
+            return staffDTO;
+        } else {
+            return new StaffErrorResponse(0, "Staff Member not found!!");
+        }
     }
 
     @Override
     public List<StaffDTO> getAllStaff() {
-       List<Staff> staffs = staffDAO.findAll();
-       List<StaffDTO> staffDTOS = new ArrayList<>();
-       for (Staff staff : staffs){
-           StaffDTO staffDTO = new StaffDTO();
-           staffDTO.setId(staff.getId());
-           staffDTO.setFirstName(staff.getFirstName());
-           staffDTO.setLastName(staff.getLastName());
-           staffDTO.setDesignation(staff.getDesignation());
-           staffDTO.setGender(staff.getGender());
-           staffDTO.setJoinedDate(staff.getJoinedDate());
-           staffDTO.setDob(staff.getDob());
-           staffDTO.setAddressLine1(staff.getAddressLine1());
-           staffDTO.setAddressLine2(staff.getAddressLine2());
-           staffDTO.setAddressLine3(staff.getAddressLine3());
-           staffDTO.setAddressLine4(staff.getAddressLine4());
-           staffDTO.setContactNo(staff.getContactNo());
-           staffDTO.setEmail(staff.getEmail());
-           staffDTO.setRole(staff.getRole());
-           staffDTOS.add(staffDTO);
-       }
-       return staffDTOS;
+        List<Staff> staffs = staffDAO.findAll();
+        List<StaffDTO> staffDTOS = new ArrayList<>();
+        for (Staff staff : staffs) {
+            StaffDTO staffDTO = new StaffDTO();
+            staffDTO.setId(staff.getId());
+            staffDTO.setFirstName(staff.getFirstName());
+            staffDTO.setLastName(staff.getLastName());
+            staffDTO.setDesignation(staff.getDesignation());
+            staffDTO.setGender(staff.getGender());
+            staffDTO.setJoinedDate(staff.getJoinedDate());
+            staffDTO.setDob(staff.getDob());
+            staffDTO.setAddressLine1(staff.getAddressLine1());
+            staffDTO.setAddressLine2(staff.getAddressLine2());
+            staffDTO.setAddressLine3(staff.getAddressLine3());
+            staffDTO.setAddressLine4(staff.getAddressLine4());
+            staffDTO.setContactNo(staff.getContactNo());
+            staffDTO.setEmail(staff.getEmail());
+            staffDTO.setRole(staff.getRole());
+            staffDTOS.add(staffDTO);
+        }
+        return staffDTOS;
     }
 
     @Override
@@ -123,7 +122,5 @@ public class StaffServiceImpl implements StaffService {
         return staffList.stream()
                 .map(staff -> mapping.convertToDTO(staff))
                 .collect(Collectors.toList());
-       }
     }
-
-
+}

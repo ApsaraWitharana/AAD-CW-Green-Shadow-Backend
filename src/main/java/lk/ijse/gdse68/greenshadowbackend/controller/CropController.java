@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:63342")
@@ -120,4 +121,14 @@ public class CropController {
         }
     }
 
+    //TODO: Search name
+    @GetMapping("/search")
+    public ResponseEntity<List<CropResponse>> searchCropByCropCommonName(@RequestParam String cropCommonName ){
+        List<CropResponse> cropResponses = cropService.getCropByCropCommonName(cropCommonName);
+        if (cropResponses.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ArrayList<>());
+        }
+        return ResponseEntity.ok(cropResponses);
+    }
 }
