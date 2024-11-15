@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,6 +41,7 @@ public class EquipmentController {
             return new ResponseEntity<>("Internal server error occurred while saving the Equipment.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    //TODO: Update
     @PatchMapping(value = "/{id}")
     public ResponseEntity<String> updateEquipment(@PathVariable ("id") String id,@RequestBody EquipmentDTO equipmentDTO){
         try {
@@ -52,6 +54,7 @@ public class EquipmentController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    //TODO: Delete
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteEquipments(@PathVariable ("id") String id){
         try {
@@ -63,6 +66,7 @@ public class EquipmentController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    //TODO:Get
     @GetMapping(value = "/{id}")
     public ResponseEntity<EquipmentResponse> getSelectEquipment(@PathVariable ("id") String id){
         EquipmentResponse equipmentResponse = equipmentService.getSelectedEquipment(id);
@@ -73,6 +77,7 @@ public class EquipmentController {
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    //TODO:Get All
     @GetMapping
     public ResponseEntity<List<EquipmentDTO>> getAllEquipment(){
         List<EquipmentDTO> equipmentDTOS = equipmentService.getAllEquipment();
@@ -81,5 +86,16 @@ public class EquipmentController {
         }else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+    }
+
+    //TODO: Search
+    @GetMapping("/search")
+    public ResponseEntity<List<EquipmentResponse>> searchEquipmentByEquipmentName(@RequestParam String name){
+        List<EquipmentResponse> equipmentResponses = equipmentService.getEquipmentByName(name);
+        if (equipmentResponses.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ArrayList<>());
+        }
+        return ResponseEntity.ok(equipmentResponses);
     }
 }

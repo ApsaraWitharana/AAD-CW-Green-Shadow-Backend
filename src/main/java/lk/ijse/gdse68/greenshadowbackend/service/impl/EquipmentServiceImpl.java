@@ -2,7 +2,6 @@ package lk.ijse.gdse68.greenshadowbackend.service.impl;
 
 import lk.ijse.gdse68.greenshadowbackend.customerObj.EquipmentErrorResponse;
 import lk.ijse.gdse68.greenshadowbackend.customerObj.EquipmentResponse;
-import lk.ijse.gdse68.greenshadowbackend.customerObj.StaffErrorResponse;
 import lk.ijse.gdse68.greenshadowbackend.dao.EquipmentDAO;
 import lk.ijse.gdse68.greenshadowbackend.dao.FieldDAO;
 import lk.ijse.gdse68.greenshadowbackend.dao.StaffDAO;
@@ -25,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -123,5 +123,13 @@ public class EquipmentServiceImpl implements EquipmentService {
            equipmentDTOS.add(equipmentDTO);
        }
        return equipmentDTOS;
+    }
+
+    @Override
+    public List<EquipmentResponse> getEquipmentByName(String name) {
+        List<Equipment> equipmentList = equipmentDAO.findByEquipmentNameContainingIgnoreCase(name);
+        return equipmentList.stream()
+                .map(equipment -> mapping.convertToEquipmentDTO(equipment))
+                .collect(Collectors.toList());
     }
 }

@@ -12,9 +12,6 @@ public interface CropService {
     void updateCrop(String cropCode,CropDTO cropDTO) throws ClassNotFoundException;
     void deleteCrop(String cropCode);
     CropResponse getSelectedCrop(String cropCode);
-
     List<CropDTO> getAllCrop();
-
-
     List<CropResponse> getCropByCropCommonName(String CropCommonName);
 }
