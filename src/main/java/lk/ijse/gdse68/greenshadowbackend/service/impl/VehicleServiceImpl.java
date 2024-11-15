@@ -15,14 +15,13 @@ import lk.ijse.gdse68.greenshadowbackend.service.VehicleService;
 import lk.ijse.gdse68.greenshadowbackend.util.Mapping;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Transactional
 @RequiredArgsConstructor
@@ -125,5 +124,13 @@ public class VehicleServiceImpl implements VehicleService {
             vehicleDTOS.add(vehicleDTO);
         }
         return vehicleDTOS;
+    }
+
+    @Override
+    public List<VehicleResponse> getVehicleByVehicleCategory(String vehicleCategory) {
+        List<Vehicle> vehicleList = vehicleDAO.findByVehicleCategoryContainingIgnoreCase(vehicleCategory);
+        return vehicleList.stream()
+                .map(vehicle -> mapping.convertToDTO(vehicle))
+                .collect(Collectors.toList());
     }
 }

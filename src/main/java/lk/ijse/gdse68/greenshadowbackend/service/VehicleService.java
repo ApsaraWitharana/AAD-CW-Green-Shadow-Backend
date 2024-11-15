@@ -19,4 +19,6 @@ public interface VehicleService {
     VehicleResponse getSelectedVehicleId(String vehicleCode);
 
     List<VehicleDTO> getAllVehicle();
+
+    List<VehicleResponse> getVehicleByVehicleCategory(String vehicleCategory);
 }

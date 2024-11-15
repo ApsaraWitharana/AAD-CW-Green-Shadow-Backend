@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:63342")
 @RestController
@@ -86,5 +87,16 @@ public class VehicleController {
         }else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+    }
+
+    //TODO: Search
+    @GetMapping("/search")
+    public ResponseEntity<List<VehicleResponse>> searchVehicleByVehicleCategory(@RequestParam String vehicleCategory){
+        List<VehicleResponse> vehicleResponses = vehicleService.getVehicleByVehicleCategory(vehicleCategory);
+        if (vehicleResponses.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ArrayList<>());
+        }
+        return ResponseEntity.ok(vehicleResponses);
     }
 }
