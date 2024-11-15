@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface EquipmentDAO extends JpaRepository<Equipment,String> {
-    List<Equipment> findByEquipmentNameContainingIgnoreCase(String name);
+    List<Equipment> findByNameContainingIgnoreCase(String name);
 }

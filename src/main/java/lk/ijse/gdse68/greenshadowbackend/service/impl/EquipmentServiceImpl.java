@@ -127,7 +127,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     @Override
     public List<EquipmentResponse> getEquipmentByName(String name) {
-        List<Equipment> equipmentList = equipmentDAO.findByEquipmentNameContainingIgnoreCase(name);
+        List<Equipment> equipmentList = equipmentDAO.findByNameContainingIgnoreCase(name);
         return equipmentList.stream()
                 .map(equipment -> mapping.convertToEquipmentDTO(equipment))
                 .collect(Collectors.toList());
