@@ -18,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,7 +70,7 @@ public void saveFieldLogDetails(LogDTO logDTO) {
                 fieldLogDetails.setLog(savedLog); // Use savedLog here
                 fieldLogDetails.setDescription(fieldLogDetailsDTO.getDescription());
                 fieldLogDetails.setWork_field_count(fieldLogDetailsDTO.getWorkFieldsCount());
-                fieldLogDetails.setDate(fieldLogDetailsDTO.getDate());
+                fieldLogDetails.setLogDate(logDTO.getLogDate());
 
                 return fieldLogDetails;
             }).collect(Collectors.toList());
@@ -81,29 +83,29 @@ public void saveFieldLogDetails(LogDTO logDTO) {
     logDAO.save(savedLog);
 }
 
-    @Override
+    @Transactional
     public List<FieldLogDetailsDTO> getAllFieldLogDetails() {
-        // Fetch all FieldLogDetails entities from the database
         List<FieldLogDetails> fieldLogDetailsList = fieldLogDetailsDAO.findAll();
-
-        // Convert them to FieldLogDetailsDTO objects manually
         List<FieldLogDetailsDTO> fieldLogDetailsDTOS = new ArrayList<>();
-        for (FieldLogDetails fieldLogDetails : fieldLogDetailsList) {
-            // Create a new FieldLogDetailsDTO and set the properties
-            FieldLogDetailsDTO fieldLogDetailsDTO = new FieldLogDetailsDTO();
-            fieldLogDetailsDTO.setField(fieldLogDetails.getField());
-            fieldLogDetailsDTO.setLog(fieldLogDetails.getLog());
-            fieldLogDetailsDTO.setDescription(fieldLogDetails.getDescription());
-            fieldLogDetailsDTO.setWorkFieldsCount(fieldLogDetails.getWork_field_count());
-            fieldLogDetailsDTO.setDate(fieldLogDetails.getDate());
 
-            // Add to the list
-            fieldLogDetailsDTOS.add(fieldLogDetailsDTO);
+        for (FieldLogDetails fieldLogDetails : fieldLogDetailsList) {
+            FieldLogDetailsDTO dto = new FieldLogDetailsDTO();
+            // Map other attributes
+            dto.setDescription(fieldLogDetails.getDescription());
+            dto.setWorkFieldsCount(fieldLogDetails.getWork_field_count());
+            dto.setLogDate(fieldLogDetails.getLogDate());
+
+            fieldLogDetailsDTOS.add(dto);
         }
 
         return fieldLogDetailsDTOS;
     }
 
+    public String generateLogCode() {
+        // Get the latest id in the logs table
+        Long latestId = fieldLogDetailsDAO.getNextId(); // Custom query to get the next available id
+        return String.format("F-LOG-%03d", latestId);
+    }
 
 }
 

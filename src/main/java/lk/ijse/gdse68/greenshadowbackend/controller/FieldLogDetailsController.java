@@ -4,6 +4,7 @@ import lk.ijse.gdse68.greenshadowbackend.dto.FieldLogDetailsDTO;
 import lk.ijse.gdse68.greenshadowbackend.dto.LogDTO;
 import lk.ijse.gdse68.greenshadowbackend.service.FieldLogDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,9 +32,20 @@ public class FieldLogDetailsController {
         }
     }
 
-    @GetMapping
-    public List<FieldLogDetailsDTO> getAllFieldLogDetails() {
+    @GetMapping("/get")
+    public  ResponseEntity<List<FieldLogDetailsDTO>> getAllFieldLogDetails() {
+        List<FieldLogDetailsDTO> fieldLogDetailsDTOS = fieldLogDetailsService.getAllFieldLogDetails();
+        if (!fieldLogDetailsDTOS.isEmpty()){
+            return new ResponseEntity<>(fieldLogDetailsDTOS, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         // Call the service layer to get the field log details
-        return fieldLogDetailsService.getAllFieldLogDetails();
+    }
+
+    @GetMapping("/generate-log-code")
+    public ResponseEntity<String> generateLogCode() {
+        String logCode = fieldLogDetailsService.generateLogCode();
+        return ResponseEntity.ok(logCode);
     }
 }

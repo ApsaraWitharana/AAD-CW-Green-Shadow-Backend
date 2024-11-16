@@ -11,4 +11,5 @@ public interface FieldLogDetailsService {
     void saveFieldLogDetails(LogDTO logDTO);
     List<FieldLogDetailsDTO> getAllFieldLogDetails();
 
+    String generateLogCode();
 }

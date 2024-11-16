@@ -6,10 +6,7 @@ import jakarta.validation.constraints.Size;
 import lk.ijse.gdse68.greenshadowbackend.customerObj.FieldLogDetailsResponse;
 import lk.ijse.gdse68.greenshadowbackend.entity.Field;
 import lk.ijse.gdse68.greenshadowbackend.entity.Log;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.sql.Date;
 @AllArgsConstructor
@@ -25,5 +22,10 @@ public class FieldLogDetailsDTO implements FieldLogDetailsResponse,SuperDTO {
     private String description;
     @Max(value = 100, message = "Work fields count cannot exceed 100")
     private int workFieldsCount;
-    private Date date;
+    @Getter
+    private Date logDate;
+
+    public void setLogDate(Date logDate) {
+        this.logDate = logDate;
+    }
 }

@@ -23,6 +23,7 @@ public class FieldLogDetails {
     private Log log;
     private String description;
     private int work_field_count;
-    private Date date;
+    @Column(name = "log_date")
+    private Date logDate;
 
 }
