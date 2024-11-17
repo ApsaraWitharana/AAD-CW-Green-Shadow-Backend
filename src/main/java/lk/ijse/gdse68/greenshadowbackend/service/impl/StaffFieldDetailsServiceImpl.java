@@ -8,7 +8,10 @@ import lk.ijse.gdse68.greenshadowbackend.entity.Field;
 import lk.ijse.gdse68.greenshadowbackend.entity.Staff;
 import lk.ijse.gdse68.greenshadowbackend.entity.StaffFieldDetails;
 import lk.ijse.gdse68.greenshadowbackend.service.StaffFieldDetailsService;
+import lk.ijse.gdse68.greenshadowbackend.util.Mapping;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +22,14 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class StaffFieldDetailsServiceImpl implements StaffFieldDetailsService {
+    @Autowired
     private final StaffDAO staffDAO;
+    @Autowired
     private final FieldDAO fieldDAO;
+    @Autowired
     private final StaffFieldDetailsDAO staffFieldDetailsDAO;
+    @Autowired
+    private ModelMapper mapper;
 
     @Override
     public void saveStaffFieldDetails(StaffFieldDetailsDTO staffFieldDetailsDTO) {
@@ -68,32 +76,29 @@ public class StaffFieldDetailsServiceImpl implements StaffFieldDetailsService {
             throw new RuntimeException("An error occurred while saving staff field details.", e);
         }
     }
-
- @Transactional
+    @Transactional
     public List<StaffFieldDetailsDTO> getAllStaffFieldDetails() {
-        // Use the custom query to fetch all staff field details
         List<StaffFieldDetails> staffFieldDetailsList = staffFieldDetailsDAO.findAll();
-
-        // Convert them to StaffFieldDetailsDTO objects
         List<StaffFieldDetailsDTO> staffFieldDetailsDTOS = new ArrayList<>();
         for (StaffFieldDetails staffFieldDetails : staffFieldDetailsList) {
-            StaffFieldDetailsDTO staffFieldDetailsDTO = new StaffFieldDetailsDTO();
-            staffFieldDetailsDTO.setStaff(staffFieldDetails.getStaff());
-            staffFieldDetailsDTO.setField(staffFieldDetails.getField());
-            staffFieldDetailsDTO.setStatus(staffFieldDetails.getStatus());
-            staffFieldDetailsDTO.setDescription(staffFieldDetails.getDescription());
-            staffFieldDetailsDTO.setWorkStaffCount(staffFieldDetails.getWork_staff_count());
-            staffFieldDetailsDTO.setDate(staffFieldDetails.getDate());
-
-            staffFieldDetailsDTOS.add(staffFieldDetailsDTO);
+            StaffFieldDetailsDTO dto = new StaffFieldDetailsDTO();
+            dto.setStatus(staffFieldDetails.getStatus());
+            dto.setDescription(staffFieldDetails.getDescription());
+            dto.setWorkStaffCount(staffFieldDetails.getWork_staff_count());
+            dto.setDate(staffFieldDetails.getDate());
+            dto.setStaff(staffFieldDetails.getStaff());
+            dto.setField(staffFieldDetails.getField());
+            staffFieldDetailsDTOS.add(dto);
         }
 
         return staffFieldDetailsDTOS;
     }
+
     @Override
     public String generateSFieldCode() {
         // Get the latest id in the logs table
         Long latestId = staffFieldDetailsDAO.getNextId(); // Custom query to get the next available id
         return String.format("S-FLD-%03d", latestId);
     }
+
 }

@@ -1,8 +1,10 @@
 package lk.ijse.gdse68.greenshadowbackend.controller;
 
+import lk.ijse.gdse68.greenshadowbackend.dto.ResponseDTO;
 import lk.ijse.gdse68.greenshadowbackend.dto.StaffFieldDetailsDTO;
 import lk.ijse.gdse68.greenshadowbackend.service.StaffFieldDetailsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/v1/staff-field-details")
 @RequiredArgsConstructor
 public class StaffFieldDetailsController {
-
+     @Autowired
     private final StaffFieldDetailsService staffFieldDetailsService;
 
     @PostMapping("/save")
@@ -35,7 +37,6 @@ public class StaffFieldDetailsController {
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 
     @GetMapping("/generate-staffField-code")
     public ResponseEntity<String> generateLogCode() {

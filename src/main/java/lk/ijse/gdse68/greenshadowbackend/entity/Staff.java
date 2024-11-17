@@ -1,10 +1,12 @@
 package lk.ijse.gdse68.greenshadowbackend.entity;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lk.ijse.gdse68.greenshadowbackend.util.GenderEnum;
 import lk.ijse.gdse68.greenshadowbackend.util.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.sql.Date;
 import java.util.List;
 
@@ -61,7 +63,6 @@ public class Staff {
     @Column(name = "role")
     private RoleEnum role;
 
-
     @OneToMany(mappedBy = "usedBy",fetch = FetchType.EAGER)
     private List<Vehicle> vehicles;
 
@@ -69,8 +70,7 @@ public class Staff {
     private Equipment equipment;
 
     // one-to-Many relationship with Staff
-    @OneToMany(mappedBy = "staff",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "staff",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<StaffFieldDetails> staffLogDetails;
-
 
 }
