@@ -15,17 +15,19 @@ import java.sql.Date;
 @NoArgsConstructor
 @Data
 @Entity
+@Table(name = "staff_log_details")
 public class StaffLogDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long sl_id;
     @ManyToOne
     @JoinColumn(name = "staff_id",referencedColumnName = "staff_id",nullable = false)
     private Staff staff;
+    private String firstName;
     @ManyToOne
     @JoinColumn(name = "log_code",referencedColumnName = "log_code",nullable = false)
     private Log log;
     private String description;
     private int work_staff_count;
-    private Date date;
+    private Date logDate;
 }

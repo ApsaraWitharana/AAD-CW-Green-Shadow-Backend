@@ -13,4 +13,7 @@ public interface StaffLogDetailsService {
     StaffLogDetailsResponse getStaffLogDetailsById(String id);
 
     List<StaffLogDetailsDTO> getAllStaffLogDetails();
+
+    String generateSLogCode();
+
 }

@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:63342")
 @RestController
 @RequestMapping("/api/v1/staff-field-details")
 @RequiredArgsConstructor
@@ -27,9 +27,19 @@ public class StaffFieldDetailsController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while saving staff field details.");
         }
     }
-    @GetMapping
+    @GetMapping("/get")
     public ResponseEntity<List<StaffFieldDetailsDTO>> getAllStaffFieldDetails() {
         List<StaffFieldDetailsDTO> staffFieldDetailsDTOS = staffFieldDetailsService.getAllStaffFieldDetails();
-        return ResponseEntity.ok(staffFieldDetailsDTOS);
+        if (!staffFieldDetailsDTOS.isEmpty()){
+            return new ResponseEntity<>(staffFieldDetailsDTOS,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
+    @GetMapping("/generate-staffField-code")
+    public ResponseEntity<String> generateLogCode() {
+        String logCode = staffFieldDetailsService.generateSFieldCode();
+        return ResponseEntity.ok(logCode);
     }
 }

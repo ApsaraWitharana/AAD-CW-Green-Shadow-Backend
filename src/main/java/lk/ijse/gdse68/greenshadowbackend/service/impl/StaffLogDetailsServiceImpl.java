@@ -8,7 +8,6 @@ import lk.ijse.gdse68.greenshadowbackend.dao.LogDAO;
 import lk.ijse.gdse68.greenshadowbackend.dao.StaffDAO;
 import lk.ijse.gdse68.greenshadowbackend.dao.StaffLogDetailsDAO;
 import lk.ijse.gdse68.greenshadowbackend.dto.LogDTO;
-import lk.ijse.gdse68.greenshadowbackend.dto.StaffDTO;
 import lk.ijse.gdse68.greenshadowbackend.dto.StaffLogDetailsDTO;
 import lk.ijse.gdse68.greenshadowbackend.entity.Crop;
 import lk.ijse.gdse68.greenshadowbackend.entity.Log;
@@ -67,13 +66,18 @@ public class StaffLogDetailsServiceImpl implements StaffLogDetailsService {
                     Staff staff = staffDAO.findById(staffLogDetailsDTO.getStaff().getId())
                             .orElseThrow(() -> new RuntimeException("Staff not found for ID: " + staffLogDetailsDTO.getStaff().getId()));
 
+                    if (!staff.getFirstName().equals(staffLogDetailsDTO.getStaff().getFirstName())) {
+                        throw new RuntimeException("FirstName mismatch for staff ID: " + staff.getId());
+                    }
+
                     // Create new StaffLogDetails and populate it
                     StaffLogDetails staffLogDetails = new StaffLogDetails();
                     staffLogDetails.setStaff(staff);
+                    staffLogDetails.setFirstName(staff.getFirstName());
                     staffLogDetails.setLog(savedLog);  // Use savedLog here
                     staffLogDetails.setDescription(staffLogDetailsDTO.getDescription());
                     staffLogDetails.setWork_staff_count(staffLogDetailsDTO.getWorkStaffCount());
-                    staffLogDetails.setDate(staffLogDetailsDTO.getDate());
+                    staffLogDetails.setLogDate(staffLogDetailsDTO.getLogDate());
 
                     return staffLogDetails;
                 }).collect(Collectors.toList());
@@ -87,9 +91,9 @@ public class StaffLogDetailsServiceImpl implements StaffLogDetailsService {
     }
 
     @Override
-    public StaffLogDetailsResponse getStaffLogDetailsById(String id) {
-       if (staffLogDetailsDAO.existsById(id)){
-           StaffLogDetails staffLogDetails = staffLogDetailsDAO.getReferenceById(id);
+    public StaffLogDetailsResponse getStaffLogDetailsById(String sl_id) {
+       if (staffLogDetailsDAO.existsById(Long.valueOf(sl_id))){
+           StaffLogDetails staffLogDetails = staffLogDetailsDAO.getReferenceById(Long.valueOf(sl_id));
            StaffLogDetailsDTO staffLogDetailsDTO = mapping.convertToStaffLogDetailsDTO(staffLogDetails);
            staffLogDetailsDTO.setDescription(staffLogDetails.getDescription());
            return staffLogDetailsDTO;
@@ -99,27 +103,26 @@ public class StaffLogDetailsServiceImpl implements StaffLogDetailsService {
     }
 
 
-    @Override
+    @Transactional
     public List<StaffLogDetailsDTO> getAllStaffLogDetails() {
         // Fetch all StaffLogDetails entities from the database
         List<StaffLogDetails> staffLogDetailsList = staffLogDetailsDAO.findAll();
-
-        if (staffLogDetailsList.isEmpty()) {
-            // If no records exist, return an empty list
-            return new ArrayList<>();
+        List<StaffLogDetailsDTO> staffLogDetailsDTOS = new ArrayList<>();
+        for (StaffLogDetails staffLogDetails : staffLogDetailsList){
+            StaffLogDetailsDTO dto = new StaffLogDetailsDTO();
+            dto.setLogDate(staffLogDetails.getLogDate());
+            dto.setDescription(staffLogDetails.getDescription());
+            dto.setWorkStaffCount(staffLogDetails.getWork_staff_count());
+            dto.setStaff(staffLogDetails.getStaff());
+            staffLogDetailsDTOS.add(dto);
         }
+        return staffLogDetailsDTOS;
 
-        // Map the StaffLogDetails entities to DTOs
-        return staffLogDetailsList.stream().map(staffLogDetails -> {
-            StaffLogDetailsDTO staffLogDetailsDTO = new StaffLogDetailsDTO();
-            staffLogDetailsDTO.setStaff(staffLogDetails.getStaff());
-            staffLogDetailsDTO.setLog(staffLogDetails.getLog());
-            staffLogDetailsDTO.setDescription(staffLogDetails.getDescription());
-            staffLogDetailsDTO.setWorkStaffCount(staffLogDetails.getWork_staff_count());
-            staffLogDetailsDTO.setDate(staffLogDetails.getDate());
-            return staffLogDetailsDTO;
-        }).collect(Collectors.toList());
     }
 
+    @Override
+    public String generateSLogCode() {
+        Long latestId = staffLogDetailsDAO.getNextId(); // Custom query to get the next available id
+        return String.format("S-LOD-%03d", latestId);    }
 
 }

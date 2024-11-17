@@ -41,6 +41,12 @@ public class StaffFieldDetailsServiceImpl implements StaffFieldDetailsService {
             Field field = fieldDAO.findById(staffFieldDetailsDTO.getField().getFieldCode())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid Field Code: " + staffFieldDetailsDTO.getField().getFieldCode()));
 
+            // Check if the staff is already assigned to the field
+            long count = staffFieldDetailsDAO.countByStaffAndField((staff.getId()), field.getFieldCode());
+            if (count > 0) {
+                throw new IllegalArgumentException("Staff is already assigned to the field.");
+            }
+
             // Create and populate StaffFieldDetails entity
             StaffFieldDetails staffFieldDetails = new StaffFieldDetails();
             staffFieldDetails.setStaff(staff);
@@ -49,7 +55,7 @@ public class StaffFieldDetailsServiceImpl implements StaffFieldDetailsService {
             staffFieldDetails.setWork_staff_count(staffFieldDetailsDTO.getWorkStaffCount());
             staffFieldDetails.setDate(staffFieldDetailsDTO.getDate());
 
-            // Save the entity
+            // Save the entity using custom query method
             staffFieldDetailsDAO.save(staffFieldDetails);
         } catch (Exception e) {
             System.err.println("Error saving staff field details: " + e.getMessage());
@@ -60,7 +66,7 @@ public class StaffFieldDetailsServiceImpl implements StaffFieldDetailsService {
 
     @Override
     public List<StaffFieldDetailsDTO> getAllStaffFieldDetails() {
-        // Retrieve all StaffFieldDetails entities
+        // Use the custom query to fetch all staff field details
         List<StaffFieldDetails> staffFieldDetailsList = staffFieldDetailsDAO.findAll();
 
         // Convert them to StaffFieldDetailsDTO objects
@@ -77,5 +83,11 @@ public class StaffFieldDetailsServiceImpl implements StaffFieldDetailsService {
         }
 
         return staffFieldDetailsDTOS;
+    }
+    @Override
+    public String generateSFieldCode() {
+        // Get the latest id in the logs table
+        Long latestId = staffFieldDetailsDAO.getNextId(); // Custom query to get the next available id
+        return String.format("S-FLD-%03d", latestId);
     }
 }

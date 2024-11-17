@@ -62,7 +62,7 @@ public class Staff {
     private RoleEnum role;
 
 
-    @OneToMany(mappedBy = "usedBy")
+    @OneToMany(mappedBy = "usedBy",fetch = FetchType.EAGER)
     private List<Vehicle> vehicles;
 
     @OneToOne(mappedBy = "staff", fetch = FetchType.LAZY)

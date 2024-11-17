@@ -4,14 +4,15 @@ import lk.ijse.gdse68.greenshadowbackend.customerObj.StaffLogDetailsResponse;
 import lk.ijse.gdse68.greenshadowbackend.dto.LogDTO;
 import lk.ijse.gdse68.greenshadowbackend.dto.StaffLogDetailsDTO;
 import lk.ijse.gdse68.greenshadowbackend.service.StaffLogDetailsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:63342")
 @RestController
-@RequestMapping("/api/staff-log-details")
+@RequestMapping("/api/v1/staff-log-details")
 public class StaffLogDetailsController {
 
     @Autowired
@@ -32,7 +33,7 @@ public class StaffLogDetailsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StaffLogDetailsResponse> getAllStaffLogDetails(@PathVariable ("id") String id) {
+    public ResponseEntity<StaffLogDetailsResponse> getStaffLogDetailsById(@PathVariable ("id") String id) {
         StaffLogDetailsResponse staffLogDetailsResponse = staffLogDetailsService.getStaffLogDetailsById(id);
         if (staffLogDetailsResponse instanceof StaffLogDetailsDTO){
             return new ResponseEntity<>(staffLogDetailsResponse,HttpStatus.OK);
@@ -41,9 +42,18 @@ public class StaffLogDetailsController {
         }
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<StaffLogDetailsDTO>> getStaffLogDetailsById() {
+    @GetMapping("/get")
+    public ResponseEntity<List<StaffLogDetailsDTO>> getAllStaffLogDetails() {
         List<StaffLogDetailsDTO> staffLogDetailsDTOS = staffLogDetailsService.getAllStaffLogDetails();
-        return ResponseEntity.ok(staffLogDetailsDTOS);
+        if (!staffLogDetailsDTOS.isEmpty()){
+            return new ResponseEntity<>(staffLogDetailsDTOS,HttpStatus.OK);
+        }
+       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/generate-staffLog-code")
+    public ResponseEntity<String> generateLogCode() {
+        String logCode = staffLogDetailsService.generateSLogCode();
+        return ResponseEntity.ok(logCode);
     }
 }

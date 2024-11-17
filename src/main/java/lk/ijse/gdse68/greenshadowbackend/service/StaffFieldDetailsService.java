@@ -14,4 +14,6 @@ public interface StaffFieldDetailsService {
     void saveStaffFieldDetails(StaffFieldDetailsDTO staffFieldDetailsDTO);
 
     List<StaffFieldDetailsDTO> getAllStaffFieldDetails();
+
+    String generateSFieldCode();
 }

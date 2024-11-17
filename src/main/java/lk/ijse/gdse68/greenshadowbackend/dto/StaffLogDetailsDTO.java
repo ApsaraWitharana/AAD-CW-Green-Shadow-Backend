@@ -39,5 +39,5 @@ public class StaffLogDetailsDTO implements StaffLogDetailsResponse, Serializable
         this.workStaffCount = workStaffCount;
     }
 
-    private Date date;
+    private Date logDate;
 }
