@@ -34,7 +34,7 @@ public class Field {
     @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Crop> crops;
     // One-to-Many relationship with Equipment
-    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Equipment> equipmentList;
 
     // one-to-Many relationship with Staff

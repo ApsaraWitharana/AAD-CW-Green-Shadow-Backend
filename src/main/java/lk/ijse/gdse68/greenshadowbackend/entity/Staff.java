@@ -68,5 +68,9 @@ public class Staff {
     @OneToOne(mappedBy = "staff", fetch = FetchType.LAZY)
     private Equipment equipment;
 
+    // one-to-Many relationship with Staff
+    @OneToMany(mappedBy = "staff",cascade = CascadeType.ALL)
+    private List<StaffFieldDetails> staffLogDetails;
+
 
 }

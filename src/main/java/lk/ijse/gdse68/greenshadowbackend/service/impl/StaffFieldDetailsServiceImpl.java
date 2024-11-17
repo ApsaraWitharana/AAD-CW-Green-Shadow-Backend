@@ -38,6 +38,9 @@ public class StaffFieldDetailsServiceImpl implements StaffFieldDetailsService {
             Staff staff = staffDAO.findById(staffFieldDetailsDTO.getStaff().getId())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid Staff ID: " + staffFieldDetailsDTO.getStaff().getId()));
 
+            if (!staff.getFirstName().equals(staffFieldDetailsDTO.getStaff().getFirstName())) {
+                throw new RuntimeException("FirstName mismatch for staff ID: " + staff.getId());
+            }
             Field field = fieldDAO.findById(staffFieldDetailsDTO.getField().getFieldCode())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid Field Code: " + staffFieldDetailsDTO.getField().getFieldCode()));
 
@@ -50,7 +53,9 @@ public class StaffFieldDetailsServiceImpl implements StaffFieldDetailsService {
             // Create and populate StaffFieldDetails entity
             StaffFieldDetails staffFieldDetails = new StaffFieldDetails();
             staffFieldDetails.setStaff(staff);
+            staffFieldDetails.setFirstName(staff.getFirstName());
             staffFieldDetails.setField(field);
+            staffFieldDetails.setStatus(staffFieldDetailsDTO.getStatus());
             staffFieldDetails.setDescription(staffFieldDetailsDTO.getDescription());
             staffFieldDetails.setWork_staff_count(staffFieldDetailsDTO.getWorkStaffCount());
             staffFieldDetails.setDate(staffFieldDetailsDTO.getDate());
@@ -64,7 +69,7 @@ public class StaffFieldDetailsServiceImpl implements StaffFieldDetailsService {
         }
     }
 
-    @Override
+ @Transactional
     public List<StaffFieldDetailsDTO> getAllStaffFieldDetails() {
         // Use the custom query to fetch all staff field details
         List<StaffFieldDetails> staffFieldDetailsList = staffFieldDetailsDAO.findAll();
@@ -75,6 +80,7 @@ public class StaffFieldDetailsServiceImpl implements StaffFieldDetailsService {
             StaffFieldDetailsDTO staffFieldDetailsDTO = new StaffFieldDetailsDTO();
             staffFieldDetailsDTO.setStaff(staffFieldDetails.getStaff());
             staffFieldDetailsDTO.setField(staffFieldDetails.getField());
+            staffFieldDetailsDTO.setStatus(staffFieldDetails.getStatus());
             staffFieldDetailsDTO.setDescription(staffFieldDetails.getDescription());
             staffFieldDetailsDTO.setWorkStaffCount(staffFieldDetails.getWork_staff_count());
             staffFieldDetailsDTO.setDate(staffFieldDetails.getDate());
