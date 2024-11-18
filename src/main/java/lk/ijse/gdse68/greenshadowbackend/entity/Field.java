@@ -37,6 +37,9 @@ public class Field {
     @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Equipment> equipmentList;
 
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL)
+    private List<StaffFieldDetails> staffFieldDetails;
+
 
     public Field(String fieldCode, String fieldName) {
         this.fieldCode = fieldCode;

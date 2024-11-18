@@ -59,7 +59,7 @@ public class FieldServiceImpl implements FieldService {
             fieldDAO.save(field);
         }
     }
-
+    @Transactional
     @Override
     public void deleteField(String fieldCode) {
         Optional<Field> selectFieldCode = fieldDAO.findById(fieldCode);

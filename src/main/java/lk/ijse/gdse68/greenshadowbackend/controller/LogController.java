@@ -20,7 +20,7 @@ import java.sql.Date;
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:63342")
 @RestController
-@RequestMapping("api/v1/log")
+@RequestMapping("/api/v1/log")
 @RequiredArgsConstructor
 
 public class LogController {

@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:63342") // Or use "*" to allow all origins
 @RestController
-@RequestMapping("api/v1/field")
+@RequestMapping("/api/v1/field")
 @RequiredArgsConstructor
 public class FieldController {
     @Autowired
