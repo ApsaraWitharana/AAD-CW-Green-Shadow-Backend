@@ -17,10 +17,6 @@ public interface FieldService {
     void updateField(FieldDTO fieldDTO) throws ClassNotFoundException;
     void deleteField(String fieldCode);
     FieldResponse getSelectedField(String fieldCode);
-
-    FieldResponse searchFieldByName(String fieldName);
-
     List<FieldDTO> getAllField();
-
     List<FieldResponse> getFieldByFieldName(String fieldName);
 }

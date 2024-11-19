@@ -82,19 +82,19 @@ public class FieldServiceImpl implements FieldService {
          }
     }
 
-    @Override
-    public FieldResponse searchFieldByName(String fieldName) {
-        Optional<Field> fields = fieldDAO.findById(fieldName);  // Custom query to search by name
-
-        if (fields.isEmpty()) {
-            return new FieldErrorResponse(0, "Field not found with name: " + fieldName);
-        } else {
-            List<FieldDTO> fieldDTOs = fields.stream()
-                    .map(field -> mapping.convertToDTO(field))  // Convert fields to DTOs
-                    .collect(Collectors.toList());
-            return new FieldErrorResponse(0,"Field name note found");  // Return a list of field DTOs
-        }
-    }
+//    @Override
+//    public FieldResponse searchFieldByName(String fieldName) {
+//        Optional<Field> fields = fieldDAO.findById(fieldName);  // Custom query to search by name
+//
+//        if (fields.isEmpty()) {
+//            return new FieldErrorResponse(0, "Field not found with name: " + fieldName);
+//        } else {
+//            List<FieldDTO> fieldDTOs = fields.stream()
+//                    .map(field -> mapping.convertToDTO(field))  // Convert fields to DTOs
+//                    .collect(Collectors.toList());
+//            return new FieldErrorResponse(0,"Field name note found");  // Return a list of field DTOs
+//        }
+//    }
 
 
     @Override

@@ -2,11 +2,9 @@ package lk.ijse.gdse68.greenshadowbackend.service.impl;
 
 import lk.ijse.gdse68.greenshadowbackend.dao.UserRepository;
 import lk.ijse.gdse68.greenshadowbackend.dto.AuthDTO;
-import lk.ijse.gdse68.greenshadowbackend.dto.StaffDTO;
 import lk.ijse.gdse68.greenshadowbackend.dto.UserDTO;
 import lk.ijse.gdse68.greenshadowbackend.entity.User;
 import lk.ijse.gdse68.greenshadowbackend.service.UserService;
-import lk.ijse.gdse68.greenshadowbackend.util.Mapping;
 import lk.ijse.gdse68.greenshadowbackend.util.RoleEnum;
 import lk.ijse.gdse68.greenshadowbackend.util.VarList;
 import org.modelmapper.ModelMapper;
@@ -40,7 +38,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             AuthDTO authDTO = new AuthDTO();
             authDTO.setRole(String.valueOf(RoleEnum.valueOf(userDTO.getRole())));
 //            userDTO.setRole(String.valueOf(RoleEnum.MANAGER));
-            userRepository.save(modelMapper.map(userDTO,User.class));
+            userRepository.save(modelMapper.map(userDTO, User.class));
             return VarList.Created;
         }
 
