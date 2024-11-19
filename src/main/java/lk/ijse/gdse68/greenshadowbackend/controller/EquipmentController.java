@@ -22,7 +22,7 @@ import java.util.List;
  **/
 @CrossOrigin(origins = "http://localhost:63342")
 @RestController
-@RequestMapping("api/v1/equipment")
+@RequestMapping("/api/v1/equipment")
 @RequiredArgsConstructor
 public class EquipmentController {
     @Autowired

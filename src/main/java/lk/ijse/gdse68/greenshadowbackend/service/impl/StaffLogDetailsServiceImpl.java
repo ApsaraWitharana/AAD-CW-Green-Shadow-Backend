@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -105,19 +106,18 @@ public class StaffLogDetailsServiceImpl implements StaffLogDetailsService {
 
     @Transactional
     public List<StaffLogDetailsDTO> getAllStaffLogDetails() {
-        // Fetch all StaffLogDetails entities from the database
-        List<StaffLogDetails> staffLogDetailsList = staffLogDetailsDAO.findAll();
+        List<Object[]> results = staffLogDetailsDAO.findAllStaffLogDetailsNative();
         List<StaffLogDetailsDTO> staffLogDetailsDTOS = new ArrayList<>();
-        for (StaffLogDetails staffLogDetails : staffLogDetailsList){
+        for (Object[] row : results) {
             StaffLogDetailsDTO dto = new StaffLogDetailsDTO();
-            dto.setLogDate(staffLogDetails.getLogDate());
-            dto.setDescription(staffLogDetails.getDescription());
-            dto.setWorkStaffCount(staffLogDetails.getWork_staff_count());
-            dto.setStaff(staffLogDetails.getStaff());
+            dto.setSl_id((Long) row[0]);
+            dto.setLogDate((Date) row[1]);
+            dto.setDescription((String) row[2]);
+            dto.setWorkStaffCount((Integer) row[3]);
+            dto.setFirstName((String) row[4]);
             staffLogDetailsDTOS.add(dto);
         }
         return staffLogDetailsDTOS;
-
     }
 
     @Override

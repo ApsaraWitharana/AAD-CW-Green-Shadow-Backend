@@ -22,7 +22,8 @@ public interface StaffFieldDetailsDAO extends JpaRepository<StaffFieldDetails,Lo
     @Query("SELECT MAX(sfd.sf_id) FROM StaffFieldDetails sfd")
     Long getNextId();
 
-    // Custom query to fetch all staff field details (if needed)
-    @Query("SELECT sfd FROM StaffFieldDetails sfd")
-    List<StaffFieldDetails> findAllStaffFieldDetails();
+    @Query(value = "SELECT sf.sf_id, sf.status, sf.description, sf.work_staff_count, sf.date, sf.first_name FROM staff_field_details sf ", nativeQuery = true)
+    List<Object[]> findAllStaffFieldDetailsNative();
+
+
 }

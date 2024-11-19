@@ -16,6 +16,7 @@ import java.sql.Date;
 @NoArgsConstructor
 @Data
 @Entity
+@Table(name = "staff_field_details")
 public class StaffFieldDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

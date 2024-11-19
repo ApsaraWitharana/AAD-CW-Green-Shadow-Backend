@@ -76,7 +76,7 @@ public class EquipmentServiceImpl implements EquipmentService {
             equipmentDAO.save(equipment);
         }
     }
-
+    @Transactional
     @Override
     public void deleteEquipment(String id) {
         Optional<Equipment> findId = equipmentDAO.findById(id);

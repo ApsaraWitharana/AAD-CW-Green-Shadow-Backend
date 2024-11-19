@@ -63,13 +63,16 @@ public class Staff {
     @Column(name = "role")
     private RoleEnum role;
 
-    @OneToMany(mappedBy = "usedBy",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "usedBy",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Vehicle> vehicles;
 
-    @OneToOne(mappedBy = "staff", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "staff",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Equipment equipment;
 
+    // one-to-Many relationship with Staff
+    @OneToMany(mappedBy = "staff",cascade = CascadeType.ALL)
+    private List<StaffLogDetails> staffLogDetails;
 
-
-
+    @OneToMany(mappedBy = "staff",cascade = CascadeType.ALL)
+    private List<StaffFieldDetails> staffFieldDetails;
 }

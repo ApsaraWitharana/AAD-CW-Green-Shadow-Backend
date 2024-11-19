@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
@@ -20,6 +21,12 @@ public class StaffLogDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sl_id;
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
+
+    @Getter
     @ManyToOne
     @JoinColumn(name = "staff_id",referencedColumnName = "staff_id",nullable = false)
     private Staff staff;

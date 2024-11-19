@@ -1,6 +1,8 @@
 package lk.ijse.gdse68.greenshadowbackend.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Max;
@@ -22,8 +24,11 @@ import java.sql.Date;
 @Data
 @ToString
 public class StaffLogDetailsDTO implements StaffLogDetailsResponse, Serializable {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long sl_id;
     @NotNull(message = "Staff details cannot be null")
     private Staff staff;
+    private String firstName;
 
     @NotNull(message = "Log details cannot be null")
     private Log log;

@@ -34,13 +34,11 @@ public class Field {
     @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Crop> crops;
     // One-to-Many relationship with Equipment
-    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Equipment> equipmentList;
 
-    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "field",cascade = CascadeType.ALL)
     private List<StaffFieldDetails> staffFieldDetails;
-
-
     public Field(String fieldCode, String fieldName) {
         this.fieldCode = fieldCode;
         this.fieldName = fieldName;

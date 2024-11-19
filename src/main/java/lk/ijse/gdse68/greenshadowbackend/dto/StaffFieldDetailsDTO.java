@@ -22,8 +22,11 @@ import java.sql.Date;
 @Data
 @ToString
 public class StaffFieldDetailsDTO implements StaffFieldDetailsResponse, Serializable {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String sf_id; // Instead of Long
     @NotNull(message = "Staff details cannot be null")
     private Staff staff;
+    private String firstName;
     @NotNull(message = "Field details cannot be null")
     private Field field;
     private String status;

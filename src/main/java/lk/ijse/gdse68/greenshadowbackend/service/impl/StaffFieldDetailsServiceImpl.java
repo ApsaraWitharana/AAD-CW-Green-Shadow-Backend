@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,22 +79,22 @@ public class StaffFieldDetailsServiceImpl implements StaffFieldDetailsService {
     }
     @Transactional
     public List<StaffFieldDetailsDTO> getAllStaffFieldDetails() {
-        List<StaffFieldDetails> staffFieldDetailsList = staffFieldDetailsDAO.findAll();
+        List<Object[]> results = staffFieldDetailsDAO.findAllStaffFieldDetailsNative();
         List<StaffFieldDetailsDTO> staffFieldDetailsDTOS = new ArrayList<>();
-        for (StaffFieldDetails staffFieldDetails : staffFieldDetailsList) {
+
+        for (Object[] row : results) {
             StaffFieldDetailsDTO dto = new StaffFieldDetailsDTO();
-            dto.setStatus(staffFieldDetails.getStatus());
-            dto.setDescription(staffFieldDetails.getDescription());
-            dto.setWorkStaffCount(staffFieldDetails.getWork_staff_count());
-            dto.setDate(staffFieldDetails.getDate());
-            dto.setStaff(staffFieldDetails.getStaff());
-            dto.setField(staffFieldDetails.getField());
+            dto.setSf_id((String) row[0]);
+            dto.setStatus((String) row[1]);
+            dto.setDescription((String) row[2]);
+            dto.setWorkStaffCount((Integer) row[3]);
+            dto.setDate((Date) row[4]);
+            dto.setFirstName((String) row[5]);
             staffFieldDetailsDTOS.add(dto);
         }
 
         return staffFieldDetailsDTOS;
     }
-
     @Override
     public String generateSFieldCode() {
         // Get the latest id in the logs table

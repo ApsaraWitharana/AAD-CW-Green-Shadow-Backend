@@ -29,7 +29,7 @@ public class StaffFieldDetailsController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while saving staff field details.");
         }
     }
-    @GetMapping("/get")
+    @GetMapping
     public ResponseEntity<List<StaffFieldDetailsDTO>> getAllStaffFieldDetails() {
         List<StaffFieldDetailsDTO> staffFieldDetailsDTOS = staffFieldDetailsService.getAllStaffFieldDetails();
         if (!staffFieldDetailsDTOS.isEmpty()){
