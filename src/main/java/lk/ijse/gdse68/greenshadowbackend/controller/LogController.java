@@ -8,6 +8,8 @@ import lk.ijse.gdse68.greenshadowbackend.exception.LogNotFoundException;
 import lk.ijse.gdse68.greenshadowbackend.service.LogService;
 import lk.ijse.gdse68.greenshadowbackend.util.AppUtil;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
@@ -26,6 +28,7 @@ import java.util.List;
 public class LogController {
     @Autowired
     private final LogService logService;
+    Logger logger = LoggerFactory.getLogger(LogController.class);
 
     //TODO: Log CRUD Implement
     //TODO:Save method
@@ -45,6 +48,7 @@ public class LogController {
             logDTO.setLogImage(observedImage);
             logDTO.setCropCode(cropCode);
             logService.saveLog(logDTO);
+            logger.info("Log Details Save Successfully!!");
             return new ResponseEntity<>("Log details saved successfully!", HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,6 +74,7 @@ public class LogController {
             logDTO.setLogImage(updateObservedImage);
             logDTO.setCropCode(updateCropCode);
             logService.updateLog(logDTO);
+            logger.info("Log details Update Successfully!!");
             return new ResponseEntity<>("Log Update Successfully!!",HttpStatus.OK);
         }catch (LogNotFoundException e){
             return new ResponseEntity<>("Log Details update not found!",HttpStatus.NOT_FOUND);
@@ -84,6 +89,7 @@ public class LogController {
      public ResponseEntity<String> deleteLog(@PathVariable ("logCode") String logCode){
         try {
             logService.deleteLog(logCode);
+            logger.info("Log details Delete Successfully!!");
             return new ResponseEntity<>("Log Details Delete Successfully!!",HttpStatus.OK);
         }catch (LogNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -101,6 +107,7 @@ public class LogController {
         }else if (logResponse instanceof LogErrorResponse){
             return new ResponseEntity<>(logResponse,HttpStatus.NOT_FOUND);
         }
+        logger.error("Error fetching log: ");
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -111,6 +118,7 @@ public class LogController {
         if (!logDTOS.isEmpty()){
             return new ResponseEntity<>(logDTOS,HttpStatus.OK);
         }else {
+            logger.error("Get All log!!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }

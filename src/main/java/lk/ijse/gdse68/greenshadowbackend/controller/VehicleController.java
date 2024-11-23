@@ -7,6 +7,8 @@ import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
 import lk.ijse.gdse68.greenshadowbackend.exception.VehicleNotFound;
 import lk.ijse.gdse68.greenshadowbackend.service.VehicleService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,6 +24,7 @@ import java.util.List;
 public class VehicleController {
     @Autowired
     private final VehicleService vehicleService;
+    Logger logger = LoggerFactory.getLogger(VehicleController.class);
 
     //TODO: Vehicle CRUD Implement
 
@@ -31,6 +34,7 @@ public class VehicleController {
         try {
             System.out.println("Saving vehicle: " + vehicleDTO);
             vehicleService.saveVehicle(vehicleDTO);
+            logger.info("Vehicle Details Save Successfully!!");
             return new ResponseEntity<>("Vehicle saved successfully.", HttpStatus.CREATED);
         }catch (DataPersistFailedException e){
             return new ResponseEntity<>("Vehicle data could not be saved, data persistence failed.",HttpStatus.NOT_FOUND);
@@ -44,6 +48,7 @@ public class VehicleController {
     public  ResponseEntity<String> updateVehicle(@PathVariable ("vehicleCode") String vehicleCode,@RequestBody VehicleDTO vehicleDTO){
         try {
             vehicleService.updateVehicle(vehicleCode,vehicleDTO);
+            logger.info("Vehicle details Update Successfully!!");
             return new ResponseEntity<>("Vehicle details Update Successfully!!",HttpStatus.OK);
 
         }catch (VehicleNotFound e){
@@ -58,6 +63,7 @@ public class VehicleController {
     public ResponseEntity<String> deleteVehicle(@PathVariable ("vehicleCode") String vehicleCode){
         try {
             vehicleService.deleteVehicle(vehicleCode);
+            logger.info("Vehicle details Delete Successfully!!");
             return new ResponseEntity<>("Vehicle Delete Successfully!!",HttpStatus.OK);
         }catch (VehicleNotFound e){
             return new ResponseEntity<>("Vehicle not found!!",HttpStatus.NO_CONTENT);
@@ -75,6 +81,7 @@ public class VehicleController {
         }else if (vehicleResponse instanceof VehicleErrorResponse){
             return new ResponseEntity<>(vehicleResponse,HttpStatus.NOT_FOUND); //return NOT_FOUND (404)
         }
+        logger.error("Error fetching Vehicle: ");
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); //return INTERNAL_SERVER_ERROR (500)
     }
 
@@ -85,6 +92,7 @@ public class VehicleController {
         if (!vehicleDTOS.isEmpty()){
             return new ResponseEntity<>(vehicleDTOS,HttpStatus.OK);
         }else {
+            logger.error("Get All vehicle!!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }

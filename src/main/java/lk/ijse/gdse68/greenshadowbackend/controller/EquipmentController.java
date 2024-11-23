@@ -7,6 +7,8 @@ import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
 import lk.ijse.gdse68.greenshadowbackend.exception.EquipmentNotFoundException;
 import lk.ijse.gdse68.greenshadowbackend.service.EquipmentService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,6 +29,7 @@ import java.util.List;
 public class EquipmentController {
     @Autowired
     private final EquipmentService equipmentService;
+    Logger logger = LoggerFactory.getLogger(EquipmentController.class);
 
     //TODO:Equipment CRUD
     //TODO:Save
@@ -34,6 +37,7 @@ public class EquipmentController {
     public ResponseEntity<String> saveEquipment(@RequestBody EquipmentDTO equipmentDTO) {
         try {
             equipmentService.saveEquipment(equipmentDTO);
+            logger.info("Equipment Details Save Successfully!!");
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (DataPersistFailedException e) {
             return new ResponseEntity<>("Equipment data could not be saved, data persistence failed.", HttpStatus.BAD_REQUEST);
@@ -46,6 +50,7 @@ public class EquipmentController {
     public ResponseEntity<String> updateEquipment(@PathVariable ("id") String id,@RequestBody EquipmentDTO equipmentDTO){
         try {
             equipmentService.updateEquipment(id,equipmentDTO);
+            logger.info("Equipment details Update Successfully!!");
             return new ResponseEntity<>("Equipment Update Successfully!!",HttpStatus.OK);
 
         }catch (EquipmentNotFoundException e){
@@ -59,6 +64,7 @@ public class EquipmentController {
     public ResponseEntity<String> deleteEquipments(@PathVariable ("id") String id){
         try {
             equipmentService.deleteEquipment(id);
+            logger.info("Equipments details Delete Successfully!!");
             return new ResponseEntity<>("Equipments Delete Successfully!!",HttpStatus.OK);
         }catch (EquipmentNotFoundException e){
             return new ResponseEntity<>("Equipments not found!!",HttpStatus.NOT_FOUND);
@@ -75,6 +81,7 @@ public class EquipmentController {
         }else if (equipmentResponse instanceof EquipmentErrorResponse){
             return new ResponseEntity<>(equipmentResponse,HttpStatus.NOT_FOUND);
         }
+        logger.error("Error fetching crop: ");
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
     //TODO:Get All
@@ -84,6 +91,7 @@ public class EquipmentController {
         if (!equipmentDTOS.isEmpty()){
             return new ResponseEntity<>(equipmentDTOS,HttpStatus.OK);
         }else {
+            logger.error("Get All crop!!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }

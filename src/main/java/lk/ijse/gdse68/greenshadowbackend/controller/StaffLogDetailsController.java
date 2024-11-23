@@ -5,6 +5,8 @@ import lk.ijse.gdse68.greenshadowbackend.dto.LogDTO;
 import lk.ijse.gdse68.greenshadowbackend.dto.StaffLogDetailsDTO;
 import lk.ijse.gdse68.greenshadowbackend.service.StaffLogDetailsService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ public class StaffLogDetailsController {
     @Autowired
     private final StaffLogDetailsService staffLogDetailsService;
 
+    Logger logger = LoggerFactory.getLogger(StaffLogDetailsController.class);
+
     public StaffLogDetailsController(StaffLogDetailsService staffLogDetailsService) {
         this.staffLogDetailsService = staffLogDetailsService;
     }
@@ -26,6 +30,7 @@ public class StaffLogDetailsController {
     public ResponseEntity<String> saveStaffLogDetails(@RequestBody LogDTO logDTO) {
         try {
             staffLogDetailsService.saveStaffLogDetails(logDTO);
+            logger.info("StaffLog Details Save Successfully!!");
             return ResponseEntity.status(HttpStatus.CREATED).body("Staff log details saved successfully.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving staff log details: " + e.getMessage());
@@ -38,6 +43,7 @@ public class StaffLogDetailsController {
         if (staffLogDetailsResponse instanceof StaffLogDetailsDTO){
             return new ResponseEntity<>(staffLogDetailsResponse,HttpStatus.OK);
         }else {
+            logger.error("Get All staffLog!!");
             return new ResponseEntity<>(staffLogDetailsResponse,HttpStatus.NOT_FOUND);
         }
     }
@@ -48,6 +54,7 @@ public class StaffLogDetailsController {
         if (!staffLogDetailsDTOS.isEmpty()){
             return new ResponseEntity<>(staffLogDetailsDTOS,HttpStatus.OK);
         }
+        logger.error("Get All staffLog!!");
        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

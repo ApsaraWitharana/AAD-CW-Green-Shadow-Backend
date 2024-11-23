@@ -138,7 +138,6 @@ public class CropController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ArrayList<>());
         }
-        logger.error("Search  Crop!!");
         return ResponseEntity.ok(cropResponses);
     }
 }

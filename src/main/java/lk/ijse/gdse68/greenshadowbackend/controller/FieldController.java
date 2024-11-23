@@ -10,6 +10,8 @@ import lk.ijse.gdse68.greenshadowbackend.service.FieldService;
 import lk.ijse.gdse68.greenshadowbackend.util.AppUtil;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.boot.jaxb.Origin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,6 +29,7 @@ import java.util.List;
 public class FieldController {
     @Autowired
     private final FieldService fieldService;
+    Logger logger = LoggerFactory.getLogger(FieldController.class);
 
     //Handle Preflight (OPTIONS) Requests: CORS preflight requests are automatically handled by Spring Boot if CORS is properly configured.
 //    @RequestMapping(method = RequestMethod.OPTIONS)
@@ -56,6 +59,7 @@ public class FieldController {
             fieldDTO.setFieldImages(fieldImage1, fieldImage2); // Pass MultipartFile images for field
             // Save the field data
             fieldService.saveField(fieldDTO);
+            logger.info("Field Details Save Successfully!!");
             return ResponseEntity.ok("Field saved successfully!");
         } catch (DataPersistFailedException e) {
             return new ResponseEntity<>("Field data could not be saved, data persistence failed.", HttpStatus.NOT_FOUND);
@@ -84,6 +88,8 @@ public class FieldController {
             buildfieldDTO.setExtentSize(Double.valueOf(updateExtentSize));
             buildfieldDTO.setFieldImages(updateFieldImage1, updateFieldImage2); // Pass MultipartFile images for field
             fieldService.updateField(buildfieldDTO);
+            logger.info("Field details Update Successfully!!");
+
             return new ResponseEntity<>("Field Update Successfully!!",HttpStatus.OK);
         } catch (FieldNoteFoundException | ClassNotFoundException e) {
             return new ResponseEntity<>("Field not found!",HttpStatus.NOT_FOUND);
@@ -97,6 +103,7 @@ public class FieldController {
     public ResponseEntity<String> deleteField(@PathVariable ("fieldCode") String fieldCode){
         try {
             fieldService.deleteField(fieldCode);
+            logger.info("Field details Delete Successfully!!");
             return new ResponseEntity<>("Field Details Delete Successfully!!",HttpStatus.OK);
         }catch (FieldNoteFoundException e){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -114,6 +121,7 @@ public class FieldController {
         }else if (fieldResponse instanceof FieldErrorResponse){
             return new ResponseEntity<>(fieldResponse,HttpStatus.NOT_FOUND);
         }
+        logger.error("Error fetching field: ");
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
@@ -124,6 +132,7 @@ public class FieldController {
         if (!fieldDTOS.isEmpty()){
             return new ResponseEntity<>(fieldDTOS,HttpStatus.OK);
         }else {
+            logger.error("Get All field!!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }

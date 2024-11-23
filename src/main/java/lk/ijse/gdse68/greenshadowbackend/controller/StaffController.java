@@ -7,6 +7,8 @@ import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
 import lk.ijse.gdse68.greenshadowbackend.exception.StaffNoteFoundException;
 import lk.ijse.gdse68.greenshadowbackend.service.StaffService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,12 +32,14 @@ public class StaffController {
     @Autowired
     private final StaffService staffService;
 
+    Logger logger = LoggerFactory.getLogger(StaffController.class);
     //TODO:Staff crud implement
     //TODO: Save
     @PostMapping
     public ResponseEntity<String> saveStaff(@RequestBody StaffDTO staffDTO) {
         try {
             staffService.saveStaff(staffDTO);
+            logger.info("Staff Details Save Successfully!!");
             return new ResponseEntity<>("Staff member created successfully", HttpStatus.CREATED);
         } catch (DataPersistFailedException e) {
             return new ResponseEntity<>("Staff data could not be saved: " + e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -49,6 +53,7 @@ public class StaffController {
     public ResponseEntity<String> updateStaff(@PathVariable("id") String id, @RequestBody StaffDTO staffDTO) {
         try {
             staffService.updateStaff(id, staffDTO);
+            logger.info("Staff details Update Successfully!!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (StaffNoteFoundException e) {
             return new ResponseEntity<>("Staff not found!", HttpStatus.NO_CONTENT);
@@ -63,6 +68,7 @@ public class StaffController {
     public ResponseEntity<String> deleteStaffMember(@PathVariable("id") String id) {
         try {
             staffService.deleteStaff(id);
+            logger.info("Staff details Delete Successfully!!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Deletion successful
         } catch (StaffNoteFoundException e) {
             return new ResponseEntity<>("Staff not found!", HttpStatus.NO_CONTENT);
@@ -80,6 +86,7 @@ public class StaffController {
         } else if (staffResponse instanceof StaffErrorResponse) {
             return new ResponseEntity<>(staffResponse, HttpStatus.NOT_FOUND);
         }
+        logger.error("Error fetching staff: ");
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -90,6 +97,7 @@ public class StaffController {
         if (!staffDTOS.isEmpty()) {
             return new ResponseEntity<>(staffDTOS, HttpStatus.OK);
         } else {
+            logger.error("Get All staff!!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
