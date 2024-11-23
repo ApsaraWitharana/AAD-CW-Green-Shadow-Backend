@@ -1,0 +1,27 @@
+<configuration>
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder> <!-- Corrected from 'encoder' to 'encoder' -->
+            <!-- Setting date and time in the log -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="File" class="ch.qos.logback.core.FileAppender">
+        <file>C:\Users\sachi\Downloads\AAD\Assignment\Green-Shadow-Backend\Green-Shadow-Backend\app.log</file> <!-- Closed the file element correctly -->
+        <append>true</append>
+        <encoder> <!-- Corrected from 'encoder' to 'encoder' -->
+            <!-- Setting date and time in the log -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="debug">
+        <appender-ref ref="Console"/>
+        <appender-ref ref="File"/>
+    </root>
+</configuration>
+
+<!--        /**-->
+<!--        * @author : sachini-->
+<!--        * @date : 2024-11-23-->
+<!--        **/-->

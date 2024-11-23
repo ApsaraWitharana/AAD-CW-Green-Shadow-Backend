@@ -8,6 +8,8 @@ import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
 import lk.ijse.gdse68.greenshadowbackend.service.CropService;
 import lk.ijse.gdse68.greenshadowbackend.util.AppUtil;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,6 +27,8 @@ import java.util.List;
 public class CropController {
     @Autowired
     private final CropService cropService;
+
+    Logger logger = LoggerFactory.getLogger(CropController.class);
     //TODO: CRUD Implement
     //TODO:SAVE
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -47,6 +51,7 @@ public class CropController {
             cropDTO.setCropSeason(cropSeason);
             cropDTO.setFieldCode(fieldCode);
             cropService.saveCrop(cropDTO);
+            logger.info("Crop Details Save Successfully!!");
             return new ResponseEntity<>("Crop Details Save Successfully!!",HttpStatus.OK);
         }catch (DataPersistFailedException e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -76,6 +81,7 @@ public class CropController {
             cropDTO.setCropSeason(updateCropSeason);
             cropDTO.setFieldCode(updateFieldCode);
             cropService.updateCrop(cropCode,cropDTO);
+            logger.info("Crop details Update Successfully!!");
             return new ResponseEntity<>("Crop Details Update Successfully!!",HttpStatus.OK);
 
         } catch ( ClassNotFoundException e) {
@@ -90,6 +96,7 @@ public class CropController {
     public ResponseEntity<String> deleteCrop(@PathVariable ("cropCode") String cropCode){
         try {
             cropService.deleteCrop(cropCode);
+            logger.info("Crop details Delete Successfully!!");
             return new ResponseEntity<>("Crop Details Delete Successfully!!",HttpStatus.OK);
         }catch (CropNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -107,6 +114,7 @@ public class CropController {
         }else if (cropResponse instanceof CropErrorResponse){
             return new ResponseEntity<>(cropResponse,HttpStatus.NOT_FOUND);
         }
+        logger.error("Error fetching crop: ");
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -117,6 +125,7 @@ public class CropController {
         if (!cropDTOS.isEmpty()){
             return new ResponseEntity<>(cropDTOS,HttpStatus.OK);
         }else {
+            logger.error("Get All crop!!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
@@ -129,6 +138,7 @@ public class CropController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ArrayList<>());
         }
+        logger.error("Search  Crop!!");
         return ResponseEntity.ok(cropResponses);
     }
 }
