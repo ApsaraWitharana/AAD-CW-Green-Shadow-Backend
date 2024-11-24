@@ -25,7 +25,7 @@ import java.util.List;
 @Data
 public class StaffDTO implements StaffResponse,SuperDTO{
     @NotNull(message = "Staff ID is required.")
-    @Pattern(regexp = "^STA-\\d{3}$", message = "Staff ID must follow the format 'STA-000'.")
+    @Pattern(regexp = "^STF-\\d{3}$", message = "Staff ID must follow the format 'STA-000'.")
     private String id;
 
     @NotNull(message = "First name is required.")
