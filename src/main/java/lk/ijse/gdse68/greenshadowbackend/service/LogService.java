@@ -17,4 +17,6 @@ public interface LogService {
     void deleteLog(String logCode);
     LogResponse getSelectedLog(String logCode);
     List<LogDTO> getAllLog();
+
+    List<LogResponse> getLogByLogCode(String logCode);
 }

@@ -1,6 +1,7 @@
 package lk.ijse.gdse68.greenshadowbackend.controller;
 
 
+import lk.ijse.gdse68.greenshadowbackend.customerObj.CropResponse;
 import lk.ijse.gdse68.greenshadowbackend.customerObj.LogErrorResponse;
 import lk.ijse.gdse68.greenshadowbackend.customerObj.LogResponse;
 import lk.ijse.gdse68.greenshadowbackend.dto.LogDTO;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:63342")
 @RestController
@@ -99,7 +101,7 @@ public class LogController {
      }
 
      //TODO:Get select id
-    @GetMapping(value = "/{logCode}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{logCode}")
     public ResponseEntity<LogResponse> getAllLog(@PathVariable ("logCode") String logCode){
         LogResponse logResponse = logService.getSelectedLog(logCode);
         if (logResponse instanceof LogDTO){
@@ -121,6 +123,16 @@ public class LogController {
             logger.error("Get All log!!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<LogResponse>> searchLogByLogCode(@RequestParam String logCode){
+        List<LogResponse> logResponses = logService.getLogByLogCode(logCode);
+        if (logResponses.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ArrayList<>());
+        }
+        return ResponseEntity.ok(logResponses);
     }
 
 }

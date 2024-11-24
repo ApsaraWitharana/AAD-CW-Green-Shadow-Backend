@@ -6,7 +6,6 @@ import lk.ijse.gdse68.greenshadowbackend.dao.CropDAO;
 import lk.ijse.gdse68.greenshadowbackend.dao.LogDAO;
 import lk.ijse.gdse68.greenshadowbackend.dto.LogDTO;
 import lk.ijse.gdse68.greenshadowbackend.entity.Crop;
-import lk.ijse.gdse68.greenshadowbackend.entity.Field;
 import lk.ijse.gdse68.greenshadowbackend.entity.Log;
 import lk.ijse.gdse68.greenshadowbackend.exception.DataPersistFailedException;
 import lk.ijse.gdse68.greenshadowbackend.exception.FieldNoteFoundException;
@@ -21,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author : sachini
@@ -108,4 +108,12 @@ public class LogServiceImpl implements LogService {
        }
        return logDTOS;
     }
+    @Override
+    public List<LogResponse> getLogByLogCode(String logCode){
+        List<Log> logList = logDAO.findByLogCodeContainingIgnoreCase(logCode);
+        return logList.stream()
+                .map(log -> mapping.convertToLogDTO(log))
+                .collect(Collectors.toList());
+    }
 }
+
