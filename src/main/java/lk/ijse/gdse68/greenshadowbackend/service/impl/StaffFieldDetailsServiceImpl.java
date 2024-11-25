@@ -79,22 +79,29 @@ public class StaffFieldDetailsServiceImpl implements StaffFieldDetailsService {
     }
     @Transactional
     public List<StaffFieldDetailsDTO> getAllStaffFieldDetails() {
-        List<Object[]> results = staffFieldDetailsDAO.findAllStaffFieldDetailsNative();
+        List<StaffFieldDetails> results = staffFieldDetailsDAO.findAll();
         List<StaffFieldDetailsDTO> staffFieldDetailsDTOS = new ArrayList<>();
 
-        for (Object[] row : results) {
-            StaffFieldDetailsDTO dto = new StaffFieldDetailsDTO();
-            dto.setSf_id((String) row[0]);
-            dto.setStatus((String) row[1]);
-            dto.setDescription((String) row[2]);
-            dto.setWorkStaffCount((Integer) row[3]);
-            dto.setDate((Date) row[4]);
-            dto.setFirstName((String) row[5]);
-            staffFieldDetailsDTOS.add(dto);
+        for (StaffFieldDetails row : results) {
+            if (row != null) {
+                StaffFieldDetailsDTO dto = new StaffFieldDetailsDTO();
+
+                dto.setSf_id(row.getSf_id());
+                dto.setStatus(row.getStatus());
+                dto.setDescription(row.getDescription());
+                dto.setWorkStaffCount(row.getWork_staff_count());
+                dto.setDate(row.getDate());
+                dto.setFirstName(row.getFirstName());
+                staffFieldDetailsDTOS.add(dto);
+            } else {
+                System.out.println("Null row encountered");
+            }
         }
 
         return staffFieldDetailsDTOS;
     }
+
+
     @Override
     public String generateSFieldCode() {
         // Get the latest id in the logs table
