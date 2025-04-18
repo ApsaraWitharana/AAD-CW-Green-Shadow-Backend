@@ -13,6 +13,7 @@ import java.util.List;
  **/
 public interface FieldService {
 
+    String generateNextFieldCode();
     void saveField(FieldDTO fieldDTO);
     void updateField(FieldDTO fieldDTO) throws ClassNotFoundException;
     void deleteField(String fieldCode);

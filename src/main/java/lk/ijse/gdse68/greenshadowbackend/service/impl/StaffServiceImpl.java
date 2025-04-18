@@ -30,6 +30,13 @@ public class StaffServiceImpl implements StaffService {
     @Autowired
     private StaffDAO staffDAO;
 
+    @Override
+    public String generateNextStaffId() {
+        String currentStaffId = staffDAO.findLastStaffId();
+        String  numericPart = currentStaffId.replaceAll("[^0-9]", "");
+        int nextCode = Integer.parseInt(numericPart)+1;
+        return "STF-"+String.format("%03d",nextCode);
+    }
 
     @Override
     public void saveStaff(StaffDTO staffDTO) {

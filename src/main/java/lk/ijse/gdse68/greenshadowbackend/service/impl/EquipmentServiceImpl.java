@@ -38,6 +38,15 @@ public class EquipmentServiceImpl implements EquipmentService {
     private StaffDAO staffDAO;
     @Autowired
     private FieldDAO fieldDAO;
+
+    @Override
+    public String generateNextEquipmentCode() {
+        String currentEquipmentCode = equipmentDAO.findLastEquipmentCode();
+        String numericPart = currentEquipmentCode.replaceAll("[^0-9]", "");
+        int nextCode = Integer.parseInt(numericPart)+1;
+        return "EPT-"+String.format("%03d",nextCode);
+    }
+
     @Override
     public void saveEquipment(EquipmentDTO equipmentDTO) {
            equipmentDTO.setId(equipmentDTO.getId());

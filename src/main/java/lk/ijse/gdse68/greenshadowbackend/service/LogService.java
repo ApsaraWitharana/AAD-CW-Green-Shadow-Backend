@@ -12,6 +12,7 @@ import java.util.List;
  * @date : 2024-11-06
  **/
 public interface LogService {
+    String generateNextLogCode();
     void saveLog(LogDTO logDTO);
     void updateLog(LogDTO logDTO);
     void deleteLog(String logCode);

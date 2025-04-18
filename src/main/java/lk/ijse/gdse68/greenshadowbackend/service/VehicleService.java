@@ -13,6 +13,8 @@ import java.util.List;
  **/
 public interface VehicleService {
 
+    String generateNextVehicleCode();
+
     void saveVehicle(VehicleDTO vehicleDTO);
     void updateVehicle(String vehicleCode,VehicleDTO vehicleDTO);
     void deleteVehicle(String vehicleCode);

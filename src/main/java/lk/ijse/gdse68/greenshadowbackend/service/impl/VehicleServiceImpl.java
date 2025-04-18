@@ -34,6 +34,15 @@ public class VehicleServiceImpl implements VehicleService {
     private VehicleDAO vehicleDAO;
     @Autowired
     private StaffDAO staffDAO;
+
+    @Override
+    public String generateNextVehicleCode() {
+        String currentVehicleCode = vehicleDAO.findLastVehicleCode();
+        String  numericPart = currentVehicleCode.replaceAll("[^0-9]", "");
+        int nextCode = Integer.parseInt(numericPart)+1;
+        return "VEH-"+String.format("%03d",nextCode);
+    }
+
     @Override
     public void saveVehicle(VehicleDTO vehicleDTO) {
         vehicleDTO.setVehicleCode(vehicleDTO.getVehicleCode());

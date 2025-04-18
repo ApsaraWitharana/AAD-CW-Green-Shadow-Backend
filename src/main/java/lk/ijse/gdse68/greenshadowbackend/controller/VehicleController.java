@@ -26,8 +26,14 @@ public class VehicleController {
     private final VehicleService vehicleService;
     Logger logger = LoggerFactory.getLogger(VehicleController.class);
 
-    //TODO: Vehicle CRUD Implement
+    //TODO: Generate Vehicle Code
+    @GetMapping("/nextVehicle")
+    public ResponseEntity<String> getNextVehicleCode(){
+        String nextVehicleCode = vehicleService.generateNextVehicleCode();
+        return ResponseEntity.ok(nextVehicleCode);
+    }
 
+    //TODO: Vehicle CRUD Implement
     //TODO: Save vehicle
     @PostMapping
     public ResponseEntity<String> saveVehicle(@RequestBody VehicleDTO vehicleDTO){

@@ -36,6 +36,14 @@ public class FieldController {
 //    public ResponseEntity<Void> handleOptions() {
 //        return ResponseEntity.ok().build();
 //    }
+
+    //TODO: Generate Field Code
+    @GetMapping("/nextField")
+    public ResponseEntity<String> getNextFieldCode(){
+        String nextFieldCode = fieldService.generateNextFieldCode();
+        return ResponseEntity.ok(nextFieldCode);
+    }
+
     //TODO: Field CRUD Implement
     //TODO: Save Filed
     @PostMapping

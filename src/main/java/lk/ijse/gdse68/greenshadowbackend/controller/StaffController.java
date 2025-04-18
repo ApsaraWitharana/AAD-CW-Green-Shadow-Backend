@@ -33,6 +33,14 @@ public class StaffController {
     private final StaffService staffService;
 
     Logger logger = LoggerFactory.getLogger(StaffController.class);
+
+    //TODO: Generate Staff Code
+    @GetMapping("/nextStaff")
+    public ResponseEntity<String> getNextStaffId(){
+        String nextStaffId = staffService.generateNextStaffId();
+        return ResponseEntity.ok(nextStaffId);
+    }
+
     //TODO:Staff crud implement
     //TODO: Save
     @PostMapping

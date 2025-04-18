@@ -32,6 +32,15 @@ public class FieldServiceImpl implements FieldService {
     private Mapping mapping;
     @Autowired
     private FieldDAO fieldDAO;
+
+    @Override
+    public String generateNextFieldCode() {
+        String currentFieldCode = fieldDAO.findLastFieldCode();
+        String numericPart = currentFieldCode.replaceAll("[^0-9]", "");
+        int nextCode = Integer.parseInt(numericPart)+1;
+        return "FED-"+String.format("%03d",nextCode);
+    }
+
     @Override
     public void saveField(FieldDTO fieldDTO) {
         fieldDTO.setFieldCode(fieldDTO.getFieldCode());

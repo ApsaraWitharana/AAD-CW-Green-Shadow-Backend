@@ -11,6 +11,8 @@ import java.util.List;
  * @date : 2024-10-30
  **/
 public interface StaffService {
+
+    String generateNextStaffId();
     void saveStaff(StaffDTO staffDTO);
     void updateStaff(String id,StaffDTO staffDTO);
     void deleteStaff(String id);

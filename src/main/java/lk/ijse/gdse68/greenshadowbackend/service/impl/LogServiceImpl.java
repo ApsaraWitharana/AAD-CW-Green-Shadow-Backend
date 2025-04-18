@@ -36,6 +36,15 @@ public class LogServiceImpl implements LogService {
     private LogDAO logDAO;
     @Autowired
     private CropDAO cropDAO;
+
+    @Override
+    public String generateNextLogCode() {
+        String currentLogCode = logDAO.findLastLogCode();
+        String  numericPart = currentLogCode.replaceAll("[^0-9]", "");
+        int nextCode = Integer.parseInt(numericPart)+1;
+        return "LOG-"+String.format("%03d",nextCode);
+    }
+
     @Override
     public void saveLog(LogDTO logDTO) {
         logDTO.setLogCode(logDTO.getLogCode());

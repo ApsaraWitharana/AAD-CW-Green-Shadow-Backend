@@ -32,6 +32,14 @@ public class LogController {
     private final LogService logService;
     Logger logger = LoggerFactory.getLogger(LogController.class);
 
+
+    //TODO: Generate Log code
+    @GetMapping("/nextLog")
+    public ResponseEntity<String> getNextLogCode(){
+        String nextLogCode = logService.generateNextLogCode();
+        return ResponseEntity.ok(nextLogCode);
+    }
+
     //TODO: Log CRUD Implement
     //TODO:Save method
     @PostMapping

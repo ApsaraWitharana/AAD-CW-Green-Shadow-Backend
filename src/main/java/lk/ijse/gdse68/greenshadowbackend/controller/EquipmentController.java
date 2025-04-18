@@ -31,6 +31,13 @@ public class EquipmentController {
     private final EquipmentService equipmentService;
     Logger logger = LoggerFactory.getLogger(EquipmentController.class);
 
+    //TODO : Generate Crop code
+    @GetMapping("/nextEquipment")
+    public ResponseEntity<String> getNextEquipmentCode(){
+        String nextEquipmentCode = equipmentService.generateNextEquipmentCode();
+        return ResponseEntity.ok(nextEquipmentCode);
+    }
+
     //TODO:Equipment CRUD
     //TODO:Save
     @PostMapping
@@ -45,6 +52,7 @@ public class EquipmentController {
             return new ResponseEntity<>("Internal server error occurred while saving the Equipment.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     //TODO: Update
     @PatchMapping(value = "/{id}")
     public ResponseEntity<String> updateEquipment(@PathVariable ("id") String id,@RequestBody EquipmentDTO equipmentDTO){
