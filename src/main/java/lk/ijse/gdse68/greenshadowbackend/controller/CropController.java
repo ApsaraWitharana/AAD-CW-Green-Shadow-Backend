@@ -29,6 +29,14 @@ public class CropController {
     private final CropService cropService;
 
     Logger logger = LoggerFactory.getLogger(CropController.class);
+
+    //TODO : Generate Crop code
+    @GetMapping("/nextCode")
+    public ResponseEntity<String> getNextCropCode(){
+        String nextCropCode = cropService.generateNextCropCode();
+        return ResponseEntity.ok(nextCropCode);
+    }
+
     //TODO: CRUD Implement
     //TODO:SAVE
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

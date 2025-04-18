@@ -8,6 +8,8 @@ import lk.ijse.gdse68.greenshadowbackend.dto.FieldDTO;
 import java.util.List;
 
 public interface CropService {
+    String generateNextCropCode();
+
     void saveCrop(CropDTO cropDTO);
     void updateCrop(String cropCode,CropDTO cropDTO) throws ClassNotFoundException;
     void deleteCrop(String cropCode);

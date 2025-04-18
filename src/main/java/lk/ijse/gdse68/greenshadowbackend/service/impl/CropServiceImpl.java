@@ -35,6 +35,22 @@ public class CropServiceImpl implements CropService {
     private CropDAO cropDAO;
     @Autowired
     private FieldDAO fieldDAO;
+
+    @Override
+    public String generateNextCropCode() {
+        // Assuming you retrieve the crop code like this
+        String currentCropCode = cropDAO.findLastCropCode();
+
+        // Extract numeric part
+        String numericPart = currentCropCode.replaceAll("[^0-9]", "");
+
+        // Convert to integer
+        int nextCode = Integer.parseInt(numericPart) + 1;
+
+        // Return next code as string with prefix
+        return "CRP-" + String.format("%03d", nextCode);  // CRP-001 for example
+    }
+
     @Override
     public void saveCrop(CropDTO cropDTO) {
         cropDTO.setCropCode(cropDTO.getCropCode());
